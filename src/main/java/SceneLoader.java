@@ -29,7 +29,7 @@ public class SceneLoader {
                 System.out.println(x_limit[1]);
                 ArrayList<Entity> entities_from_scene = readEntities(data, data_hex, x_limit[1], x_limit[0], y_limit[0]);
                 App.ents.clear();
-                App.ents.addAll(entities_from_scene);
+                SceneManager.ents.addAll(entities_from_scene);
             }
 
         } catch (IOException e) {
