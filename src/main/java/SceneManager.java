@@ -2,12 +2,10 @@ import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.lwjgl.opengl.*;
 import physic.Timer;
-import scripts.ScriptsReader;
+import text.RenderText;
 
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
 
@@ -42,6 +40,8 @@ public class SceneManager {
         double start = Timer.getTime();
         double end = Timer.getTime();
         SceneLoader.readScene(new File("/home/adisteyf/IdeaProjects/FilesEngine/assets/sample.lvl"));
+        System.out.println(window);
+        RenderText.setUpFonts();
 
         while (!glfwWindowShouldClose(window)) {
             glfwPollEvents();
@@ -54,6 +54,7 @@ public class SceneManager {
                 for (Entity ent : ents) {
                     texture.renderTexture(ent.texture, ent.transform.getX(), ent.transform.getY(), shader, scale, cam);
                 }
+                RenderText.drawText(10,10,"TEST TEXT 12345");
 
                 if (isPressed(GLFW_KEY_W)) {
                     cam.transform.addY(speedCam);
@@ -86,7 +87,6 @@ public class SceneManager {
                     cooldown_p = false;
                 }
 
-                System.out.println(speedCam);
                 end = Timer.getTime();
                 canRender=false;
             }
@@ -101,6 +101,8 @@ public class SceneManager {
     }
 
     public static void main(String[] args) {
+        System.out.println(1);
         new SceneManagersWindow().run();
+        System.out.println(2);
     }
 }
