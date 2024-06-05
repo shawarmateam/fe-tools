@@ -1,8 +1,8 @@
+import fonts.CFont;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.lwjgl.opengl.*;
 import physic.Timer;
-import text.RenderText;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -41,7 +41,11 @@ public class SceneManager {
         double end = Timer.getTime();
         SceneLoader.readScene(new File("/home/adisteyf/IdeaProjects/FilesEngine/assets/sample.lvl"));
         System.out.println(window);
-        RenderText.setUpFonts();
+        //RenderText.setUpFonts();
+        Batch test = new Batch();
+        test.font = new CFont("assets/Roboto-Black.ttf", 64);
+        test.shader = shader;
+        test.initBatch();
 
         while (!glfwWindowShouldClose(window)) {
             glfwPollEvents();
@@ -54,7 +58,7 @@ public class SceneManager {
                 for (Entity ent : ents) {
                     texture.renderTexture(ent.texture, ent.transform.getX(), ent.transform.getY(), shader, scale, cam);
                 }
-                RenderText.drawText(10,10,"TEST TEXT 12345");
+                test.addText("переделываю", 200, 200, .5f, 0xFF00AB0); // TODO: сделать адекватный размер
 
                 if (isPressed(GLFW_KEY_W)) {
                     cam.transform.addY(speedCam);

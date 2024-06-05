@@ -33,7 +33,7 @@ public class PosTexture {
         Matrix4f target = new Matrix4f();
         cam.getProjection().mul(world, target);
         target.mul(tex_pos);
-        shader.setUniform("sampler", 0);
+        shader.setUniform("sampler", 0); // TODO: дело тут, как как wall_test последний объект он генерирует это, а текст не умеет это генерировать т к закоменчено
         shader.setUniform("projection", target);
         model.render();
     }
