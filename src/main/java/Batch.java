@@ -3,6 +3,13 @@ import fonts.CharInfo;
 import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL15;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL15C.GL_ELEMENT_ARRAY_BUFFER;
 import static org.lwjgl.opengl.GL15C.glGenBuffers;
@@ -82,13 +89,11 @@ public class Batch {
         glBufferSubData(GL_ARRAY_BUFFER, 0, vertices);
 
         // Draw the buffer that we just uploaded
-        shader.bind();
-        //sdfShader.use();
+        shader.bind(); // <<
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_BUFFER, font.textureId);
-        //glBindTexture(GL_TEXTURE_BUFFER, Sdf.textureId);
-        //sdfShader.setTexture("sampler", 0);
-        //sdfShader.setUniform("uProjection", projection);
+        shader.setUniform("sampler", 0);
+        shader.setUniform("projection", projection);
 
         glBindVertexArray(vao);
 
@@ -98,45 +103,38 @@ public class Batch {
         size = 0;
     }
 
-    public void addCharacter(float x, float y, float scale, CharInfo charInfo, int rgb) {
-        // If we have no more room in the current batch, flush it and start with a fresh batch
-        if (size >= BATCH_SIZE - 4) {
-            flushBatch();
+    public BufferedImage getCharacter(char c, int rgb, BufferedImage bitmap) {
+        CharInfo charInfo = font.getCharacter(c);
+        System.out.println(charInfo.sourceX+" "+charInfo.sourceY+" "+charInfo.width+" "+charInfo.height);
+//        File file = new File("letter.png");
+//        try {
+//            ImageIO.write(bitmap.getSubimage(charInfo.sourceX,charInfo.sourceY-charInfo.height+30,charInfo.width,charInfo.height), "png", file);
+//        } catch (IOException e) {
+//            System.out.println("Ошибка при сохранении изображения: " + e.getMessage());
+//        }
+        return bitmap.getSubimage(charInfo.sourceX,charInfo.sourceY-charInfo.height+30,charInfo.width,charInfo.height);
+    }
+
+    public BufferedImage getText(String text, int rgb, BufferedImage bitmap) {
+        ArrayList<BufferedImage> letters = new ArrayList<>();
+        int width = 0;
+        int height = 0;
+        for (int i = 0; i < text.length(); i++) {
+            letters.add(getCharacter(text.charAt(i), rgb, bitmap));
         }
-
-        float r = (float)((rgb >> 16) & 0xFF) / 255.0f;
-        float g = (float)((rgb >> 8) & 0xFF) / 255.0f;
-        float b = (float)((rgb >> 0) & 0xFF) / 255.0f;
-
-        float x0 = x;
-        float y0 = y;
-        float x1 = x + scale * charInfo.width;
-        float y1 = y + scale * charInfo.height;
-
-        float ux0 = charInfo.textureCoordinates[0].x; float uy0 = charInfo.textureCoordinates[0].y;
-        float ux1 = charInfo.textureCoordinates[1].x; float uy1 = charInfo.textureCoordinates[1].y;
-
-        int index = size * 7;
-        vertices[index] = x1;      vertices[index + 1] = y0;
-        vertices[index + 2] = r;   vertices[index + 3] = g;  vertices[index + 4] = b;
-        vertices[index + 5] = ux1; vertices[index + 6] = uy0;
-
-        index += 7;
-        vertices[index] = x1;      vertices[index + 1] = y1;
-        vertices[index + 2] = r;   vertices[index + 3] = g;  vertices[index + 4] = b;
-        vertices[index + 5] = ux1; vertices[index + 6] = uy1;
-
-        index += 7;
-        vertices[index] = x0;      vertices[index + 1] = y1;
-        vertices[index + 2] = r;   vertices[index + 3] = g;  vertices[index + 4] = b;
-        vertices[index + 5] = ux0; vertices[index + 6] = uy1;
-
-        index += 7;
-        vertices[index] = x0;      vertices[index + 1] = y0;
-        vertices[index + 2] = r;   vertices[index + 3] = g;  vertices[index + 4] = b;
-        vertices[index + 5] = ux0; vertices[index + 6] = uy0;
-
-        size += 4;
+        for (BufferedImage img : letters) {
+            width += img.getWidth();
+            height = Math.max(height, img.getHeight());
+        }
+        BufferedImage bufferedText = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = bufferedText.createGraphics();
+        int currWidth = 0;
+        for (BufferedImage img : letters) {
+            g2d.drawImage(img, currWidth, 0, null);
+            currWidth += img.getWidth();
+        }
+        g2d.dispose();
+        return bufferedText;
     }
 
     public void addText(String text, int x, int y, float scale, int rgb) {
@@ -150,7 +148,7 @@ public class Batch {
             }
             float xPos = x;
             float yPos = y;
-            addCharacter(xPos, yPos, scale, charInfo, rgb);
+            //addCharacter(xPos, yPos, scale, charInfo, rgb);
             x += charInfo.width * scale;
         }
     }

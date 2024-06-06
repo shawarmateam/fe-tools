@@ -66,12 +66,6 @@ public class Shader {
             glUniformMatrix4fv(location, false, buffer);
     }
 
-    public void setTexture(String name, int slot) {
-        int varLocation = glGetUniformLocation(program, name);
-        bind();
-        glUniform1i(varLocation, slot);
-    }
-
     private String readFile(String filename) {
         StringBuilder string = new StringBuilder();
         Scanner br;

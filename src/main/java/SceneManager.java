@@ -19,6 +19,7 @@ public class SceneManager {
     private float speedCam = 10f;
     private boolean cooldown_m = false;
     private boolean cooldown_p = false;
+    public static PosTexture texture;
     public void run() {
         window = SceneManagersWindow.getWindow();
         GL.createCapabilities();
@@ -35,15 +36,14 @@ public class SceneManager {
         Matrix4f target = new Matrix4f();
         projection.mul(scale, target);
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-        PosTexture texture = new PosTexture();
+        texture = new PosTexture();
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         double start = Timer.getTime();
         double end = Timer.getTime();
         SceneLoader.readScene(new File("/home/adisteyf/IdeaProjects/FilesEngine/assets/sample.lvl"));
-        System.out.println(window);
         //RenderText.setUpFonts();
         Batch test = new Batch();
-        test.font = new CFont("assets/Roboto-Black.ttf", 64);
+        test.font = new CFont("assets/Roboto-Black.ttf", 60);
         test.shader = shader;
         test.initBatch();
 
@@ -58,19 +58,20 @@ public class SceneManager {
                 for (Entity ent : ents) {
                     texture.renderTexture(ent.texture, ent.transform.getX(), ent.transform.getY(), shader, scale, cam);
                 }
-                test.addText("переделываю", 200, 200, .5f, 0xFF00AB0); // TODO: сделать адекватный размер
+                SceneManager.texture.renderTexture(new RenderTexture(test.getText("test", 0, test.font.getBitmap())), 2,2,shader,scale,cam);
+//                test.addText("переделываю", 200, 200, .5f, 0xFF00AB0);
 
                 if (isPressed(GLFW_KEY_W)) {
-                    cam.transform.addY(speedCam);
-                }
-                if (isPressed(GLFW_KEY_A)) {
-                    cam.transform.addX(-speedCam);
-                }
-                if (isPressed(GLFW_KEY_S)) {
                     cam.transform.addY(-speedCam);
                 }
-                if (isPressed(GLFW_KEY_D)) {
+                if (isPressed(GLFW_KEY_A)) {
                     cam.transform.addX(speedCam);
+                }
+                if (isPressed(GLFW_KEY_S)) {
+                    cam.transform.addY(speedCam);
+                }
+                if (isPressed(GLFW_KEY_D)) {
+                    cam.transform.addX(-speedCam);
                 }
                 cam.init();
                 if (isPressed(GLFW_KEY_MINUS) && !cooldown_m) {
@@ -105,8 +106,6 @@ public class SceneManager {
     }
 
     public static void main(String[] args) {
-        System.out.println(1);
         new SceneManagersWindow().run();
-        System.out.println(2);
     }
 }

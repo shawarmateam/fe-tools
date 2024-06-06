@@ -1,3 +1,4 @@
+import fonts.CFont;
 import scripts.FilesScripts;
 import java.io.File;
 
@@ -40,10 +41,6 @@ public class testscrgl extends FilesScripts {
 
     @Override
     public void update(float dt) {
-        System.out.println(EntityScripts.getEntityByName("wall_test").transform.rectCollider.posX);
-        System.out.println(EntityScripts.getEntityByName("wall_test").transform.rectCollider.posY);
-        System.out.println(EntityScripts.getEntityByName("test").transform.rectCollider.posX);
-        System.out.println(EntityScripts.getEntityByName("test").transform.rectCollider.posY);
         EntityScripts.getEntityByName("test").transform.rectCollider.update();
         EntityScripts.getEntityByName("wall_test").transform.rectCollider.update();
         if (App.isPressed(GLFW_KEY_F)) {
