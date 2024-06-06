@@ -20,7 +20,8 @@ public class RenderTexture {
         texture_path=filepath;
         try {
             BufferedImage image = ImageIO.read(new File(filepath));
-            int width = image.getWidth(), height = image.getHeight();
+            width = image.getWidth();
+            height = image.getHeight();
 
             int[] pixels = new int[width * height];
             image.getRGB(0, 0, width, height, pixels, 0, width);
@@ -50,7 +51,8 @@ public class RenderTexture {
     }
 
     public RenderTexture(BufferedImage image) {
-        int width = image.getWidth(), height = image.getHeight();
+        width = image.getWidth();
+        height = image.getHeight();
 
         int[] pixels = new int[width * height];
         image.getRGB(0, 0, width, height, pixels, 0, width);
@@ -81,5 +83,12 @@ public class RenderTexture {
             glActiveTexture(GL_TEXTURE0 + sampler);
             glBindTexture(GL_TEXTURE_2D, id);
         }
+    }
+
+    public int getWidth() {
+        return width;
+    }
+    public int getHeight() {
+        return height;
     }
 }

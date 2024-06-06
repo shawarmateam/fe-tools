@@ -3,9 +3,11 @@ import org.joml.Vector3f;
 
 public class PosTexture {
     private Model model;
-    public PosTexture() {
-        float width = 1f;
-        float height = 1f;
+    public PosTexture(float w, float h) {
+//        float width = 1f;
+//        float height = 1f;
+        float width = w/100;
+        float height = h/100;
         float x = 0f;
         float y = 0f;
         float[] vertices = new float[] {

@@ -19,7 +19,7 @@ public class SceneManager {
     private float speedCam = 10f;
     private boolean cooldown_m = false;
     private boolean cooldown_p = false;
-    public static PosTexture texture;
+//    public static PosTexture texture;
     public void run() {
         window = SceneManagersWindow.getWindow();
         GL.createCapabilities();
@@ -36,7 +36,7 @@ public class SceneManager {
         Matrix4f target = new Matrix4f();
         projection.mul(scale, target);
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-        texture = new PosTexture();
+//        texture = new PosTexture();
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         double start = Timer.getTime();
         double end = Timer.getTime();
@@ -46,6 +46,7 @@ public class SceneManager {
         test.font = new CFont("assets/Roboto-Black.ttf", 60);
         test.shader = shader;
         test.initBatch();
+        RenderTexture text = new RenderTexture(test.getText("hello world!", 0xff3729, test.font.getBitmap()));
 
         while (!glfwWindowShouldClose(window)) {
             glfwPollEvents();
@@ -56,9 +57,9 @@ public class SceneManager {
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
                 //                texture.renderTexture(testent.texture, testent.transform.getX(), testent.transform.getY(), shader, scale, cam);
                 for (Entity ent : ents) {
-                    texture.renderTexture(ent.texture, ent.transform.getX(), ent.transform.getY(), shader, scale, cam);
+                    new PosTexture(ent.texture.getWidth(), ent.texture.getHeight()).renderTexture(ent.texture, ent.transform.getX(), ent.transform.getY(), shader, scale, cam);
                 }
-                SceneManager.texture.renderTexture(new RenderTexture(test.getText("test", 0, test.font.getBitmap())), 2,2,shader,scale,cam);
+                new PosTexture(text.getWidth(), text.getHeight()).renderTexture(text,-1,2,shader,scale,cam);
 //                test.addText("переделываю", 200, 200, .5f, 0xFF00AB0);
 
                 if (isPressed(GLFW_KEY_W)) {

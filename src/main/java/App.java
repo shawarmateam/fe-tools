@@ -33,7 +33,7 @@ public class App {
         Matrix4f target = new Matrix4f();
         projection.mul(scale, target);
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-        PosTexture texture = new PosTexture();
+//        PosTexture texture = new PosTexture();
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         ScriptsReader scrReader = new ScriptsReader();
         double start = Timer.getTime();
@@ -55,7 +55,7 @@ public class App {
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
                 //                texture.renderTexture(testent.texture, testent.transform.getX(), testent.transform.getY(), shader, scale, cam);
                 for (Entity ent : ents) {
-                    texture.renderTexture(ent.texture, ent.transform.getX(), ent.transform.getY(), shader, scale, cam);
+                    new PosTexture(ent.transform.sizeX, ent.transform.sizeY).renderTexture(ent.texture, ent.transform.getX(), ent.transform.getY(), shader, scale, cam);
                 }
                 end = Timer.getTime();
                 dt = (end - start)/sec_per_frame;

@@ -105,14 +105,24 @@ public class Batch {
 
     public BufferedImage getCharacter(char c, int rgb, BufferedImage bitmap) {
         CharInfo charInfo = font.getCharacter(c);
-        System.out.println(charInfo.sourceX+" "+charInfo.sourceY+" "+charInfo.width+" "+charInfo.height);
 //        File file = new File("letter.png");
 //        try {
 //            ImageIO.write(bitmap.getSubimage(charInfo.sourceX,charInfo.sourceY-charInfo.height+30,charInfo.width,charInfo.height), "png", file);
 //        } catch (IOException e) {
 //            System.out.println("Ошибка при сохранении изображения: " + e.getMessage());
 //        }
-        return bitmap.getSubimage(charInfo.sourceX,charInfo.sourceY-charInfo.height+30,charInfo.width,charInfo.height);
+        BufferedImage letter = bitmap.getSubimage(charInfo.sourceX,charInfo.sourceY-charInfo.height+30,charInfo.width,charInfo.height);
+        if (rgb != 0xffffff) {
+            for (int y = 0; y < letter.getHeight(); y++) {
+                for (int x = 0; x < letter.getWidth(); x++) {
+                    if (letter.getRGB(x, y) != 0) {
+                        letter.setRGB(x, y, new Color(255,0,0,255).getRGB());
+                        System.out.println("поменяли"); // TODO: сделать по тутору нейронки (слил самому себе в тг)
+                    }
+                }
+            }
+        }
+        return letter;
     }
 
     public BufferedImage getText(String text, int rgb, BufferedImage bitmap) {
@@ -135,21 +145,5 @@ public class Batch {
         }
         g2d.dispose();
         return bufferedText;
-    }
-
-    public void addText(String text, int x, int y, float scale, int rgb) {
-        for (int i=0; i < text.length(); i++) {
-            char c = text.charAt(i);
-
-            CharInfo charInfo = font.getCharacter(c);
-            if (charInfo.width == 0) {
-                System.out.println("Unknown character " + c);
-                charInfo = font.getCharacter('?');
-            }
-            float xPos = x;
-            float yPos = y;
-            //addCharacter(xPos, yPos, scale, charInfo, rgb);
-            x += charInfo.width * scale;
-        }
     }
 }
