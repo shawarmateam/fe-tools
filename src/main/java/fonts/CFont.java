@@ -88,7 +88,7 @@ public class CFont {
         for (int i=0; i < font.getNumGlyphs(); i++) {
             if (font.canDisplay(i)) {
                 CharInfo info = characterMap.get(i);
-                info.calculateTextureCoordinates(width, height-10);
+                info.calculateTextureCoordinates(width, height);
                 g2d.drawString("" + (char)i, info.sourceX, info.sourceY);
             }
         }

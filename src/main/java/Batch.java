@@ -103,21 +103,15 @@ public class Batch {
         size = 0;
     }
 
-    public BufferedImage getCharacter(char c, int rgb, BufferedImage bitmap) {
+    public BufferedImage getCharacter(char c, String rgb, BufferedImage bitmap) {
         CharInfo charInfo = font.getCharacter(c);
-//        File file = new File("letter.png");
-//        try {
-//            ImageIO.write(bitmap.getSubimage(charInfo.sourceX,charInfo.sourceY-charInfo.height+30,charInfo.width,charInfo.height), "png", file);
-//        } catch (IOException e) {
-//            System.out.println("Ошибка при сохранении изображения: " + e.getMessage());
-//        }
-        BufferedImage letter = bitmap.getSubimage(charInfo.sourceX,charInfo.sourceY-charInfo.height+30,charInfo.width,charInfo.height);
-        if (rgb != 0xffffff) {
+        BufferedImage letter = bitmap.getSubimage(charInfo.sourceX,charInfo.sourceY-charInfo.height,charInfo.width,charInfo.height+10);
+        Color color = Color.decode(rgb);
+        if (!color.equals(Color.WHITE)) {
             for (int y = 0; y < letter.getHeight(); y++) {
                 for (int x = 0; x < letter.getWidth(); x++) {
                     if (letter.getRGB(x, y) != 0) {
-                        letter.setRGB(x, y, new Color(255,0,0,255).getRGB());
-                        System.out.println("поменяли"); // TODO: сделать по тутору нейронки (слил самому себе в тг)
+                        letter.setRGB(x, y, color.getRGB());
                     }
                 }
             }
@@ -125,15 +119,16 @@ public class Batch {
         return letter;
     }
 
-    public BufferedImage getText(String text, int rgb, BufferedImage bitmap) {
+    public BufferedImage getText(String text, String rgb, BufferedImage bitmap) {
         ArrayList<BufferedImage> letters = new ArrayList<>();
         int width = 0;
         int height = 0;
+        int distance = 5;
         for (int i = 0; i < text.length(); i++) {
             letters.add(getCharacter(text.charAt(i), rgb, bitmap));
         }
         for (BufferedImage img : letters) {
-            width += img.getWidth();
+            width += img.getWidth()+distance;
             height = Math.max(height, img.getHeight());
         }
         BufferedImage bufferedText = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
@@ -141,9 +136,42 @@ public class Batch {
         int currWidth = 0;
         for (BufferedImage img : letters) {
             g2d.drawImage(img, currWidth, 0, null);
-            currWidth += img.getWidth();
+            currWidth += img.getWidth()+distance;
         }
         g2d.dispose();
+        return bufferedText;
+    }
+
+    public BufferedImage getText(String text, String rgb, String rgb_on, BufferedImage bitmap) {
+        ArrayList<BufferedImage> letters = new ArrayList<>();
+        int width = 0;
+        int height = 0;
+        int distance = 5;
+        for (int i = 0; i < text.length(); i++) {
+            letters.add(getCharacter(text.charAt(i), rgb, bitmap));
+        }
+        for (BufferedImage img : letters) {
+            width += img.getWidth()+distance;
+            height = Math.max(height, img.getHeight());
+        }
+        BufferedImage bufferedText = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = bufferedText.createGraphics();
+        int currWidth = 0;
+        for (BufferedImage img : letters) {
+            g2d.drawImage(img, currWidth, 0, null);
+            currWidth += img.getWidth()+distance;
+        }
+        g2d.dispose();
+
+        Color color_on = Color.decode(rgb_on);
+        for (int y = 0; y < bufferedText.getHeight(); y++) {
+            for (int x = 0; x < bufferedText.getWidth(); x++) {
+                if (bufferedText.getRGB(x, y) == 0) {
+                    bufferedText.setRGB(x, y, color_on.getRGB());
+                }
+            }
+        }
+
         return bufferedText;
     }
 }

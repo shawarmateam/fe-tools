@@ -27,7 +27,7 @@ public class SceneManager {
         glEnable(GL_TEXTURE_2D);
     }
     public void loop() {
-        Shader shader = new Shader("shader");
+        Shader shader = new Shader("shader.glsl");
         Matrix4f projection = new Matrix4f()
                 .ortho2D(-cam.transform.sizeX/2, cam.transform.sizeX/2, -cam.transform.sizeY/2, cam.transform.sizeY/2);
         Matrix4f scale = new Matrix4f()
@@ -43,10 +43,10 @@ public class SceneManager {
         SceneLoader.readScene(new File("/home/adisteyf/IdeaProjects/FilesEngine/assets/sample.lvl"));
         //RenderText.setUpFonts();
         Batch test = new Batch();
-        test.font = new CFont("assets/Roboto-Black.ttf", 60);
+        test.font = new CFont("assets/Roboto-Black.ttf", 30);
         test.shader = shader;
         test.initBatch();
-        RenderTexture text = new RenderTexture(test.getText("hello world!", 0xff3729, test.font.getBitmap()));
+        RenderTexture text = new RenderTexture(test.getText("привет", "#ffffff", "#f5c242", test.font.getBitmap()));
 
         while (!glfwWindowShouldClose(window)) {
             glfwPollEvents();

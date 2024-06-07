@@ -3,6 +3,7 @@ import org.lwjgl.BufferUtils;
 
 import java.io.*;
 import java.nio.FloatBuffer;
+import java.util.Objects;
 import java.util.Scanner;
 
 import static org.lwjgl.opengl.GL20.*;
@@ -11,12 +12,13 @@ public class Shader {
     private int program;
     private int vs;
     private int fs;
+    private boolean startReadFragment = false;
     
     public Shader(String filename) {
         program = glCreateProgram();
 
         vs = glCreateShader(GL_VERTEX_SHADER);
-        glShaderSource(vs, readFile(filename+".vs"));
+        glShaderSource(vs, readFile(filename));
         glCompileShader(vs);
         if (glGetShaderi(vs, GL_COMPILE_STATUS) != 1) {
             System.err.println(glGetShaderInfoLog(vs));
@@ -24,7 +26,7 @@ public class Shader {
         }
 
         fs = glCreateShader(GL_FRAGMENT_SHADER);
-        glShaderSource(fs, readFile(filename+".fs"));
+        glShaderSource(fs, readFile(filename));
         glCompileShader(fs);
         if (glGetShaderi(fs, GL_COMPILE_STATUS) != 1) {
             System.err.println(glGetShaderInfoLog(fs));
@@ -69,17 +71,36 @@ public class Shader {
     private String readFile(String filename) {
         StringBuilder string = new StringBuilder();
         Scanner br;
+        boolean stop = false;
         try {
             br = new Scanner(new File("./assets/shaders/"+filename));
-            while (br.hasNextLine()) {
-                string.append(br.nextLine()).append("\n");
-            }
-            br.close();
+            if (!startReadFragment) {
+                while (br.hasNextLine() && !stop) {
+                    String line = br.nextLine();
 
+                    string.append(line).append("\n");
+
+                    if (Objects.equals(line, "//fragment shader")) {
+                        stop = true;
+                    }
+                }
+                br.close();
+            } else {
+                boolean fragmentPart = false;
+                while (br.hasNextLine()) {
+                    String line = br.nextLine();
+                    if (Objects.equals(line, "//fragment shader"))
+                        fragmentPart=true;
+                    if (fragmentPart)
+                        string.append(line).append("\n");
+                }
+                br.close();
+            }
         } catch (IOException e) {
             System.out.println("ERROR DURING READING SHADER");
             e.printStackTrace();
         }
+        startReadFragment = true;
         return string.toString();
     }
 }
