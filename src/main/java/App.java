@@ -24,7 +24,7 @@ public class App {
         glEnable(GL_TEXTURE_2D);
     }
     public void loop() {
-        Shader shader = new Shader("shader");
+        Shader shader = new Shader("shader.glsl");
         Matrix4f projection = new Matrix4f()
                 .ortho2D(-cam.transform.sizeX/2, cam.transform.sizeX/2, -cam.transform.sizeY/2, cam.transform.sizeY/2);
         Matrix4f scale = new Matrix4f()

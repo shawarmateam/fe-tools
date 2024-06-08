@@ -1,3 +1,4 @@
 {
-  "SCRs": ["testscrgl"]
+  "SCRs": ["testscrgl"],
+  "Comps": ["ColliderScripts"]
 }

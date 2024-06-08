@@ -18,6 +18,7 @@ public class RectCollider extends ComponentStruct {
         dots = new float[][] {TLdot, TRdot, DLdot, DRdot, Center};
     }
 
+    @Override
     public void update() {
         posX = ent.transform.getX() + posXoffset;
         posY = ent.transform.getY() + posYoffset;

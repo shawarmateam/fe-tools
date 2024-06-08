@@ -34,6 +34,17 @@ public class ScriptsReader {
         }
     }
 
+    private static ArrayList<String> readComponents() {
+        JSONParser parser = new JSONParser();
+        try (FileReader r = new FileReader("assets/scripts.json")) {
+            Object obj = parser.parse(r);
+            JSONObject list = (JSONObject) obj;
+            return (ArrayList<String>) list.get("Comps");
+        } catch (IOException | ParseException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void runStartInSCRs(ArrayList<String> SCRs) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException, InstantiationException {
         if (hasStarted) {
             System.out.println("YOU CAN START ONLY ONCE!");
@@ -48,8 +59,17 @@ public class ScriptsReader {
     }
     public void runUpdateInSCRs(float dt) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException, InstantiationException {
         ArrayList<String> SCRs = readScripts();
-        for (int i = 0; i < SCRs.size(); i++) {
-            Class<FilesScripts> FileClass = (Class<FilesScripts>) Class.forName(SCRs.get(i));
+        ArrayList<String> Comps = readComponents();
+
+        for (String comp : Comps) {
+            Class<CompScriptStructure> FileClass = (Class<CompScriptStructure>) Class.forName(comp);
+            Method updateAll = FileClass.getMethod("updateAll");
+            Object t = FileClass.newInstance();
+            updateAll.invoke(t);
+        }
+
+        for (String scr : SCRs) {
+            Class<FilesScripts> FileClass = (Class<FilesScripts>) Class.forName(scr);
             Method update = FileClass.getMethod("update", float.class);
             Object t = FileClass.newInstance();
             update.invoke(t, dt);

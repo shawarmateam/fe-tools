@@ -41,8 +41,8 @@ public class testscrgl extends FilesScripts {
 
     @Override
     public void update(float dt) {
-        EntityScripts.getEntityByName("test").transform.rectCollider.update();
-        EntityScripts.getEntityByName("wall_test").transform.rectCollider.update();
+        //EntityScripts.getEntityByName("test").transform.rectCollider.update();
+        //EntityScripts.getEntityByName("wall_test").transform.rectCollider.update();
         if (App.isPressed(GLFW_KEY_F)) {
             EntityScripts.getEntityByName("test").transform.addX(-.100f*dt);
         } else if (App.isPressed(GLFW_KEY_G)) {
