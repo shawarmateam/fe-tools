@@ -56,7 +56,7 @@ public class App {
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
                 //                texture.renderTexture(testent.texture, testent.transform.getX(), testent.transform.getY(), shader, scale, cam);
                 for (Entity ent : ents) {
-                    new PosTexture(ent.transform.sizeX, ent.transform.sizeY).renderTexture(ent.texture, ent.transform.getX(), ent.transform.getY(), shader, scale, cam);
+                    new PosTexture(ent.texture.getWidth(), ent.texture.getHeight()).renderTexture(ent.texture, ent.transform.getX(), ent.transform.getY(), shader, scale, cam);
                 }
                 end = Timer.getTime();
                 dt = (end - start)/sec_per_frame;

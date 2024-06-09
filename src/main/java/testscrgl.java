@@ -20,29 +20,25 @@ public class testscrgl extends FilesScripts {
         // adding components
         RectCollider testcol = new RectCollider(0,0,1,1);
         RectCollider colwall = new RectCollider(0,0,1,1);
-//        testwall.transform.rectCollider.ent = testwall;
-//        testent.transform.rectCollider.ent = testent;
+
+        // read scene
         SceneLoader.readScene(new File("assets/sample.lvl"));
 
-        EntityScripts.getEntityByName("test").transform.setX(0);
-        EntityScripts.getEntityByName("test").transform.setY(0);
-        EntityScripts.getEntityByName("wall_test").transform.setX(1.5f);
-        EntityScripts.getEntityByName("wall_test").transform.setY(1.5f);
+//        EntityScripts.getEntityByName("test").transform.setX(0);
+//        EntityScripts.getEntityByName("test").transform.setY(0);
+//        EntityScripts.getEntityByName("wall_test").transform.setX(1.5f);
+//        EntityScripts.getEntityByName("wall_test").transform.setY(1.5f);
 
         EntityScripts.getEntityByName("test").addComponent(testcol);
         EntityScripts.getEntityByName("wall_test").addComponent(colwall);
         EntityScripts.getEntityByName("test").transform.rectCollider = testcol;
         EntityScripts.getEntityByName("wall_test").transform.rectCollider = colwall;
         EntityScripts.initAll();
-//        System.out.println(AppTest.ents);
-//        System.out.println(EntityScripts.getEntityByName("wall_test").transform.getX());
-//        System.out.println(EntityScripts.getEntityByName("test").transform.getX());
+        System.out.println(EntityScripts.getEntityByName("test").transform.sizeX);
     }
 
     @Override
     public void update(float dt) {
-        //EntityScripts.getEntityByName("test").transform.rectCollider.update();
-        //EntityScripts.getEntityByName("wall_test").transform.rectCollider.update();
         if (App.isPressed(GLFW_KEY_F)) {
             EntityScripts.getEntityByName("test").transform.addX(-.100f*dt);
         } else if (App.isPressed(GLFW_KEY_G)) {
