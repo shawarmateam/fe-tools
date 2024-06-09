@@ -10,8 +10,9 @@ FilesEngine is a simple tool designed to create 2D games. It's mostly a tool for
 
 ## Getting Started
 
-To get started with FilesEngine, download this repository and create an artifact with main class `App` if you want build for test start.
-Or with main class `SceneManager` if you want to build *Scene redactor*.
+To get started with FilesEngine, download this repository and create an artifact with main class `App`. if you want for test start just run `.jar` file.
+But if you want to run *scene redactor* start with arg **SM** or **scene-manager**.
+For example: `java -jar out/artifacts/ur_artifact/fe-tools.jar SM`.
 
 ## Mini-Documentation
 
@@ -35,4 +36,4 @@ We welcome contributions from the community to help improve FilesEngine. If you 
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](https://github.com/adisteyf/FilesEngine/blob/main/LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://github.com/adisteyf/fe-tools/blob/main/LICENSE) file for details.

@@ -6,6 +6,7 @@ import scripts.ScriptsReader;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -72,6 +73,10 @@ public class App {
     }
 
     public static void main(String[] args) {
-        new Window().run();
+        if (args.length == 0)
+            new Window().run();
+        else if (Objects.equals(args[0], "SM") || Objects.equals(args[0], "scene-manager")) {
+            SceneManager.main(args);
+        }
     }
 }
