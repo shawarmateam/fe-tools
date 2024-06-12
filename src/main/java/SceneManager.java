@@ -40,6 +40,7 @@ public class SceneManager {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         double start = Timer.getTime();
         double end = Timer.getTime();
+        double dt = 0;
         SceneLoader.readScene(new File("/home/adisteyf/IdeaProjects/FilesEngine/assets/sample.lvl"));
         //RenderText.setUpFonts();
         Batch test = new Batch();
@@ -60,6 +61,7 @@ public class SceneManager {
                     new PosTexture(ent.texture.getWidth(), ent.texture.getHeight()).renderTexture(ent.texture, ent.transform.getX(), ent.transform.getY(), shader, scale, cam);
                 }
                 new PosTexture(text.getWidth(), text.getHeight()).renderTexture(text,-1,2,shader,scale,cam);
+                SceneManagersWindow.imGuiLayer.update((float) dt);
 //                test.addText("переделываю", 200, 200, .5f, 0xFF00AB0);
 
                 if (isPressed(GLFW_KEY_W)) {
@@ -94,6 +96,7 @@ public class SceneManager {
                 }
 
                 end = Timer.getTime();
+                dt = (end - start)/sec_per_frame;
                 canRender=false;
             }
             if (Timer.getTime() > start+sec_per_frame) {

@@ -12,6 +12,8 @@ public class SceneManagersWindow {
     // The window handle
     private static long window;
     public static SceneManager mainClass;
+    private static int width, height;
+    public static ImGuiLayer imGuiLayer;
 
     public void run() {
         this.mainClass = new SceneManager();
@@ -28,6 +30,8 @@ public class SceneManagersWindow {
     }
 
     public void init() {
+        width=600;
+        height=600;
         // Set up an error callback. The default implementation
         // will print the error message in System.err.
         GLFWErrorCallback.createPrint(System.err).set();
@@ -42,7 +46,7 @@ public class SceneManagersWindow {
         glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE); // the window will not be resizable
 
         // Create the window
-        window = glfwCreateWindow(600, 600, "Files Engine", NULL, NULL);
+        window = glfwCreateWindow(width, height, "Files Engine", NULL, NULL);
         if ( window == NULL )
             throw new RuntimeException("Failed to create the GLFW window");
 
@@ -71,6 +75,8 @@ public class SceneManagersWindow {
         glfwSwapInterval(1);
         // Make the window visible
         glfwShowWindow(window);
+        imGuiLayer = new ImGuiLayer(window);
+        imGuiLayer.initImGui();
     }
 
     public void loop() {
@@ -79,5 +85,12 @@ public class SceneManagersWindow {
     }
     public static long getWindow() {
         return window;
+    }
+
+    public static int getWidth() {
+        return width;
+    }
+    public static int getHeight() {
+        return height;
     }
 }
