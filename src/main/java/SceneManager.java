@@ -48,6 +48,8 @@ public class SceneManager {
         test.shader = shader;
         test.initBatch();
         RenderTexture text = new RenderTexture(test.getText("привет", "#ffffff", "#f5c242", test.font.getBitmap()));
+        SceneManagersWindow.imGuiLayer = new ImGuiLayer(window);
+        SceneManagersWindow.imGuiLayer.initImGui();
 
         while (!glfwWindowShouldClose(window)) {
             glfwPollEvents();

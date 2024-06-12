@@ -16,7 +16,7 @@ public class SceneManagersWindow {
     public static ImGuiLayer imGuiLayer;
 
     public void run() {
-        this.mainClass = new SceneManager();
+        mainClass = new SceneManager();
         this.init();
         this.loop();
 
@@ -75,8 +75,6 @@ public class SceneManagersWindow {
         glfwSwapInterval(1);
         // Make the window visible
         glfwShowWindow(window);
-        imGuiLayer = new ImGuiLayer(window);
-        imGuiLayer.initImGui();
     }
 
     public void loop() {
