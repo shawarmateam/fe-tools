@@ -11,7 +11,7 @@ import static org.lwjgl.glfw.GLFW.*;
 public class ImGuiLayer {
 
     private long glfwWindow;
-
+    public static int[] camSpeed = new int[] {10};
     // Mouse cursors provided by GLFW
     private final long[] mouseCursors = new long[ImGuiMouseCursor.COUNT];
 
@@ -32,7 +32,7 @@ public class ImGuiLayer {
         // Initialize ImGuiIO config
         final ImGuiIO io = ImGui.getIO();
 
-        io.setIniFilename(null); // We don't want to save .ini file
+        io.setIniFilename("fe.ini");
         io.setConfigFlags(ImGuiConfigFlags.NavEnableKeyboard); // Navigation with keyboard
         io.setBackendFlags(ImGuiBackendFlags.HasMouseCursors); // Mouse cursors to display while resizing windows etc.
         io.setBackendPlatformName("imgui_java_impl_glfw");
@@ -183,12 +183,20 @@ public class ImGuiLayer {
         imGuiGl3.init("#version 430 core");
     }
 
+    public void content() {
+        if (ImGui.begin("Editor Settings")) {
+            ImGui.sliderInt("cam speed", camSpeed, 1, 25);
+        }
+        ImGui.end();
+    }
+
     public void update(float dt) {
         startFrame(dt);
 
         // Any Dear ImGui code SHOULD go between ImGui.newFrame()/ImGui.render() methods
         ImGui.newFrame();
-        ImGui.showDemoWindow();
+//        ImGui.showDemoWindow();
+        content();
         ImGui.render();
 
         endFrame();

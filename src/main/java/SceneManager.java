@@ -16,7 +16,6 @@ public class SceneManager {
     private static int FPS = 60;
     public static boolean canRender = true;
     public double sec_per_frame = 1.0/FPS;
-    private float speedCam = 10f;
     private boolean cooldown_m = false;
     private boolean cooldown_p = false;
 //    public static PosTexture texture;
@@ -67,21 +66,21 @@ public class SceneManager {
 //                test.addText("переделываю", 200, 200, .5f, 0xFF00AB0);
 
                 if (isPressed(GLFW_KEY_W)) {
-                    cam.transform.addY(-speedCam);
+                    cam.transform.addY(-ImGuiLayer.camSpeed[0]);
                 }
                 if (isPressed(GLFW_KEY_A)) {
-                    cam.transform.addX(speedCam);
+                    cam.transform.addX(ImGuiLayer.camSpeed[0]);
                 }
                 if (isPressed(GLFW_KEY_S)) {
-                    cam.transform.addY(speedCam);
+                    cam.transform.addY(ImGuiLayer.camSpeed[0]);
                 }
                 if (isPressed(GLFW_KEY_D)) {
-                    cam.transform.addX(-speedCam);
+                    cam.transform.addX(-ImGuiLayer.camSpeed[0]);
                 }
                 cam.init();
                 if (isPressed(GLFW_KEY_MINUS) && !cooldown_m) {
-                    if (speedCam > 1) {
-                        speedCam -= 1;
+                    if (ImGuiLayer.camSpeed[0] > 1) {
+                        ImGuiLayer.camSpeed[0] -= 1;
                         cooldown_m = true;
                     }
                 } else if (!isPressed(GLFW_KEY_MINUS)) {
@@ -89,8 +88,8 @@ public class SceneManager {
                 }
 
                 if (isPressed(GLFW_KEY_EQUAL) && isPressed(GLFW_KEY_LEFT_SHIFT) && !cooldown_p) {
-                    if (speedCam < 25) {
-                        speedCam += 1;
+                    if (ImGuiLayer.camSpeed[0] < 25) {
+                        ImGuiLayer.camSpeed[0] += 1;
                         cooldown_p = true;
                     }
                 } else if (!isPressed(GLFW_KEY_EQUAL) || !isPressed(GLFW_KEY_LEFT_SHIFT)) {
