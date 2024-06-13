@@ -5,6 +5,9 @@ public class WindowSizeListener {
     public static void resizeCallback(long window, int screenWidth, int screenHeight) {
         SceneManagersWindow.setWidth(screenWidth);
         SceneManagersWindow.setHeight(screenHeight);
+        SceneManager.cam.transform.sizeX = screenWidth;
+        SceneManager.cam.transform.sizeY = screenHeight; // TODO: пофиксить размер камеры
+        SceneManager.updateProjSize = true;
 
         // Figure out the largest area that fits this target aspect ratio
 //        int aspectWidth = screenWidth;

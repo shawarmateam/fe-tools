@@ -11,13 +11,14 @@ import static org.lwjgl.opengl.GL11.*;
 
 public class SceneManager {
     public static ArrayList<Entity> ents = new ArrayList<>();
-    private static Camera cam;
+    public static Camera cam;
     private static long window;
     private static int FPS = 60;
     public static boolean canRender = true;
     public double sec_per_frame = 1.0/FPS;
     private boolean cooldown_m = false;
     private boolean cooldown_p = false;
+    public static boolean updateProjSize = false;
 //    public static PosTexture texture;
     public void run() {
         window = SceneManagersWindow.getWindow();
@@ -25,6 +26,7 @@ public class SceneManager {
         cam = new Camera(new Transform(0,0,600,600,1000,1000));
         glEnable(GL_TEXTURE_2D);
     }
+
     public void loop() {
         Shader shader = new Shader("shader.glsl");
         Matrix4f projection = new Matrix4f()
@@ -64,6 +66,13 @@ public class SceneManager {
                 new PosTexture(text.getWidth(), text.getHeight()).renderTexture(text,-1,2,shader,scale,cam);
                 SceneManagersWindow.imGuiLayer.update((float) dt);
 //                test.addText("переделываю", 200, 200, .5f, 0xFF00AB0);
+
+                if (updateProjSize) {
+                    projection = new Matrix4f()
+                            .ortho2D(-cam.transform.sizeX/2, cam.transform.sizeX/2, -cam.transform.sizeY/2, cam.transform.sizeY/2);
+                    projection.mul(scale, target);
+                    updateProjSize=false;
+                }
 
                 if (isPressed(GLFW_KEY_W)) {
                     if (ImGuiLayer.invertCamMovement)
@@ -108,8 +117,10 @@ public class SceneManager {
                     cooldown_p = false;
                 }
 
-                if (cam.getPosition().z != ImGuiLayer.camZ.floatValue())
-                    cam.getPosition().z = ImGuiLayer.camZ.floatValue();
+//                if (cam.getPosition().z != ImGuiLayer.camZ.floatValue())
+//                    cam.getPosition().z = ImGuiLayer.camZ.floatValue();
+                // TODO: 1. сделать Transform не int, а float 2. сделать current cam pos через ImGui.FloatSlider3
+                // TODO: сделать так, чтобы все сущ. камеры были в ArrayList из камер
 
                 end = Timer.getTime();
                 dt = (end - start)/sec_per_frame;

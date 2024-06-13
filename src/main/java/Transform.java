@@ -17,7 +17,6 @@ public class Transform {
 
         for (Entity ent_in_gp : App.ents) {
             if (ent_in_gp.getComponent(RectCollider.class) != null) {
-                System.out.println("name: "+ent_in_gp.name);
                 rc.add(ent_in_gp.getComponent(RectCollider.class));
             }
         }
