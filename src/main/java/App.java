@@ -33,7 +33,8 @@ public class App {
                 .scale(80);
         Matrix4f target = new Matrix4f();
         projection.mul(scale, target);
-        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+//        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
 //        PosTexture texture = new PosTexture();
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         ScriptsReader scrReader = new ScriptsReader();

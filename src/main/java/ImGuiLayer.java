@@ -6,12 +6,16 @@ import imgui.flag.ImGuiConfigFlags;
 import imgui.flag.ImGuiKey;
 import imgui.flag.ImGuiMouseCursor;
 import imgui.gl3.ImGuiImplGl3;
+import imgui.type.ImFloat;
+
 import static org.lwjgl.glfw.GLFW.*;
 
 public class ImGuiLayer {
 
     private long glfwWindow;
     public static int[] camSpeed = new int[] {10};
+    public static boolean invertCamMovement = false;
+    public static ImFloat camZ = new ImFloat(0);
     // Mouse cursors provided by GLFW
     private final long[] mouseCursors = new long[ImGuiMouseCursor.COUNT];
 
@@ -186,12 +190,20 @@ public class ImGuiLayer {
     public void content() {
         if (ImGui.begin("Editor Settings")) {
             ImGui.sliderInt("cam speed", camSpeed, 1, 25);
+            boolean isClicked = ImGui.checkbox("invert cam movement", invertCamMovement);
+            if (isClicked && !invertCamMovement)
+                invertCamMovement=true;
+            else if (isClicked)
+                invertCamMovement=false;
+
+            ImGui.inputFloat("cam zooming", camZ, 0.01f, 1.0f, "%.3f");
         }
         ImGui.end();
+        ImGui.showDemoWindow();
     }
 
     public void update(float dt) {
-        startFrame(dt);
+        startFrame(dt/50);
 
         // Any Dear ImGui code SHOULD go between ImGui.newFrame()/ImGui.render() methods
         ImGui.newFrame();

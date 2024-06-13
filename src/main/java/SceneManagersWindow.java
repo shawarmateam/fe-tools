@@ -14,6 +14,7 @@ public class SceneManagersWindow {
     public static SceneManager mainClass;
     private static int width, height;
     public static ImGuiLayer imGuiLayer;
+    private static float targetAspectRatio;
 
     public void run() {
         mainClass = new SceneManager();
@@ -67,6 +68,8 @@ public class SceneManagersWindow {
                     (vidmode.width() - pWidth.get(0)) / 2,
                     (vidmode.height() - pHeight.get(0)) / 2
             );
+            targetAspectRatio = (float)vidmode.width() / (float)vidmode.height();
+            glfwSetWindowSizeCallback(window, WindowSizeListener::resizeCallback);
         } // the stack frame is popped automatically
 
         // Make the OpenGL context current
@@ -90,5 +93,14 @@ public class SceneManagersWindow {
     }
     public static int getHeight() {
         return height;
+    }
+    public static void setWidth(int w) {
+        width=w;
+    }
+    public static void setHeight(int h) {
+        height=h;
+    }
+    public static float getTargetAspectRatio() {
+        return targetAspectRatio;
     }
 }

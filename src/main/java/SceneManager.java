@@ -66,16 +66,28 @@ public class SceneManager {
 //                test.addText("переделываю", 200, 200, .5f, 0xFF00AB0);
 
                 if (isPressed(GLFW_KEY_W)) {
-                    cam.transform.addY(-ImGuiLayer.camSpeed[0]);
+                    if (ImGuiLayer.invertCamMovement)
+                        cam.transform.addY(-ImGuiLayer.camSpeed[0]);
+                    else
+                        cam.transform.addY(ImGuiLayer.camSpeed[0]);
                 }
                 if (isPressed(GLFW_KEY_A)) {
-                    cam.transform.addX(ImGuiLayer.camSpeed[0]);
+                    if (ImGuiLayer.invertCamMovement)
+                        cam.transform.addX(ImGuiLayer.camSpeed[0]);
+                    else
+                        cam.transform.addX(-ImGuiLayer.camSpeed[0]);
                 }
                 if (isPressed(GLFW_KEY_S)) {
-                    cam.transform.addY(ImGuiLayer.camSpeed[0]);
+                    if (ImGuiLayer.invertCamMovement)
+                        cam.transform.addY(ImGuiLayer.camSpeed[0]);
+                    else
+                        cam.transform.addY(-ImGuiLayer.camSpeed[0]);
                 }
                 if (isPressed(GLFW_KEY_D)) {
-                    cam.transform.addX(-ImGuiLayer.camSpeed[0]);
+                    if (ImGuiLayer.invertCamMovement)
+                        cam.transform.addX(-ImGuiLayer.camSpeed[0]);
+                    else
+                        cam.transform.addX(ImGuiLayer.camSpeed[0]);
                 }
                 cam.init();
                 if (isPressed(GLFW_KEY_MINUS) && !cooldown_m) {
@@ -95,6 +107,9 @@ public class SceneManager {
                 } else if (!isPressed(GLFW_KEY_EQUAL) || !isPressed(GLFW_KEY_LEFT_SHIFT)) {
                     cooldown_p = false;
                 }
+
+                if (cam.getPosition().z != ImGuiLayer.camZ.floatValue())
+                    cam.getPosition().z = ImGuiLayer.camZ.floatValue();
 
                 end = Timer.getTime();
                 dt = (end - start)/sec_per_frame;
