@@ -15,6 +15,7 @@ public class ImGuiLayer {
     private long glfwWindow;
     public static int[] camSpeed = new int[] {10};
     public static boolean invertCamMovement = false;
+    public static boolean hideBar = false;
     public static float[] camPos = new float[] {0f, 0f, 0f};
     // Mouse cursors provided by GLFW
     private final long[] mouseCursors = new long[ImGuiMouseCursor.COUNT];
@@ -196,22 +197,30 @@ public class ImGuiLayer {
             else if (isClicked)
                 invertCamMovement=false;
 
+            isClicked = ImGui.checkbox("Hide menu bar", hideBar);
+            if (isClicked && !hideBar)
+                hideBar=true;
+            else if (isClicked)
+                hideBar=false;
+
 //            ImGui.inputFloat("cam zooming", camZ, 0.01f, 1.0f, "%.3f");
 //            ImGui.dragFloat3("cam pos", ); // <<
         }
         ImGui.end();
 
-        if (ImGui.beginMainMenuBar()) {
-            if (ImGui.beginMenu("File")) {
-                if (ImGui.menuItem("test")) {}
-                ImGui.endMenu();
+        if (!hideBar) {
+            if (ImGui.beginMainMenuBar()) {
+                if (ImGui.beginMenu("File")) {
+                    if (ImGui.menuItem("test")) {}
+                    ImGui.endMenu();
+                }
+                if (ImGui.beginMenu("Edit")) {
+                    if (ImGui.menuItem("test2")) {}
+                    ImGui.endMenu();
+                }
             }
-            if (ImGui.beginMenu("Edit")) {
-                if (ImGui.menuItem("test2")) {}
-                ImGui.endMenu();
-            }
+            ImGui.endMainMenuBar();
         }
-        ImGui.endMainMenuBar();
         ImGui.showDemoWindow();
     }
 

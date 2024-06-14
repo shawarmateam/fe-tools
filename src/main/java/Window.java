@@ -12,6 +12,8 @@ public class Window {
     // The window handle
     private static long window;
     public static App mainClass;
+    private static int width, height;
+    private static float targetAspectRatio;
 
     public void run() {
         this.mainClass = new App();
@@ -28,6 +30,8 @@ public class Window {
     }
 
     public void init() {
+        width=600;
+        height=600;
         // Set up an error callback. The default implementation
         // will print the error message in System.err.
         GLFWErrorCallback.createPrint(System.err).set();
@@ -42,7 +46,7 @@ public class Window {
         glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE); // the window will not be resizable
 
         // Create the window
-        window = glfwCreateWindow(600, 600, "Files Engine", NULL, NULL);
+        window = glfwCreateWindow(width, height, "Files Engine", NULL, NULL);
         if ( window == NULL )
             throw new RuntimeException("Failed to create the GLFW window");
 
@@ -63,6 +67,8 @@ public class Window {
                     (vidmode.width() - pWidth.get(0)) / 2,
                     (vidmode.height() - pHeight.get(0)) / 2
             );
+            targetAspectRatio = (float)vidmode.width() / (float)vidmode.height();
+            glfwSetWindowSizeCallback(window, WindowSizeListener::resizeCallbackApp);
         } // the stack frame is popped automatically
 
         // Make the OpenGL context current
@@ -71,6 +77,22 @@ public class Window {
         glfwSwapInterval(1);
         // Make the window visible
         glfwShowWindow(window);
+    }
+
+    public static int getWidth() {
+        return width;
+    }
+    public static int getHeight() {
+        return height;
+    }
+    public static void setWidth(int w) {
+        width=w;
+    }
+    public static void setHeight(int h) {
+        height=h;
+    }
+    public static float getTargetAspectRatio() {
+        return targetAspectRatio;
     }
 
     public void loop() {

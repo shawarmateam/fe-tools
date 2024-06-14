@@ -13,11 +13,12 @@ import static org.lwjgl.opengl.GL11.*;
 
 public class App {
     public static ArrayList<Entity> ents = new ArrayList<>();
-    private static Camera cam;
+    public static Camera cam;
     private static long window;
     private static int FPS = 60;
     public static boolean canRender = true;
     public double sec_per_frame = 1.0/FPS;
+    public static boolean updateProjSize;
     public void run() {
         window = Window.getWindow();
         GL.createCapabilities();
@@ -34,13 +35,14 @@ public class App {
         Matrix4f target = new Matrix4f();
         projection.mul(scale, target);
 //        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-        glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
+        glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 //        PosTexture texture = new PosTexture();
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         ScriptsReader scrReader = new ScriptsReader();
         double start = Timer.getTime();
         double end = Timer.getTime();
         double dt = 0;
+        WindowSizeListener.resizeCallbackApp(window, Window.getWidth(), Window.getHeight());
 
         while (!glfwWindowShouldClose(window)) {
             glfwPollEvents();
@@ -55,10 +57,17 @@ public class App {
                 }
 
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-                //                texture.renderTexture(testent.texture, testent.transform.getX(), testent.transform.getY(), shader, scale, cam);
                 for (Entity ent : ents) {
                     new PosTexture(ent.texture.getWidth(), ent.texture.getHeight()).renderTexture(ent.texture, ent.transform.getX(), ent.transform.getY(), shader, scale, cam);
                 }
+
+                if (updateProjSize) {
+                    projection = new Matrix4f()
+                            .ortho2D(-cam.transform.sizeX/2, cam.transform.sizeX/2, -cam.transform.sizeY/2, cam.transform.sizeY/2);
+                    projection.mul(scale, target);
+                    updateProjSize=false;
+                }
+
                 end = Timer.getTime();
                 dt = (end - start)/sec_per_frame;
                 canRender=false;

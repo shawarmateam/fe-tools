@@ -69,7 +69,7 @@ public class SceneManagersWindow {
                     (vidmode.height() - pHeight.get(0)) / 2
             );
             targetAspectRatio = (float)vidmode.width() / (float)vidmode.height();
-            glfwSetWindowSizeCallback(window, WindowSizeListener::resizeCallback);
+            glfwSetWindowSizeCallback(window, WindowSizeListener::resizeCallbackSM);
         } // the stack frame is popped automatically
 
         // Make the OpenGL context current

@@ -51,17 +51,20 @@ public class SceneManager {
         RenderTexture text = new RenderTexture(test.getText("привет", "#ffffff", "#f5c242", test.font.getBitmap()));
         SceneManagersWindow.imGuiLayer = new ImGuiLayer(window);
         SceneManagersWindow.imGuiLayer.initImGui();
-
+        WindowSizeListener.resizeCallbackSM(window, SceneManagersWindow.getWidth(), SceneManagersWindow.getHeight());
         while (!glfwWindowShouldClose(window)) {
             glfwPollEvents();
             if (canRender) {
                 start = end;
                 glfwSwapBuffers(window); // swap the color buffer
-
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-                //                texture.renderTexture(testent.texture, testent.transform.getX(), testent.transform.getY(), shader, scale, cam);
+                glLoadIdentity();
+                glOrtho(0, SceneManagersWindow.getWidth(), 0, SceneManagersWindow.getHeight(), -1, 1);
+
                 for (Entity ent : ents) {
-                    new PosTexture(ent.texture.getWidth(), ent.texture.getHeight()).renderTexture(ent.texture, ent.transform.getX(), ent.transform.getY(), shader, scale, cam);
+                    new PosTexture(ent.texture.getWidth(), ent.texture.getHeight()).renderTexture(ent.texture,
+                            ent.transform.getX(), ent.transform.getY(),
+                            shader, scale, cam);
                 }
                 new PosTexture(text.getWidth(), text.getHeight()).renderTexture(text,-1,2,shader,scale,cam);
                 SceneManagersWindow.imGuiLayer.update((float) dt);
@@ -116,7 +119,6 @@ public class SceneManager {
                 } else if (!isPressed(GLFW_KEY_EQUAL) || !isPressed(GLFW_KEY_LEFT_SHIFT)) {
                     cooldown_p = false;
                 }
-
 //                if (cam.getPosition().z != ImGuiLayer.camZ.floatValue())
 //                    cam.getPosition().z = ImGuiLayer.camZ.floatValue();
                 // TODO: 1. сделать Transform не int, а float 2. сделать current cam pos через ImGui.FloatSlider3

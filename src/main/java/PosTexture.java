@@ -7,7 +7,7 @@ public class PosTexture {
 //        float width = 1f;
 //        float height = 1f;
         float width = w/100;
-        float height = h/100;
+        float height = (h+70)/100;
         float x = 0f;
         float y = 0f;
         float[] vertices = new float[] {
@@ -31,7 +31,7 @@ public class PosTexture {
     public void renderTexture(RenderTexture texture, float x, float y, Shader shader, Matrix4f world, Camera cam) {
         shader.bind();
         texture.bind(0);
-        Matrix4f tex_pos = new Matrix4f().translate(new Vector3f(x, y, 0));
+        Matrix4f tex_pos = new Matrix4f().translate(new Vector3f(x, y-(y*(-70)/100), 0));
         Matrix4f target = new Matrix4f();
         cam.getProjection().mul(world, target);
         target.mul(tex_pos);
