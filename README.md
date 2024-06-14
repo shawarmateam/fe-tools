@@ -4,6 +4,7 @@ FilesEngine is a simple tool designed to create 2D games. It's mostly a tool for
 
 ## Features
 
+- Files Engine use java 21.
 - This engine use `LWJGL` library.
 - Files Engine also have a custom `ECS` *(Entity Component System)* with division into components and scripts.
 - Each component has its own *script* class with name `<CompName>Scripts`.
@@ -30,9 +31,11 @@ You can see test script here: [src/main/java/testscrgl.java](https://github.com/
 1. Write *scripts* class of your component in file `assets/scripts.json` in `Comps`.
 2. That's all!
 
-## Contributing
+## How to compile
 
-We welcome contributions from the community to help improve FilesEngine. If you have any suggestions, bug reports, or feature requests, please feel free to submit them through the issue tracker.
+1. Type in terminal `git clone https://github.com/adisteyf/fe-tools.git`.
+2. Type in terminal `mvn clean install` in root project (where is pom.xml).
+3. Run `target/FilesEngine-<ver>-jar-with-dependencies.jar`.
 
 ## License
 
