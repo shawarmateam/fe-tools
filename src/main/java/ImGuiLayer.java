@@ -188,6 +188,13 @@ public class ImGuiLayer {
         imGuiGl3.init("#version 430 core");
     }
 
+    public static void applyCamPos() {
+        SceneManager.cam.transform.setX(camPos[0]);
+        SceneManager.cam.transform.setY(camPos[1]);
+        SceneManager.cam.setZ(camPos[2]);
+        SceneManager.cam.init();
+    }
+
     public void content() {
         if (ImGui.begin("Editor Settings")) {
             ImGui.sliderInt("cam speed", camSpeed, 1, 25);
@@ -204,7 +211,12 @@ public class ImGuiLayer {
                 hideBar=false;
 
 //            ImGui.inputFloat("cam zooming", camZ, 0.01f, 1.0f, "%.3f");
-//            ImGui.dragFloat3("cam pos", ); // <<
+            if (ImGui.dragFloat3("cam pos", camPos)) {
+                SceneManager.cam.transform.setX(camPos[0]);
+                SceneManager.cam.transform.setY(camPos[1]);
+                SceneManager.cam.setZ(camPos[2]);
+                SceneManager.cam.init();
+            }
         }
         ImGui.end();
 

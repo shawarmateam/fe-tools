@@ -59,7 +59,6 @@ public class SceneManager {
                 glfwSwapBuffers(window); // swap the color buffer
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
                 glLoadIdentity();
-                glOrtho(0, SceneManagersWindow.getWidth(), 0, SceneManagersWindow.getHeight(), -1, 1);
 
                 for (Entity ent : ents) {
                     new PosTexture(ent.texture.getWidth(), ent.texture.getHeight()).renderTexture(ent.texture,
@@ -79,27 +78,31 @@ public class SceneManager {
 
                 if (isPressed(GLFW_KEY_W)) {
                     if (ImGuiLayer.invertCamMovement)
-                        cam.transform.addY(-ImGuiLayer.camSpeed[0]);
+                        ImGuiLayer.camPos[1] -= ImGuiLayer.camSpeed[0];
                     else
-                        cam.transform.addY(ImGuiLayer.camSpeed[0]);
+                        ImGuiLayer.camPos[1] += ImGuiLayer.camSpeed[0];
+                    ImGuiLayer.applyCamPos();
                 }
                 if (isPressed(GLFW_KEY_A)) {
                     if (ImGuiLayer.invertCamMovement)
-                        cam.transform.addX(ImGuiLayer.camSpeed[0]);
+                        ImGuiLayer.camPos[0] += ImGuiLayer.camSpeed[0];
                     else
-                        cam.transform.addX(-ImGuiLayer.camSpeed[0]);
+                        ImGuiLayer.camPos[0] -= ImGuiLayer.camSpeed[0];
+                    ImGuiLayer.applyCamPos();
                 }
                 if (isPressed(GLFW_KEY_S)) {
                     if (ImGuiLayer.invertCamMovement)
-                        cam.transform.addY(ImGuiLayer.camSpeed[0]);
+                        ImGuiLayer.camPos[1] += ImGuiLayer.camSpeed[0];
                     else
-                        cam.transform.addY(-ImGuiLayer.camSpeed[0]);
+                        ImGuiLayer.camPos[1] -= ImGuiLayer.camSpeed[0];
+                    ImGuiLayer.applyCamPos();
                 }
                 if (isPressed(GLFW_KEY_D)) {
                     if (ImGuiLayer.invertCamMovement)
-                        cam.transform.addX(-ImGuiLayer.camSpeed[0]);
+                        ImGuiLayer.camPos[0] -= ImGuiLayer.camSpeed[0];
                     else
-                        cam.transform.addX(ImGuiLayer.camSpeed[0]);
+                        ImGuiLayer.camPos[0] += ImGuiLayer.camSpeed[0];
+                    ImGuiLayer.applyCamPos();
                 }
                 cam.init();
                 if (isPressed(GLFW_KEY_MINUS) && !cooldown_m) {
@@ -121,7 +124,6 @@ public class SceneManager {
                 }
 //                if (cam.getPosition().z != ImGuiLayer.camZ.floatValue())
 //                    cam.getPosition().z = ImGuiLayer.camZ.floatValue();
-                // TODO: 1. сделать Transform не int, а float 2. сделать current cam pos через ImGui.FloatSlider3
                 // TODO: сделать так, чтобы все сущ. камеры были в ArrayList из камер
 
                 end = Timer.getTime();

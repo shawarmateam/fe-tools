@@ -17,6 +17,10 @@ public class Camera {
         pos = new Vector3f(transform.getX(), transform.getY(), 0);
     }
 
+    public void setZ(float z) {
+        pos.z = z;
+    }
+
     public Vector3f getPosition() {return pos;}
     public Matrix4f getProjection() {
         Matrix4f target = new Matrix4f();
