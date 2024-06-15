@@ -11,7 +11,6 @@ public class Camera {
         this.transform = transform;
         pos = new Vector3f(transform.getX(),transform.getY(),0);
         projection = new Matrix4f().setOrtho2D(-transform.sizeX /2,transform.sizeX /2,-transform.sizeY /2,transform.sizeY /2);
-//        projection = new Matrix4f().setOrtho2D(0,transform.sizeX,transform.sizeY,0);
     }
     public void init() {
         pos = new Vector3f(transform.getX(), transform.getY(), 0);

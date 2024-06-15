@@ -1,13 +1,20 @@
 import fonts.CFont;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
+import org.lwjgl.glfw.GLFWImage;
 import org.lwjgl.opengl.*;
 import physic.Timer;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class SceneManager {
     public static ArrayList<Entity> ents = new ArrayList<>();
@@ -52,6 +59,7 @@ public class SceneManager {
         SceneManagersWindow.imGuiLayer = new ImGuiLayer(window);
         SceneManagersWindow.imGuiLayer.initImGui();
         WindowSizeListener.resizeCallbackSM(window, SceneManagersWindow.getWidth(), SceneManagersWindow.getHeight());
+
         while (!glfwWindowShouldClose(window)) {
             glfwPollEvents();
             if (canRender) {
