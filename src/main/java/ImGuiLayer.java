@@ -6,7 +6,12 @@ import imgui.flag.ImGuiConfigFlags;
 import imgui.flag.ImGuiKey;
 import imgui.flag.ImGuiMouseCursor;
 import imgui.gl3.ImGuiImplGl3;
+import imgui.type.ImBoolean;
 import imgui.type.ImFloat;
+import imgui.type.ImInt;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -19,6 +24,8 @@ public class ImGuiLayer {
     public static float[] camPos = new float[] {0f, 0f, 0f};
     // Mouse cursors provided by GLFW
     private final long[] mouseCursors = new long[ImGuiMouseCursor.COUNT];
+    ArrayList<Boolean> selection = new ArrayList<>();
+    ImBoolean[] selectionBoolean;
 
     // LWJGL3 renderer (SHOULD be initialized)
     private final ImGuiImplGl3 imGuiGl3 = new ImGuiImplGl3();
@@ -216,6 +223,33 @@ public class ImGuiLayer {
                 SceneManager.cam.transform.setY(camPos[1]);
                 SceneManager.cam.setZ(camPos[2]);
                 SceneManager.cam.init();
+            }
+        }
+        ImGui.end();
+
+        if (ImGui.begin("Entities")) {
+            ArrayList<String> ents_name = new ArrayList<>();
+            for (Entity i : SceneManager.ents) {
+                ents_name.add(i.name);
+            }
+
+            if (ents_name.size() > selection.size()) {
+                selection.clear();
+                for (int i = 0; i < ents_name.size(); i++) {
+                    selection.add(false);
+                }
+                selectionBoolean = new ImBoolean[selection.size()];
+                for (int i = 0; i < selection.size(); i++) {
+                    selectionBoolean[i] = new ImBoolean(selection.get(i));
+                }
+            }
+
+            for (int i = 0; i < ents_name.size(); i++) {
+                if (ImGui.selectable(ents_name.get(i), selectionBoolean[i])) {
+                    if (!ImGui.getIO().getKeyCtrl())
+                        Arrays.fill(selectionBoolean, new ImBoolean(false));
+                    selectionBoolean[i] = new ImBoolean(true);
+                }
             }
         }
         ImGui.end();
