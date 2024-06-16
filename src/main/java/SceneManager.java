@@ -23,8 +23,8 @@ public class SceneManager {
     private static int FPS = 60;
     public static boolean canRender = true;
     public double sec_per_frame = 1.0/FPS;
-    private boolean cooldown_m = false;
-    private boolean cooldown_p = false;
+    private static boolean cooldown_m = false;
+    private static boolean cooldown_p = false;
     public static boolean updateProjSize = false;
     public static boolean isSceneStarted = false;
 //    public static PosTexture texture;
@@ -87,54 +87,10 @@ public class SceneManager {
                     updateProjSize=false;
                 }
 
-                if (isPressed(GLFW_KEY_W)) {
-                    if (ImGuiLayer.invertCamMovement)
-                        ImGuiLayer.camPos[1] -= ImGuiLayer.camSpeed[0];
-                    else
-                        ImGuiLayer.camPos[1] += ImGuiLayer.camSpeed[0];
-                    ImGuiLayer.applyCamPos();
+                boolean isAnyWinFocused = ImGuiLayer.isAnyWindowFocused();
+                if (isSceneStarted && !isAnyWinFocused) {
+                    checkHotKey();
                 }
-                if (isPressed(GLFW_KEY_A)) {
-                    if (ImGuiLayer.invertCamMovement)
-                        ImGuiLayer.camPos[0] += ImGuiLayer.camSpeed[0];
-                    else
-                        ImGuiLayer.camPos[0] -= ImGuiLayer.camSpeed[0];
-                    ImGuiLayer.applyCamPos();
-                }
-                if (isPressed(GLFW_KEY_S)) {
-                    if (ImGuiLayer.invertCamMovement)
-                        ImGuiLayer.camPos[1] += ImGuiLayer.camSpeed[0];
-                    else
-                        ImGuiLayer.camPos[1] -= ImGuiLayer.camSpeed[0];
-                    ImGuiLayer.applyCamPos();
-                }
-                if (isPressed(GLFW_KEY_D)) {
-                    if (ImGuiLayer.invertCamMovement)
-                        ImGuiLayer.camPos[0] -= ImGuiLayer.camSpeed[0];
-                    else
-                        ImGuiLayer.camPos[0] += ImGuiLayer.camSpeed[0];
-                    ImGuiLayer.applyCamPos();
-                }
-                cam.init();
-                if (isPressed(GLFW_KEY_MINUS) && !cooldown_m) {
-                    if (ImGuiLayer.camSpeed[0] > 1) {
-                        ImGuiLayer.camSpeed[0] -= 1;
-                        cooldown_m = true;
-                    }
-                } else if (!isPressed(GLFW_KEY_MINUS)) {
-                    cooldown_m = false;
-                }
-
-                if (isPressed(GLFW_KEY_EQUAL) && isPressed(GLFW_KEY_LEFT_SHIFT) && !cooldown_p) {
-                    if (ImGuiLayer.camSpeed[0] < 25) {
-                        ImGuiLayer.camSpeed[0] += 1;
-                        cooldown_p = true;
-                    }
-                } else if (!isPressed(GLFW_KEY_EQUAL) || !isPressed(GLFW_KEY_LEFT_SHIFT)) {
-                    cooldown_p = false;
-                }
-//                if (cam.getPosition().z != ImGuiLayer.camZ.floatValue())
-//                    cam.getPosition().z = ImGuiLayer.camZ.floatValue();
                 // TODO: сделать так, чтобы все сущ. камеры были в ArrayList из камер
 
                 end = Timer.getTime();
@@ -144,6 +100,55 @@ public class SceneManager {
             if (Timer.getTime() > start+sec_per_frame) {
                 canRender=true;
             }
+        }
+    }
+
+    public static void checkHotKey() {
+        if (isPressed(GLFW_KEY_W)) {
+            if (ImGuiLayer.invertCamMovement)
+                ImGuiLayer.camPos[1] -= ImGuiLayer.camSpeed[0];
+            else
+                ImGuiLayer.camPos[1] += ImGuiLayer.camSpeed[0];
+            ImGuiLayer.applyCamPos();
+        }
+        if (isPressed(GLFW_KEY_A)) {
+            if (ImGuiLayer.invertCamMovement)
+                ImGuiLayer.camPos[0] += ImGuiLayer.camSpeed[0];
+            else
+                ImGuiLayer.camPos[0] -= ImGuiLayer.camSpeed[0];
+            ImGuiLayer.applyCamPos();
+        }
+        if (isPressed(GLFW_KEY_S)) {
+            if (ImGuiLayer.invertCamMovement)
+                ImGuiLayer.camPos[1] += ImGuiLayer.camSpeed[0];
+            else
+                ImGuiLayer.camPos[1] -= ImGuiLayer.camSpeed[0];
+            ImGuiLayer.applyCamPos();
+        }
+        if (isPressed(GLFW_KEY_D)) {
+            if (ImGuiLayer.invertCamMovement)
+                ImGuiLayer.camPos[0] -= ImGuiLayer.camSpeed[0];
+            else
+                ImGuiLayer.camPos[0] += ImGuiLayer.camSpeed[0];
+            ImGuiLayer.applyCamPos();
+        }
+        cam.init();
+        if (isPressed(GLFW_KEY_MINUS) && !cooldown_m) {
+            if (ImGuiLayer.camSpeed[0] > 1) {
+                ImGuiLayer.camSpeed[0] -= 1;
+                cooldown_m = true;
+            }
+        } else if (!isPressed(GLFW_KEY_MINUS)) {
+            cooldown_m = false;
+        }
+
+        if (isPressed(GLFW_KEY_EQUAL) && isPressed(GLFW_KEY_LEFT_SHIFT) && !cooldown_p) {
+            if (ImGuiLayer.camSpeed[0] < 25) {
+                ImGuiLayer.camSpeed[0] += 1;
+                cooldown_p = true;
+            }
+        } else if (!isPressed(GLFW_KEY_EQUAL) || !isPressed(GLFW_KEY_LEFT_SHIFT)) {
+            cooldown_p = false;
         }
     }
 

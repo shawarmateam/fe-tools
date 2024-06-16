@@ -23,7 +23,7 @@ public class ImGuiLayer {
     public static boolean invertCamMovement = false;
     public static boolean hideBar = false;
     public static float[] camPos = new float[] {0f, 0f, 0f};
-    // Mouse cursors provided by GLFW
+    private static boolean isAnyWindowFocused = false;
     private final long[] mouseCursors = new long[ImGuiMouseCursor.COUNT];
     ArrayList<Boolean> selection = new ArrayList<>();
     ImBoolean[] selectionBoolean;
@@ -225,6 +225,9 @@ public class ImGuiLayer {
                 SceneManager.cam.setZ(camPos[2]);
                 SceneManager.cam.init();
             }
+
+            if (ImGui.isWindowFocused())
+                isAnyWindowFocused=true;
         }
         ImGui.end();
 
@@ -252,6 +255,8 @@ public class ImGuiLayer {
                     selectionBoolean[i] = new ImBoolean(true);
                 }
             }
+            if (ImGui.isWindowFocused())
+                isAnyWindowFocused=true;
         }
         ImGui.end();
 
@@ -311,6 +316,14 @@ public class ImGuiLayer {
         // After Dear ImGui prepared a draw data, we use it in the LWJGL3 renderer.
         // At that moment ImGui will be rendered to the current OpenGL context.
         imGuiGl3.renderDrawData(ImGui.getDrawData());
+    }
+
+    public static boolean isAnyWindowFocused() {
+        if (isAnyWindowFocused) {
+            isAnyWindowFocused=false;
+            return true;
+        }
+        return false;
     }
 
     // If you want to clean a room after yourself - do it by yourself
