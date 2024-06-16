@@ -10,6 +10,7 @@ import imgui.type.ImBoolean;
 import imgui.type.ImFloat;
 import imgui.type.ImInt;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -257,7 +258,10 @@ public class ImGuiLayer {
         if (!hideBar) {
             if (ImGui.beginMainMenuBar()) {
                 if (ImGui.beginMenu("File")) {
-                    if (ImGui.menuItem("test")) {}
+                    if (ImGui.menuItem("Open")) {
+                        SceneLoader.readScene(new File("/home/adisteyf/IdeaProjects/FilesEngine/assets/sample.lvl"));
+                        SceneManager.isSceneStarted = true;
+                    }
                     ImGui.endMenu();
                 }
                 if (ImGui.beginMenu("Edit")) {

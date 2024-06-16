@@ -26,6 +26,7 @@ public class SceneManager {
     private boolean cooldown_m = false;
     private boolean cooldown_p = false;
     public static boolean updateProjSize = false;
+    public static boolean isSceneStarted = false;
 //    public static PosTexture texture;
     public void run() {
         window = SceneManagersWindow.getWindow();
@@ -49,13 +50,13 @@ public class SceneManager {
         double start = Timer.getTime();
         double end = Timer.getTime();
         double dt = 0;
-        SceneLoader.readScene(new File("/home/adisteyf/IdeaProjects/FilesEngine/assets/sample.lvl"));
+        //SceneLoader.readScene(new File("/home/adisteyf/IdeaProjects/FilesEngine/assets/sample.lvl"));
         //RenderText.setUpFonts();
         Batch test = new Batch();
-        test.font = new CFont("assets/Roboto-Black.ttf", 30);
+        test.font = new CFont("assets/JetBrainsMonoNL-Medium.ttf", 25);
         test.shader = shader;
         test.initBatch();
-        RenderTexture text = new RenderTexture(test.getText("привет", "#ffffff", "#f5c242", test.font.getBitmap()));
+        RenderTexture text = new RenderTexture(test.getText("Not a single project was launched.", "#ffffff", test.font.getBitmap()));
         SceneManagersWindow.imGuiLayer = new ImGuiLayer(window);
         SceneManagersWindow.imGuiLayer.initImGui();
         WindowSizeListener.resizeCallbackSM(window, SceneManagersWindow.getWidth(), SceneManagersWindow.getHeight());
@@ -73,7 +74,9 @@ public class SceneManager {
                             ent.transform.getX(), ent.transform.getY(),
                             shader, scale, cam);
                 }
-                new PosTexture(text.getWidth(), text.getHeight()).renderTexture(text,-1,2,shader,scale,cam);
+                if (!isSceneStarted) {
+                    new PosTexture(text.getWidth(), text.getHeight()).renderTexture(text, -3.4f, 1, shader, scale, cam);
+                }
                 SceneManagersWindow.imGuiLayer.update((float) dt);
 //                test.addText("переделываю", 200, 200, .5f, 0xFF00AB0);
 
