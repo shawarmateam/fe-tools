@@ -26,6 +26,7 @@ public class ImGuiLayer {
     private static boolean isAnyWindowFocused = false;
     private final long[] mouseCursors = new long[ImGuiMouseCursor.COUNT];
     ArrayList<Boolean> selection = new ArrayList<>();
+    ArrayList<String> ents_name = new ArrayList<>();
     ImBoolean[] selectionBoolean;
 
     // LWJGL3 renderer (SHOULD be initialized)
@@ -232,7 +233,7 @@ public class ImGuiLayer {
         ImGui.end();
 
         if (ImGui.begin("Entities")) {
-            ArrayList<String> ents_name = new ArrayList<>();
+            ents_name = new ArrayList<>();
             for (Entity i : SceneManager.ents) {
                 ents_name.add(i.name);
             }
@@ -259,6 +260,33 @@ public class ImGuiLayer {
                 isAnyWindowFocused=true;
         }
         ImGui.end();
+
+        if (ImGui.begin("Inspector")) {
+            Entity ent=null;
+            for (int i = 0; i < ents_name.size(); i++) {
+                if (selectionBoolean != null && selectionBoolean[i].get()) {
+                    ent = EntityScripts.getEntityByName(ents_name.get(i));
+                    break;
+                }
+            }
+
+            if (ent == null)
+                ImGui.text("No entity has been selected yet.");
+            else {
+                float[] ent_pos = new float[]{
+                        ent.transform.getX(),
+                        ent.transform.getY()
+                };
+                ImGui.dragFloat2("pos", ent_pos);
+                if (EntityScripts.getEntityByName(ent.name).transform.getX() != ent_pos[0] ||
+                    EntityScripts.getEntityByName(ent.name).transform.getY() != ent_pos[1])
+                {
+                    EntityScripts.getEntityByName(ent.name).transform.setX(ent_pos[0]);
+                    EntityScripts.getEntityByName(ent.name).transform.setY(ent_pos[1]);
+                }
+            }
+            ImGui.end();
+        }
 
         if (!hideBar) {
             if (ImGui.beginMainMenuBar()) {

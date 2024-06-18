@@ -106,16 +106,24 @@ public class Batch {
     public BufferedImage getCharacter(char c, String rgb, BufferedImage bitmap) {
         CharInfo charInfo = font.getCharacter(c);
         BufferedImage letter = bitmap.getSubimage(charInfo.sourceX,charInfo.sourceY-charInfo.height,charInfo.width,charInfo.height+10);
-        Color color = Color.decode(rgb);
-        if (!color.equals(Color.WHITE)) {
-            for (int y = 0; y < letter.getHeight(); y++) {
-                for (int x = 0; x < letter.getWidth(); x++) {
-                    if (letter.getRGB(x, y) != 0) {
-                        letter.setRGB(x, y, color.getRGB());
-                    }
-                }
-            }
-        }
+//        Color color = Color.decode(rgb);
+//        if (!color.equals(Color.WHITE)) {
+//            for (int y = 0; y < letter.getHeight(); y++) {
+//                for (int x = 0; x < letter.getWidth(); x++) {
+//                    if (letter.getRGB(x, y) != 0) {
+//                        letter.setRGB(x, y, color.getRGB());
+//                    }
+//                }
+//            }
+//        }
+//        if (c=='g') {
+//            File file = new File("letter.png");
+//            try {
+//                ImageIO.write(letter, "png", file);
+//            } catch (IOException e) {
+//                System.out.println("Ошибка при сохранении изображения: " + e.getMessage());
+//            }
+//        }
         return letter;
     }
 

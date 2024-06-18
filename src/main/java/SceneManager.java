@@ -1,20 +1,11 @@
 import fonts.CFont;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
-import org.lwjgl.glfw.GLFWImage;
 import org.lwjgl.opengl.*;
 import physic.Timer;
-
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.system.MemoryUtil.NULL;
 
 public class SceneManager {
     public static ArrayList<Entity> ents = new ArrayList<>();
@@ -33,12 +24,14 @@ public class SceneManager {
         GL.createCapabilities();
         cam = new Camera(new Transform(0,0,600,600,1000,1000));
         glEnable(GL_TEXTURE_2D);
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_SRC_ALPHA);
     }
 
     public void loop() {
         Shader shader = new Shader("shader.glsl");
         Matrix4f projection = new Matrix4f()
-                .ortho2D(-cam.transform.sizeX/2, cam.transform.sizeX/2, -cam.transform.sizeY/2, cam.transform.sizeY/2);
+                .ortho2D(cam.transform.sizeX/2, -cam.transform.sizeX/2, -cam.transform.sizeY/2, cam.transform.sizeY/2);
         Matrix4f scale = new Matrix4f()
                 .translate(new Vector3f(0, 0, 0))
                 .scale(80);
@@ -82,7 +75,7 @@ public class SceneManager {
 
                 if (updateProjSize) {
                     projection = new Matrix4f()
-                            .ortho2D(-cam.transform.sizeX/2, cam.transform.sizeX/2, -cam.transform.sizeY/2, cam.transform.sizeY/2);
+                            .ortho2D(cam.transform.sizeX/2, -cam.transform.sizeX/2, -cam.transform.sizeY/2, cam.transform.sizeY/2);
                     projection.mul(scale, target);
                     updateProjSize=false;
                 }
