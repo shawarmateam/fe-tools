@@ -1,3 +1,4 @@
+import listeners.MouseListener;
 import org.lwjgl.glfw.*;
 import org.lwjgl.system.*;
 import java.nio.*;
@@ -69,6 +70,7 @@ public class Window {
             );
             targetAspectRatio = (float)vidmode.width() / (float)vidmode.height();
             glfwSetWindowSizeCallback(window, WindowSizeListener::resizeCallbackApp);
+            glfwSetScrollCallback(window, MouseListener::mouseScrollCallback);
         } // the stack frame is popped automatically
 
         // Make the OpenGL context current

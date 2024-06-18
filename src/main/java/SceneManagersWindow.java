@@ -1,3 +1,4 @@
+import listeners.MouseListener;
 import org.lwjgl.glfw.*;
 import org.lwjgl.system.*;
 import java.nio.*;
@@ -44,7 +45,7 @@ public class SceneManagersWindow {
         // Configure GLFW
         glfwDefaultWindowHints(); // optional, the current window hints are already the default
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE); // the window will stay hidden after creation
-        glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE); // the window will not be resizable
+        glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be resizable
 
         // Create the window
         window = glfwCreateWindow(width, height, "Files Engine", NULL, NULL);
@@ -70,6 +71,7 @@ public class SceneManagersWindow {
             );
             targetAspectRatio = (float)vidmode.width() / (float)vidmode.height();
             glfwSetWindowSizeCallback(window, WindowSizeListener::resizeCallbackSM);
+            glfwSetScrollCallback(window, MouseListener::mouseScrollCallback);
         } // the stack frame is popped automatically
 
         // Make the OpenGL context current

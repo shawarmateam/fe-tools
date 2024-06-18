@@ -227,6 +227,10 @@ public class ImGuiLayer {
                 SceneManager.cam.init();
             }
 
+            if (ImGui.dragInt("Cam zooming", SceneManager.scaleOfCam)) {
+                SceneManager.updateScaleOfCam = true;
+            }
+
             if (ImGui.isWindowFocused())
                 isAnyWindowFocused=true;
         }

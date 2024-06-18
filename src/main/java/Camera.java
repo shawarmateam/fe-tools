@@ -10,7 +10,7 @@ public class Camera {
     public Camera(Transform transform) {
         this.transform = transform;
         pos = new Vector3f(transform.getX(),transform.getY(),0);
-        projection = new Matrix4f().setOrtho2D(transform.sizeX /2,-transform.sizeX /2,-transform.sizeY /2,transform.sizeY /2);
+        projection = new Matrix4f().setOrtho2D(transform.sizeX /2,-transform.sizeX /2,transform.sizeY /2,-transform.sizeY /2);
     }
     public void init() {
         pos = new Vector3f(transform.getX(), transform.getY(), 0);

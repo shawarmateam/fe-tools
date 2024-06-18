@@ -17,14 +17,10 @@ public class PosTexture {
                 x,       y-height, 0, // BOTTOM LEFT  3
         };
         float[] texture = new float[] {
-//                0,0,
-//                1,0,
-//                1,1,
-//                0,1
-                1,0,
-                0,0,
+                1,1,
                 0,1,
-                1,1
+                0,0,
+                1,0
         };
         int[] indices = new int[] {
                 0,1,2,

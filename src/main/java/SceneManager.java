@@ -18,6 +18,8 @@ public class SceneManager {
     private static boolean cooldown_p = false;
     public static boolean updateProjSize = false;
     public static boolean isSceneStarted = false;
+    public static int[] scaleOfCam = new int[] {80};
+    public static boolean updateScaleOfCam = false;
 //    public static PosTexture texture;
     public void run() {
         window = SceneManagersWindow.getWindow();
@@ -31,10 +33,10 @@ public class SceneManager {
     public void loop() {
         Shader shader = new Shader("shader.glsl");
         Matrix4f projection = new Matrix4f()
-                .ortho2D(cam.transform.sizeX/2, -cam.transform.sizeX/2, -cam.transform.sizeY/2, cam.transform.sizeY/2);
+                .ortho2D(cam.transform.sizeX/2, -cam.transform.sizeX/2, cam.transform.sizeY/2, -cam.transform.sizeY/2);
         Matrix4f scale = new Matrix4f()
                 .translate(new Vector3f(0, 0, 0))
-                .scale(80);
+                .scale(scaleOfCam[0]);
         Matrix4f target = new Matrix4f();
         projection.mul(scale, target);
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
@@ -73,9 +75,15 @@ public class SceneManager {
                 SceneManagersWindow.imGuiLayer.update((float) dt);
 //                test.addText("переделываю", 200, 200, .5f, 0xFF00AB0);
 
+                if (updateScaleOfCam) {
+                    scale = new Matrix4f()
+                            .translate(new Vector3f(0, 0, 0))
+                            .scale(scaleOfCam[0]);
+                    updateScaleOfCam=false;
+                }
                 if (updateProjSize) {
                     projection = new Matrix4f()
-                            .ortho2D(cam.transform.sizeX/2, -cam.transform.sizeX/2, -cam.transform.sizeY/2, cam.transform.sizeY/2);
+                            .ortho2D(cam.transform.sizeX/2, -cam.transform.sizeX/2, cam.transform.sizeY/2, -cam.transform.sizeY/2);
                     projection.mul(scale, target);
                     updateProjSize=false;
                 }

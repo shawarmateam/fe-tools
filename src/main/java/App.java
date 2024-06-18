@@ -28,7 +28,7 @@ public class App {
     public void loop() {
         Shader shader = new Shader("shader.glsl");
         Matrix4f projection = new Matrix4f()
-                .ortho2D(-cam.transform.sizeX/2, cam.transform.sizeX/2, -cam.transform.sizeY/2, cam.transform.sizeY/2);
+                .ortho2D(cam.transform.sizeX/2, -cam.transform.sizeX/2, cam.transform.sizeY/2, -cam.transform.sizeY/2);
         Matrix4f scale = new Matrix4f()
                 .translate(new Vector3f(0, 0, 0))
                 .scale(80);
