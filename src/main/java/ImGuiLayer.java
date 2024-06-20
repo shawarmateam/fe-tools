@@ -31,6 +31,7 @@ public class ImGuiLayer {
     ImString dir = new ImString(pwd);
     private String path_to_lvl;
     private boolean isOpenClickable = false;
+    boolean isOpenClicked=false;
 
     // LWJGL3 renderer (SHOULD be initialized)
     private final ImGuiImplGl3 imGuiGl3 = new ImGuiImplGl3();
@@ -298,14 +299,17 @@ public class ImGuiLayer {
         if (startFileChooser)
             fileChooser();
 
+        if (isOpenClicked) {
+            SceneLoader.readScene(new File(path_to_lvl));
+            SceneManager.isSceneStarted=true;
+            isOpenClicked=false;
+        }
+
         if (!hideBar) {
             if (ImGui.beginMainMenuBar()) {
                 if (ImGui.beginMenu("File")) {
                     if (ImGui.menuItem("Open")) {
                         startFileChooser=true;
-//                        fileChooser();
-                        //SceneLoader.readScene(new File("/home/adisteyf/IdeaProjects/FilesEngine/assets/sample.lvl"));
-                        //SceneManager.isSceneStarted = true;
                     }
                     ImGui.endMenu();
                 }
@@ -364,6 +368,7 @@ public class ImGuiLayer {
             ImGui.sameLine();
             if (isOpenClickable && ImGui.button("open")) {
                 startFileChooser=false;
+                isOpenClicked=true;
                 System.out.println("'"+path_to_lvl+"'");
             }
             ImGui.end();
