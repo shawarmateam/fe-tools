@@ -43,6 +43,7 @@ public class MouseListener {
                     break;
             }
         }
+        System.out.println(mouse1);
     }
 
     public static void mouseScrollCallback(long window, double x_off, double y_off) {

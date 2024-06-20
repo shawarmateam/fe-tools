@@ -1,6 +1,8 @@
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
+import static org.lwjgl.opengl.GL11.*;
+
 public class PosTexture {
     private Model model;
     public PosTexture(float w, float h) {
@@ -29,6 +31,8 @@ public class PosTexture {
         model = new Model(vertices, texture, indices);
     }
     public void renderTexture(RenderTexture texture, float x, float y, Shader shader, Matrix4f world, Camera cam) {
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         shader.bind();
         texture.bind(0);
         Matrix4f tex_pos = new Matrix4f().translate(new Vector3f(x, y-(y*(-70)/100), 0));
@@ -38,5 +42,6 @@ public class PosTexture {
         shader.setUniform("sampler", 0);
         shader.setUniform("projection", target);
         model.render();
+        glDisable(GL_BLEND);
     }
 }

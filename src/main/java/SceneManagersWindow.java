@@ -72,6 +72,7 @@ public class SceneManagersWindow {
             targetAspectRatio = (float)vidmode.width() / (float)vidmode.height();
             glfwSetWindowSizeCallback(window, WindowSizeListener::resizeCallbackSM);
             glfwSetScrollCallback(window, MouseListener::mouseScrollCallback);
+            glfwSetMouseButtonCallback(window, MouseListener::mouseButtonCallback);
         } // the stack frame is popped automatically
 
         // Make the OpenGL context current

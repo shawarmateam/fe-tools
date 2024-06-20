@@ -6,6 +6,7 @@ import physic.Timer;
 import java.util.ArrayList;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL14.glBlendFuncSeparate;
 
 public class SceneManager {
     public static ArrayList<Entity> ents = new ArrayList<>();
@@ -26,8 +27,6 @@ public class SceneManager {
         GL.createCapabilities();
         cam = new Camera(new Transform(0,0,600,600,1000,1000));
         glEnable(GL_TEXTURE_2D);
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_SRC_ALPHA);
     }
 
     public void loop() {

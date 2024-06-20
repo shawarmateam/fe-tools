@@ -6,6 +6,7 @@ public class Camera {
     public Transform transform;
     private Vector3f pos;
     private Matrix4f projection;
+    private float zPos = 0;
 
     public Camera(Transform transform) {
         this.transform = transform;
@@ -13,11 +14,12 @@ public class Camera {
         projection = new Matrix4f().setOrtho2D(transform.sizeX /2,-transform.sizeX /2,transform.sizeY /2,-transform.sizeY /2);
     }
     public void init() {
-        pos = new Vector3f(transform.getX(), transform.getY(), 0);
+        pos = new Vector3f(transform.getX(), transform.getY(), zPos);
     }
 
     public void setZ(float z) {
         pos.z = z;
+        zPos = z;
     }
 
     public Vector3f getPosition() {return pos;}

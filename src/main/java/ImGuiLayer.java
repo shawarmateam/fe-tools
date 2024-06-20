@@ -1,14 +1,12 @@
 import imgui.*;
 import imgui.callback.ImStrConsumer;
 import imgui.callback.ImStrSupplier;
-import imgui.flag.ImGuiBackendFlags;
-import imgui.flag.ImGuiConfigFlags;
-import imgui.flag.ImGuiKey;
-import imgui.flag.ImGuiMouseCursor;
+import imgui.flag.*;
 import imgui.gl3.ImGuiImplGl3;
 import imgui.type.ImBoolean;
 import imgui.type.ImFloat;
 import imgui.type.ImInt;
+import imgui.type.ImString;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -28,6 +26,11 @@ public class ImGuiLayer {
     ArrayList<Boolean> selection = new ArrayList<>();
     ArrayList<String> ents_name = new ArrayList<>();
     ImBoolean[] selectionBoolean;
+    private boolean startFileChooser = false;
+    String pwd=(System.getenv("PWD")!=null)?System.getenv("PWD"):System.getenv("cd");
+    ImString dir = new ImString(pwd);
+    private String path_to_lvl;
+    private boolean isOpenClickable = false;
 
     // LWJGL3 renderer (SHOULD be initialized)
     private final ImGuiImplGl3 imGuiGl3 = new ImGuiImplGl3();
@@ -227,7 +230,7 @@ public class ImGuiLayer {
                 SceneManager.cam.init();
             }
 
-            if (ImGui.dragInt("Cam zooming", SceneManager.scaleOfCam)) {
+            if (ImGui.dragInt("cam zooming", SceneManager.scaleOfCam)) {
                 SceneManager.updateScaleOfCam = true;
             }
 
@@ -292,12 +295,17 @@ public class ImGuiLayer {
             ImGui.end();
         }
 
+        if (startFileChooser)
+            fileChooser();
+
         if (!hideBar) {
             if (ImGui.beginMainMenuBar()) {
                 if (ImGui.beginMenu("File")) {
                     if (ImGui.menuItem("Open")) {
-                        SceneLoader.readScene(new File("/home/adisteyf/IdeaProjects/FilesEngine/assets/sample.lvl"));
-                        SceneManager.isSceneStarted = true;
+                        startFileChooser=true;
+//                        fileChooser();
+                        //SceneLoader.readScene(new File("/home/adisteyf/IdeaProjects/FilesEngine/assets/sample.lvl"));
+                        //SceneManager.isSceneStarted = true;
                     }
                     ImGui.endMenu();
                 }
@@ -305,10 +313,61 @@ public class ImGuiLayer {
                     if (ImGui.menuItem("test2")) {}
                     ImGui.endMenu();
                 }
+                ImGui.endMainMenuBar();
             }
-            ImGui.endMainMenuBar();
         }
         ImGui.showDemoWindow();
+    }
+
+    public void fileChooser() {
+        if (ImGui.begin("Open as")) {
+            File dir_f = new File(dir.get());
+
+            ImGui.inputText("##input", dir);
+            ImGui.sameLine();
+            if (ImGui.button("<")) {
+                dir = new ImString(dir_f.getParent());
+            }
+            ImGui.separator();
+
+            File[] files = dir_f.listFiles();
+            if (files!=null) {
+                for (File file : files) {
+                    if (file.isDirectory()) {
+                        if (ImGui.selectable("D: " + file.getName(), false)) {
+                            //dir=new ImString(dir.get()+"/"+file.getName());
+                            dir = new ImString(new File(dir_f, file.getName()).getPath());
+                            ImGui.openPopup("Open as");
+                        }
+                    }
+                    else {
+                        boolean isDotPassed = false;
+                        StringBuilder extension = new StringBuilder();
+                        for (int i = 0; i < file.getName().length(); i++) {
+                            if (file.getName().charAt(i) == '.') {
+                                isDotPassed=true;
+                            } else if (isDotPassed) {
+                                extension.append(file.getName().charAt(i));
+                            }
+                        }
+                        if (extension.toString().equals("lvl") && ImGui.selectable("F: " + file.getName(), false)) {
+                            path_to_lvl = file.getPath();
+                            isOpenClickable=true;
+                        }
+                    }
+                }
+            }
+
+            ImGui.separator();
+            if (ImGui.button("cancel"))
+                startFileChooser=false;
+            ImGui.sameLine();
+            if (isOpenClickable && ImGui.button("open")) {
+                startFileChooser=false;
+                System.out.println("'"+path_to_lvl+"'");
+            }
+            ImGui.end();
+        }
     }
 
     public void update(float dt) {
