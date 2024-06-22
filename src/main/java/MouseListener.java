@@ -16,40 +16,40 @@ public class MouseListener {
     }
 
     public static void mouseButtonCallback(long window, int button, int action, int mods) {
-        if (!ImGuiLayer.wantCaptureMouse) {
-            if (action == GLFW_PRESS) {
-                switch (button) {
-                    case 0:
-                        mouse1 = true;
-                        break;
-                    case 1:
-                        mouse2 = true;
-                        break;
-                    case 2:
-                        mouse3 = true;
-                        break;
-                }
-            } else if (action == GLFW_RELEASE) {
-                switch (button) {
-                    case 0:
-                        mouse1 = false;
-                        break;
-                    case 1:
-                        mouse2 = false;
-                        break;
-                    case 2:
-                        mouse3 = false;
-                        break;
-                }
+        if (action == GLFW_PRESS) {
+            switch (button) {
+                case 0:
+                    mouse1 = true;
+                    break;
+                case 1:
+                    mouse2 = true;
+                    break;
+                case 2:
+                    mouse3 = true;
+                    break;
             }
-            System.out.println(mouse1);
+        } else if (action == GLFW_RELEASE) {
+            switch (button) {
+                case 0:
+                    mouse1 = false;
+                    break;
+                case 1:
+                    mouse2 = false;
+                    break;
+                case 2:
+                    mouse3 = false;
+                    break;
+            }
         }
+        System.out.println(mouse3);
     }
 
     public static void mouseScrollCallback(long window, double x_off, double y_off) {
         xOff = x_off;
         yOff = y_off;
         System.out.println(xOff+" "+yOff);
+        xOff=0;
+        yOff=0;
     }
 
     public double get_xPos() {return xPos;}
