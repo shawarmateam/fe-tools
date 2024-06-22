@@ -1,7 +1,5 @@
-package listeners;
-
-import static org.lwjgl.glfw.GLFW.GLFW_PRESS;
-import static org.lwjgl.glfw.GLFW.GLFW_RELEASE;
+import static org.lwjgl.glfw.GLFW.*;
+import static org.lwjgl.glfw.GLFW.glfwSetMouseButtonCallback;
 
 public class MouseListener {
     private static double xPos;
@@ -18,32 +16,34 @@ public class MouseListener {
     }
 
     public static void mouseButtonCallback(long window, int button, int action, int mods) {
-        if (action == GLFW_PRESS) {
-            switch (button) {
-                case 0:
-                    mouse1=true;
-                    break;
-                case 1:
-                    mouse2=true;
-                    break;
-                case 2:
-                    mouse3=true;
-                    break;
+        if (!ImGuiLayer.wantCaptureMouse) {
+            if (action == GLFW_PRESS) {
+                switch (button) {
+                    case 0:
+                        mouse1 = true;
+                        break;
+                    case 1:
+                        mouse2 = true;
+                        break;
+                    case 2:
+                        mouse3 = true;
+                        break;
+                }
+            } else if (action == GLFW_RELEASE) {
+                switch (button) {
+                    case 0:
+                        mouse1 = false;
+                        break;
+                    case 1:
+                        mouse2 = false;
+                        break;
+                    case 2:
+                        mouse3 = false;
+                        break;
+                }
             }
-        } else if (action == GLFW_RELEASE) {
-            switch (button) {
-                case 0:
-                    mouse1=false;
-                    break;
-                case 1:
-                    mouse2=false;
-                    break;
-                case 2:
-                    mouse3=false;
-                    break;
-            }
+            System.out.println(mouse1);
         }
-        System.out.println(mouse1);
     }
 
     public static void mouseScrollCallback(long window, double x_off, double y_off) {

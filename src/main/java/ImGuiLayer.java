@@ -15,7 +15,7 @@ import java.util.Arrays;
 import static org.lwjgl.glfw.GLFW.*;
 
 public class ImGuiLayer {
-
+    public static boolean wantCaptureMouse = false;
     private long glfwWindow;
     public static int[] camSpeed = new int[] {10};
     public static boolean invertCamMovement = false;
@@ -287,7 +287,7 @@ public class ImGuiLayer {
                 };
                 ImGui.dragFloat2("pos", ent_pos);
                 if (EntityScripts.getEntityByName(ent.name).transform.getX() != ent_pos[0] ||
-                    EntityScripts.getEntityByName(ent.name).transform.getY() != ent_pos[1])
+                        EntityScripts.getEntityByName(ent.name).transform.getY() != ent_pos[1])
                 {
                     EntityScripts.getEntityByName(ent.name).transform.setX(ent_pos[0]);
                     EntityScripts.getEntityByName(ent.name).transform.setY(ent_pos[1]);
@@ -401,6 +401,13 @@ public class ImGuiLayer {
         io.setDisplayFramebufferScale(1f, 1f);
         io.setMousePos((float) mousePosX[0], (float) mousePosY[0]);
         io.setDeltaTime(deltaTime);
+        wantCaptureMouse=io.getWantCaptureMouse();
+        if (wantCaptureMouse)
+            initImGui();
+        else {
+            glfwSetScrollCallback(SceneManagersWindow.getWindow(), MouseListener::mouseScrollCallback);
+            glfwSetMouseButtonCallback(SceneManagersWindow.getWindow(), MouseListener::mouseButtonCallback);
+        }
 
         // Update the mouse cursor
         final int imguiCursor = ImGui.getMouseCursor();

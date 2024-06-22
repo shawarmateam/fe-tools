@@ -1,4 +1,3 @@
-import listeners.MouseListener;
 import org.lwjgl.glfw.*;
 import org.lwjgl.system.*;
 import java.nio.*;

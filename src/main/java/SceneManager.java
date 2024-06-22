@@ -6,7 +6,6 @@ import physic.Timer;
 import java.util.ArrayList;
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL14.glBlendFuncSeparate;
 
 public class SceneManager {
     public static ArrayList<Entity> ents = new ArrayList<>();
@@ -54,6 +53,8 @@ public class SceneManager {
         SceneManagersWindow.imGuiLayer = new ImGuiLayer(window);
         SceneManagersWindow.imGuiLayer.initImGui();
         WindowSizeListener.resizeCallbackSM(window, SceneManagersWindow.getWidth(), SceneManagersWindow.getHeight());
+        glfwSetScrollCallback(window, MouseListener::mouseScrollCallback);
+        glfwSetMouseButtonCallback(window, MouseListener::mouseButtonCallback);
 
         while (!glfwWindowShouldClose(window)) {
             glfwPollEvents();
