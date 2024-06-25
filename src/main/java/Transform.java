@@ -100,10 +100,14 @@ public class Transform {
                     }
                 }
             }
-            if (!isCollide || HorOrVer) {
+            if (!isCollide || HorOrVer) { // is collided on x or if isn't collided at all
                 this.y += y;
-            } else if (!blockSide && y > 0 || blockSide && y < 0) {
+            } else if (!blockSide && y > 0 || blockSide && y < 0) { // TODO: <<
                 this.y += y;
+            } else if (!blockSide && y < 0) {
+                this.y += 0.001f; // TODO: сделать чтоб не взависимости от движения он тп на грань первого (любого) куба с которой столкнулся
+            } else if (blockSide && y > 0) { // TODO: добавить эти проверки в цикл (то же самое и для X)
+                this.y -= 0.001f;
             }
         }
     }
