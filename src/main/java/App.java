@@ -45,6 +45,7 @@ public class App {
         WindowSizeListener.resizeCallbackApp(window, Window.getWidth(), Window.getHeight());
 
         while (!glfwWindowShouldClose(window)) {
+            MouseListener.isChanged=false;
             glfwPollEvents();
             if (canRender) {
                 start = end;

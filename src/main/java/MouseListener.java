@@ -9,6 +9,7 @@ public class MouseListener {
     private static boolean mouse3;
     private static double xOff;
     private static double yOff;
+    public static boolean isChanged=false;
 
     public static void mousePosCallback(long window, double xp, double yp) {
         xPos = xp;
@@ -41,22 +42,32 @@ public class MouseListener {
                     break;
             }
         }
-        System.out.println(mouse3);
     }
 
     public static void mouseScrollCallback(long window, double x_off, double y_off) {
+        if (yOff == y_off) {
+            isChanged = true;
+            System.out.println(yOff+" "+y_off);
+        }
+        else
+            isChanged=false;
         xOff = x_off;
         yOff = y_off;
-        System.out.println(xOff+" "+yOff);
-        xOff=0;
-        yOff=0;
     }
 
-    public double get_xPos() {return xPos;}
-    public double get_yPos() {return yPos;}
-    public double get_xOff() {return xOff;}
-    public double get_yOff() {return yOff;}
-    public boolean get_mouse1() {return mouse1;}
-    public boolean get_mouse2() {return mouse2;}
-    public boolean get_mouse3() {return mouse3;}
+    public static double get_xPos() {return xPos;}
+    public static double get_yPos() {return yPos;}
+    public static double get_xOff() {
+        if (isChanged)
+            xOff=0;
+        return xOff;
+    }
+    public static double get_yOff() {
+        if (isChanged)
+            yOff=0;
+        return yOff;
+    }
+    public static boolean get_mouse1() {return mouse1;}
+    public static boolean get_mouse2() {return mouse2;}
+    public static boolean get_mouse3() {return mouse3;}
 }

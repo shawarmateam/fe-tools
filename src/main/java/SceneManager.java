@@ -55,6 +55,7 @@ public class SceneManager {
         WindowSizeListener.resizeCallbackSM(window, SceneManagersWindow.getWidth(), SceneManagersWindow.getHeight());
         glfwSetScrollCallback(window, MouseListener::mouseScrollCallback);
         glfwSetMouseButtonCallback(window, MouseListener::mouseButtonCallback);
+        glfwSetKeyCallback(window, KeyListener::keyCallback);
 
         while (!glfwWindowShouldClose(window)) {
             glfwPollEvents();
@@ -151,6 +152,16 @@ public class SceneManager {
         } else if (!isPressed(GLFW_KEY_EQUAL) || !isPressed(GLFW_KEY_LEFT_SHIFT)) {
             cooldown_p = false;
         }
+
+        if (MouseListener.get_yOff() > 0) {
+            scaleOfCam[0]++;
+            updateScaleOfCam=true;
+        }
+        if (MouseListener.get_yOff() < 0 && scaleOfCam[0] > 1) {
+            scaleOfCam[0]--;
+            updateScaleOfCam=true;
+        }
+        // TODO: пофиксить баг с клавой, если кликнуть на интерфейс клава умирает
     }
 
     public static boolean isPressed(int key) {

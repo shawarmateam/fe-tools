@@ -407,6 +407,7 @@ public class ImGuiLayer {
         else {
             glfwSetScrollCallback(SceneManagersWindow.getWindow(), MouseListener::mouseScrollCallback);
             glfwSetMouseButtonCallback(SceneManagersWindow.getWindow(), MouseListener::mouseButtonCallback);
+            glfwSetKeyCallback(SceneManagersWindow.getWindow(), KeyListener::keyCallback);
         }
 
         // Update the mouse cursor
