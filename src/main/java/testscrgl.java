@@ -17,8 +17,8 @@ public class testscrgl extends FilesScripts {
         EntityScripts.entityCreate(testwall);
 
         // adding components
-        RectCollider testcol = new RectCollider(0,0,1,1, false);
-        RectCollider colwall = new RectCollider(0,0,1,1, true);
+        RectCollider testcol = new RectCollider(0,0,1,1, true);
+        RectCollider colwall = new RectCollider(0,0,1,1, false);
 
         // read scene
         SceneLoader.readScene(new File("assets/sample.lvl"));

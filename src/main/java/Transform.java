@@ -85,7 +85,7 @@ public class Transform {
             for (RectCollider rect_col : rc) {
                 System.out.println(rect_col.posX+" "+rect_col.posY);
                 System.out.println(rectCollider.posX+" "+rectCollider.posY);
-                if (ColliderScripts.isCollide(rect_col, rectCollider) && !rect_col.equals(rectCollider)) {
+                if (ColliderScripts.isCollide(rect_col, rectCollider) && !rect_col.equals(rectCollider) && rectCollider.isCollider && !rect_col.isCollider) {
                     isCollide = true;
                     sub_x = rect_col.posX - rectCollider.posX;
                     sub_y = rect_col.posY - rectCollider.posY;
@@ -99,16 +99,16 @@ public class Transform {
                         if (sub_y < 0)
                             blockSide = false;
                     }
-                    System.out.println("collide: "+blockSide+" "+y);
-                    if (!HorOrVer)
-                        if (!blockSide && y < 0 || blockSide && y > 0) {
-                            System.out.println("test");
-                            y=0;
-                        }
+                    System.out.println("collide: "+blockSide+" "+y+" name: "+rect_col.ent.name);
+//                    if (!HorOrVer)
+//                        if (!blockSide && y < 0 || blockSide && y > 0) {
+//                            System.out.println("test");
+//                        }
                 }
-                if (!isCollide || HorOrVer) { // is collided on x or if isn't collided at all
-                    this.y += y;
-                }
+//                else { // is collided on x or if isn't collided at all
+//                    System.out.println("y: "+y);
+//                    this.y += y;
+//                }
             }
 //            if (!isCollide || HorOrVer) { // is collided on x or if isn't collided at all
 //                this.y += y;
