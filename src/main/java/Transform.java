@@ -79,6 +79,7 @@ public class Transform {
             boolean HorOrVer = true;
             boolean blockSide = false;
             boolean isCollide = false;
+            boolean mkElse = false;
             float sub_x;
             float sub_y;
             for (RectCollider rect_col : rc) {
@@ -98,17 +99,26 @@ public class Transform {
                         if (sub_y < 0)
                             blockSide = false;
                     }
+                    System.out.println("collide: "+blockSide+" "+y);
+                    if (!HorOrVer)
+                        if (!blockSide && y < 0 || blockSide && y > 0) {
+                            System.out.println("test");
+                            y=0;
+                        }
+                }
+                if (!isCollide || HorOrVer) { // is collided on x or if isn't collided at all
+                    this.y += y;
                 }
             }
-            if (!isCollide || HorOrVer) { // is collided on x or if isn't collided at all
-                this.y += y;
-            } else if (!blockSide && y > 0 || blockSide && y < 0) { // TODO: <<
-                this.y += y;
-            } else if (!blockSide && y < 0) {
-                this.y += 0.001f; // TODO: сделать чтоб не взависимости от движения он тп на грань первого (любого) куба с которой столкнулся
-            } else if (blockSide && y > 0) { // TODO: добавить эти проверки в цикл (то же самое и для X)
-                this.y -= 0.001f;
-            }
+//            if (!isCollide || HorOrVer) { // is collided on x or if isn't collided at all
+//                this.y += y;
+//            } else if (!blockSide && y > 0 || blockSide && y < 0) { // TODO: <<
+//                this.y += y;
+//            } else if (!blockSide && y < 0) {
+//                this.y += 0.001f; // TODO: сделать чтоб не взависимости от движения он тп на грань первого (любого) куба с которой столкнулся
+//            } else if (blockSide && y > 0) { // TODO: добавить эти проверки в цикл (то же самое и для X)
+//                this.y -= 0.001f;
+//            }
         }
     }
     public void init() {

@@ -4,12 +4,14 @@ public class RectCollider extends ComponentStruct {
     float sizeX, sizeY;
     public float[] TLdot, TRdot, DLdot, DRdot, Center;
     public float[][] dots;
+    public boolean isCollider; // for example: collider = wall (true), collision = player (false)
 
-    public RectCollider(float posXoffset, float posYoffset, float sizeX, float sizeY) {
+    public RectCollider(float posXoffset, float posYoffset, float sizeX, float sizeY, boolean isCollider) {
         this.posXoffset = posXoffset;
         this.posYoffset = posYoffset;
         this.sizeX = sizeX;
         this.sizeY = sizeY;
+        this.isCollider = isCollider;
         TLdot = new float[] {posX, posY};
         TRdot = new float[] {posX+sizeX, posY};
         DLdot = new float[] {posX, posY+sizeY};
