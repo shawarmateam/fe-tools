@@ -23,7 +23,6 @@ public class ColliderScripts extends scripts.CompScriptStructure {
         rc.clear();
         for (Entity ent : App.ents) {
             if (ent.getComponent(RectCollider.class) != null) {
-                System.out.println("name: "+ent.name);
                 rc.add(ent.getComponent(RectCollider.class));
             }
         }
@@ -69,34 +68,29 @@ public class ColliderScripts extends scripts.CompScriptStructure {
             if (ent.transform.rectCollider != null) {
                 init();
                 for (RectCollider rect_col : rc) {
-                    System.out.println(rect_col);
                     if (!rect_col.isCollider) {
-                        System.out.println("testlololollolololo");
-                        System.out.println(rect_col.dep);
                         for (String ent_col : rect_col.dep) {
                             //RectCollider collider = EntityScripts.getEntityByName(ent_col).getComponent(RectCollider.class);
-                            System.out.println("trerfgefsf");
                             switch (whatSideIsCollide(rect_col, EntityScripts.getEntityByName(ent_col).getComponent(RectCollider.class))) {
                                 case -1:
                                     System.out.println(1);
                                     break;
                                 case 0:
-                                    EntityScripts.getEntityByName(ent_col).transform.addX(-(EntityScripts.getEntityByName(ent_col).transform.getX()+
-                                                                                        EntityScripts.getEntityByName(ent_col).transform.sizeX-rect_col.posX));
-                                    System.out.println(2);
+//                                    EntityScripts.getEntityByName(ent_col).transform.addX(-(EntityScripts.getEntityByName(ent_col).getComponent(RectCollider.class).TRdot[0]-rect_col.posX));
+                                    System.out.println(2+" "+EntityScripts.getEntityByName(ent_col).getComponent(RectCollider.class).TRdot[0]+"+"+rect_col.posX+"="+(EntityScripts.getEntityByName(ent_col).getComponent(RectCollider.class).TRdot[0]-rect_col.posX));
                                     break;
                                 case 1:
-                                    EntityScripts.getEntityByName(ent_col).transform.addX(.1f);
+//                                    EntityScripts.getEntityByName(ent_col).transform.addX(.1f);
                                     System.out.println(3);
                                     break;
                                 case 2:
                                     EntityScripts.getEntityByName(ent_col).transform.addY(-(EntityScripts.getEntityByName(ent_col).getComponent(RectCollider.class).DLdot[1]-rect_col.posY));
-                                    System.out.println(4);
+                                    System.out.println(4+" "+-(EntityScripts.getEntityByName(ent_col).getComponent(RectCollider.class).DLdot[1]-rect_col.posY));
                                     break;
                                 case 3:
                                     EntityScripts.getEntityByName(ent_col).transform.addY(.1f);
                                     System.out.println(5);
-                                    break;
+                                    break; // TODO: сделать ограничение на передвижение. пока они касаются отнимать.прибовлять 0.001
                             }
                         }
                     }

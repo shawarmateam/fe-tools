@@ -1,4 +1,6 @@
 import java.lang.Math;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 
 public class Transform {
@@ -36,6 +38,7 @@ public class Transform {
         if (y < y_limit)
             this.y = y;
     }
+
     public void addX(float x) {
         if (this.x+x < x_limit && rectCollider == null)
             this.x += x;
@@ -46,9 +49,6 @@ public class Transform {
             float sub_x;
             float sub_y;
             for (RectCollider rect_col : rc) {
-                System.out.println(rc);
-                System.out.println(rect_col.posX+" "+rect_col.posY);
-                System.out.println(rectCollider.posX+" "+rectCollider.posY);
                 if (ColliderScripts.isCollide(rect_col, rectCollider) && !rect_col.equals(rectCollider)) {
                     isCollide=true;
                     sub_x = rect_col.posX - rectCollider.posX;
@@ -75,7 +75,6 @@ public class Transform {
     public void addY(float y) {
         if (this.y + y < y_limit /*&& rectCollider == null*/) {
             this.y += y;
-            System.out.println("changing Y");
         }
 //        else if (rectCollider != null) {
 //            boolean HorOrVer = true;
@@ -127,7 +126,6 @@ public class Transform {
         rc.clear();
         for (Entity ent : App.ents) {
             if (ent.getComponent(RectCollider.class) != null) {
-                System.out.println("name: "+ent.name);
                 rc.add(ent.getComponent(RectCollider.class));
             }
         }

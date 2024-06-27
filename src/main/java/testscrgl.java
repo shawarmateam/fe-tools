@@ -36,7 +36,6 @@ public class testscrgl extends FilesScripts {
         EntityScripts.getEntityByName("test").transform.rectCollider = testcol;
         EntityScripts.getEntityByName("wall_test").transform.rectCollider = colwall;
         EntityScripts.initAll();
-        System.out.println(EntityScripts.getEntityByName("test").transform.sizeX);
     }
 
     @Override
