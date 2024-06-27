@@ -1,5 +1,6 @@
 import scripts.FilesScripts;
 import java.io.File;
+import java.util.ArrayList;
 
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -17,8 +18,10 @@ public class testscrgl extends FilesScripts {
         EntityScripts.entityCreate(testwall);
 
         // adding components
-        RectCollider testcol = new RectCollider(0,0,1,1, true);
-        RectCollider colwall = new RectCollider(0,0,1,1, false);
+        ArrayList<String> testdep = new ArrayList<>();
+        testdep.add("test");
+        RectCollider testcol = new RectCollider(0,0,1,1);
+        RectCollider colwall = new RectCollider(0,0,1,1, testdep);
 
         // read scene
         SceneLoader.readScene(new File("assets/sample.lvl"));

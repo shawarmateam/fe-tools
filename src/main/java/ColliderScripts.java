@@ -29,14 +29,14 @@ public class ColliderScripts extends scripts.CompScriptStructure {
         }
     }
 
-    public static short whatSideIsCollide(RectCollider col_1, RectCollider col_2) { // 0 = left, 1 = right, 2 = top, 3 = bottom, -1 = null
+    public static short whatSideIsCollide(RectCollider collision, RectCollider collider) { // 0 = left, 1 = right, 2 = top, 3 = bottom, -1 = null
         boolean HorOrVer = true;
         boolean blockSide = false;
         float sub_x;
         float sub_y;
-        if (ColliderScripts.isCollide(col_1, col_2) && !col_1.equals(col_2) && col_2.isCollider && !col_1.isCollider) {
-            sub_x = col_1.posX - col_2.posX;
-            sub_y = col_1.posY - col_2.posY;
+        if (ColliderScripts.isCollide(collision, collider) && !collision.equals(collider) && collider.isCollider && !collision.isCollider) {
+            sub_x = collision.posX - collider.posX;
+            sub_y = collision.posY - collider.posY;
             if (Math.abs(sub_x) > Math.abs(sub_y)) {
                 HorOrVer = true;
                 if (sub_x > 0)
@@ -68,6 +68,39 @@ public class ColliderScripts extends scripts.CompScriptStructure {
         for (Entity ent : App.ents) {
             if (ent.transform.rectCollider != null) {
                 init();
+                for (RectCollider rect_col : rc) {
+                    System.out.println(rect_col);
+                    if (!rect_col.isCollider) {
+                        System.out.println("testlololollolololo");
+                        System.out.println(rect_col.dep);
+                        for (String ent_col : rect_col.dep) {
+                            //RectCollider collider = EntityScripts.getEntityByName(ent_col).getComponent(RectCollider.class);
+                            System.out.println("trerfgefsf");
+                            switch (whatSideIsCollide(rect_col, EntityScripts.getEntityByName(ent_col).getComponent(RectCollider.class))) {
+                                case -1:
+                                    System.out.println(1);
+                                    break;
+                                case 0:
+                                    EntityScripts.getEntityByName(ent_col).transform.addX(-(EntityScripts.getEntityByName(ent_col).transform.getX()+
+                                                                                        EntityScripts.getEntityByName(ent_col).transform.sizeX-rect_col.posX));
+                                    System.out.println(2);
+                                    break;
+                                case 1:
+                                    EntityScripts.getEntityByName(ent_col).transform.addX(.1f);
+                                    System.out.println(3);
+                                    break;
+                                case 2:
+                                    EntityScripts.getEntityByName(ent_col).transform.addY(-(EntityScripts.getEntityByName(ent_col).getComponent(RectCollider.class).DLdot[1]-rect_col.posY));
+                                    System.out.println(4);
+                                    break;
+                                case 3:
+                                    EntityScripts.getEntityByName(ent_col).transform.addY(.1f);
+                                    System.out.println(5);
+                                    break;
+                            }
+                        }
+                    }
+                }
                 ent.transform.rectCollider.update();
             }
         }

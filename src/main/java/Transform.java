@@ -73,43 +73,45 @@ public class Transform {
         }
     }
     public void addY(float y) {
-        if (this.y + y < y_limit && rectCollider == null)
+        if (this.y + y < y_limit /*&& rectCollider == null*/) {
             this.y += y;
-        else if (rectCollider != null) {
-            boolean HorOrVer = true;
-            boolean blockSide = false;
-            boolean isCollide = false;
-            boolean mkElse = false;
-            float sub_x;
-            float sub_y;
-            for (RectCollider rect_col : rc) {
-                System.out.println(rect_col.posX+" "+rect_col.posY);
-                System.out.println(rectCollider.posX+" "+rectCollider.posY);
-                if (ColliderScripts.isCollide(rect_col, rectCollider) && !rect_col.equals(rectCollider) && rectCollider.isCollider && !rect_col.isCollider) {
-                    isCollide = true;
-                    sub_x = rect_col.posX - rectCollider.posX;
-                    sub_y = rect_col.posY - rectCollider.posY;
-                    if (Math.abs(sub_x) > Math.abs(sub_y)) {
-                        HorOrVer = true;
-                    }
-                    if (Math.abs(sub_x) <= Math.abs(sub_y)) {
-                        HorOrVer = false;
-                        if (sub_y > 0)
-                            blockSide = true;
-                        if (sub_y < 0)
-                            blockSide = false;
-                    }
-                    System.out.println("collide: "+blockSide+" "+y+" name: "+rect_col.ent.name);
-//                    if (!HorOrVer)
-//                        if (!blockSide && y < 0 || blockSide && y > 0) {
-//                            System.out.println("test");
-//                        }
-                }
-//                else { // is collided on x or if isn't collided at all
-//                    System.out.println("y: "+y);
-//                    this.y += y;
+            System.out.println("changing Y");
+        }
+//        else if (rectCollider != null) {
+//            boolean HorOrVer = true;
+//            boolean blockSide = false;
+//            boolean isCollide = false;
+//            boolean mkElse = false;
+//            float sub_x;
+//            float sub_y;
+//            for (RectCollider rect_col : rc) {
+//                System.out.println(rect_col.posX+" "+rect_col.posY);
+//                System.out.println(rectCollider.posX+" "+rectCollider.posY);
+//                if (ColliderScripts.isCollide(rect_col, rectCollider) && !rect_col.equals(rectCollider) && rectCollider.isCollider && !rect_col.isCollider) {
+//                    isCollide = true;
+//                    sub_x = rect_col.posX - rectCollider.posX;
+//                    sub_y = rect_col.posY - rectCollider.posY;
+//                    if (Math.abs(sub_x) > Math.abs(sub_y)) {
+//                        HorOrVer = true;
+//                    }
+//                    if (Math.abs(sub_x) <= Math.abs(sub_y)) {
+//                        HorOrVer = false;
+//                        if (sub_y > 0)
+//                            blockSide = true;
+//                        if (sub_y < 0)
+//                            blockSide = false;
+//                    }
+//                    System.out.println("collide: "+blockSide+" "+y+" name: "+rect_col.ent.name);
+////                    if (!HorOrVer)
+////                        if (!blockSide && y < 0 || blockSide && y > 0) {
+////                            System.out.println("test");
+////                        }
 //                }
-            }
+////                else { // is collided on x or if isn't collided at all
+////                    System.out.println("y: "+y);
+////                    this.y += y;
+////                }
+//            }
 //            if (!isCollide || HorOrVer) { // is collided on x or if isn't collided at all
 //                this.y += y;
 //            } else if (!blockSide && y > 0 || blockSide && y < 0) { // TODO: <<
@@ -119,7 +121,7 @@ public class Transform {
 //            } else if (blockSide && y > 0) { // TODO: добавить эти проверки в цикл (то же самое и для X)
 //                this.y -= 0.001f;
 //            }
-        }
+//        }
     }
     public void init() {
         rc.clear();
