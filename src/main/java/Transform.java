@@ -43,84 +43,107 @@ public class Transform {
         if (this.x+x < x_limit && rectCollider == null)
             this.x += x;
         else if (rectCollider != null) {
-            boolean HorOrVer = false; // true = horizontal, false = vertical
-            boolean blockSide = true; // for x: true = right, false = left for y: true = top, false = down
-            boolean isCollide = false;
+//            boolean HorOrVer = true; // true = horizontal, false = vertical
+//            boolean blockSide = true; // for x: true = right, false = left for y: true = top, false = down
+//            boolean isCollide = false;
+//            boolean addY = true;
             float sub_x;
             float sub_y;
+            boolean addX = true;
             for (RectCollider rect_col : rc) {
+                boolean HorOrVer = false; // true = horizontal, false = vertical
+                boolean blockSide = true; // for x: true = right, false = left for y: true = top, false = down
+                boolean isCollide = false;
                 if (ColliderScripts.isCollide(rect_col, rectCollider) && !rect_col.equals(rectCollider)) {
                     isCollide=true;
                     sub_x = rect_col.posX - rectCollider.posX;
                     sub_y = rect_col.posY - rectCollider.posY;
                     if (Math.abs(sub_x) >= Math.abs(sub_y)) {
                         HorOrVer = true;
-                        if (sub_x > 0)
-                            blockSide = true;
-                        if (sub_x < 0)
-                            blockSide = false;
                     }
                     if (Math.abs(sub_x) < Math.abs(sub_y)) {
                         HorOrVer = false;
+                        if (sub_y > 0)
+                            blockSide = true;
+                        if (sub_y < 0)
+                            blockSide = false;
+                    }
+                    System.out.println(3333);
+                    if (!blockSide && x > 0 || blockSide && x < 0) {
+                        if (addX) {
+                            System.out.println(1111);
+                            this.x += x;
+                            rectCollider.update();
+                            addX=false;
+                        }
+                    }
+                    if (ColliderScripts.isCollide(rect_col, rectCollider)) {
+                        System.out.println(6666);
+                        this.x -= x; // TODO: сделать сдесь адекватное отнятие взависимости от вычисления насколько он вдавился в стену
+                        rectCollider.update();
+                    }
+                } else if (!rect_col.equals(rectCollider)) {
+                    if (addX) {
+                        System.out.println(2222);
+                        this.x += x;
+                        addX=false;
                     }
                 }
-            }
-            if (!isCollide || !HorOrVer) {
-                this.x += x;
-            } else if (!blockSide && x > 0 || blockSide && x < 0) {
-                this.x += x;
             }
         }
     }
     public void addY(float y) {
-        if (this.y + y < y_limit /*&& rectCollider == null*/) {
+        if (this.y+y < y_limit && rectCollider == null)
             this.y += y;
-        }
-//        else if (rectCollider != null) {
-//            boolean HorOrVer = true;
-//            boolean blockSide = false;
+        else if (rectCollider != null) {
+//            boolean HorOrVer = true; // true = horizontal, false = vertical
+//            boolean blockSide = true; // for x: true = right, false = left for y: true = top, false = down
 //            boolean isCollide = false;
-//            boolean mkElse = false;
-//            float sub_x;
-//            float sub_y;
-//            for (RectCollider rect_col : rc) {
-//                System.out.println(rect_col.posX+" "+rect_col.posY);
-//                System.out.println(rectCollider.posX+" "+rectCollider.posY);
-//                if (ColliderScripts.isCollide(rect_col, rectCollider) && !rect_col.equals(rectCollider) && rectCollider.isCollider && !rect_col.isCollider) {
-//                    isCollide = true;
-//                    sub_x = rect_col.posX - rectCollider.posX;
-//                    sub_y = rect_col.posY - rectCollider.posY;
-//                    if (Math.abs(sub_x) > Math.abs(sub_y)) {
-//                        HorOrVer = true;
-//                    }
-//                    if (Math.abs(sub_x) <= Math.abs(sub_y)) {
-//                        HorOrVer = false;
-//                        if (sub_y > 0)
-//                            blockSide = true;
-//                        if (sub_y < 0)
-//                            blockSide = false;
-//                    }
-//                    System.out.println("collide: "+blockSide+" "+y+" name: "+rect_col.ent.name);
-////                    if (!HorOrVer)
-////                        if (!blockSide && y < 0 || blockSide && y > 0) {
-////                            System.out.println("test");
-////                        }
-//                }
-////                else { // is collided on x or if isn't collided at all
-////                    System.out.println("y: "+y);
-////                    this.y += y;
-////                }
-//            }
-//            if (!isCollide || HorOrVer) { // is collided on x or if isn't collided at all
-//                this.y += y;
-//            } else if (!blockSide && y > 0 || blockSide && y < 0) { // TODO: <<
-//                this.y += y;
-//            } else if (!blockSide && y < 0) {
-//                this.y += 0.001f; // TODO: сделать чтоб не взависимости от движения он тп на грань первого (любого) куба с которой столкнулся
-//            } else if (blockSide && y > 0) { // TODO: добавить эти проверки в цикл (то же самое и для X)
-//                this.y -= 0.001f;
-//            }
-//        }
+//            boolean addY = true;
+            float sub_x;
+            float sub_y;
+            boolean addY = true;
+            for (RectCollider rect_col : rc) {
+                boolean HorOrVer = false; // true = horizontal, false = vertical
+                boolean blockSide = true; // for x: true = right, false = left for y: true = top, false = down
+                boolean isCollide = false;
+                if (ColliderScripts.isCollide(rect_col, rectCollider) && !rect_col.equals(rectCollider)) {
+                    isCollide=true;
+                    sub_x = rect_col.posX - rectCollider.posX;
+                    sub_y = rect_col.posY - rectCollider.posY;
+                    if (Math.abs(sub_x) >= Math.abs(sub_y)) {
+                        HorOrVer = true;
+                    }
+                    if (Math.abs(sub_x) < Math.abs(sub_y)) {
+                        HorOrVer = false;
+                        if (sub_y > 0)
+                            blockSide = true;
+                        if (sub_y < 0)
+                            blockSide = false;
+                    }
+                    System.out.println(3333);
+                    if (!blockSide && y > 0 || blockSide && y < 0) {
+                        if (addY) {
+                            System.out.println(1111);
+                            this.y += y;
+                            rectCollider.update();
+                            if (ColliderScripts.isCollide(rect_col, rectCollider)) {
+                                System.out.println(6666);
+                                this.y -= y*2;
+                                rectCollider.update();
+                            }
+                            addY=false;
+                        }
+                    }
+                } else if (!rect_col.equals(rectCollider)) {
+                    if (addY) {
+                        System.out.println(2222);
+                        this.y += y;
+                        addY=false;
+                    }
+                }
+            }
+        }
     }
     public void init() {
         rc.clear();

@@ -71,27 +71,27 @@ public class ColliderScripts extends scripts.CompScriptStructure {
                     if (!rect_col.isCollider) {
                         for (String ent_col : rect_col.dep) {
                             //RectCollider collider = EntityScripts.getEntityByName(ent_col).getComponent(RectCollider.class);
-                            switch (whatSideIsCollide(rect_col, EntityScripts.getEntityByName(ent_col).getComponent(RectCollider.class))) {
-                                case -1:
-                                    System.out.println(1);
-                                    break;
-                                case 0:
-//                                    EntityScripts.getEntityByName(ent_col).transform.addX(-(EntityScripts.getEntityByName(ent_col).getComponent(RectCollider.class).TRdot[0]-rect_col.posX));
-                                    System.out.println(2+" "+EntityScripts.getEntityByName(ent_col).getComponent(RectCollider.class).TRdot[0]+"+"+rect_col.posX+"="+(EntityScripts.getEntityByName(ent_col).getComponent(RectCollider.class).TRdot[0]-rect_col.posX));
-                                    break;
-                                case 1:
-//                                    EntityScripts.getEntityByName(ent_col).transform.addX(.1f);
-                                    System.out.println(3);
-                                    break;
-                                case 2:
-                                    EntityScripts.getEntityByName(ent_col).transform.addY(-(EntityScripts.getEntityByName(ent_col).getComponent(RectCollider.class).DLdot[1]-rect_col.posY));
-                                    System.out.println(4+" "+-(EntityScripts.getEntityByName(ent_col).getComponent(RectCollider.class).DLdot[1]-rect_col.posY));
-                                    break;
-                                case 3:
-                                    EntityScripts.getEntityByName(ent_col).transform.addY(.1f);
-                                    System.out.println(5);
-                                    break; // TODO: сделать ограничение на передвижение. пока они касаются отнимать.прибовлять 0.001
-                            }
+//                            switch (whatSideIsCollide(rect_col, EntityScripts.getEntityByName(ent_col).getComponent(RectCollider.class))) {
+//                                case -1:
+//                                    System.out.println(1);
+//                                    break;
+//                                case 0:
+////                                    EntityScripts.getEntityByName(ent_col).transform.addX(-(EntityScripts.getEntityByName(ent_col).getComponent(RectCollider.class).TRdot[0]-rect_col.posX));
+//                                    System.out.println(2+" "+EntityScripts.getEntityByName(ent_col).getComponent(RectCollider.class).TRdot[0]+"+"+rect_col.posX+"="+(EntityScripts.getEntityByName(ent_col).getComponent(RectCollider.class).TRdot[0]-rect_col.posX));
+//                                    break;
+//                                case 1:
+////                                    EntityScripts.getEntityByName(ent_col).transform.addX(.1f);
+//                                    System.out.println(3);
+//                                    break;
+//                                case 2:
+//                                    EntityScripts.getEntityByName(ent_col).transform.addY(-(EntityScripts.getEntityByName(ent_col).getComponent(RectCollider.class).DLdot[1]-rect_col.posY));
+//                                    System.out.println(4+" "+-(EntityScripts.getEntityByName(ent_col).getComponent(RectCollider.class).DLdot[1]-rect_col.posY));
+//                                    break;
+//                                case 3:
+//                                    EntityScripts.getEntityByName(ent_col).transform.addY(.1f);
+//                                    System.out.println(5);
+//                                    break; // TODO: сделать ограничение на передвижение. пока они касаются отнимать.прибавлять 0.001
+//                            }
                         }
                     }
                 }
