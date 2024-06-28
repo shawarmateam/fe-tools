@@ -50,4 +50,8 @@ public class RectCollider extends ComponentStruct {
         Center = new float[] {posX+(sizeX/2), posY+(sizeY/2)};
         dots = new float[][] {TLdot, TRdot, DLdot, DRdot, Center};
     }
+
+    public ColliderStructure getColliderStruct() {
+        return new ColliderStructure(TLdot, TRdot, DLdot, DRdot, Center);
+    }
 }

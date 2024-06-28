@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class ColliderScripts extends scripts.CompScriptStructure {
     final static ArrayList<RectCollider> rc = new ArrayList<>();
-    public static boolean isCollide(RectCollider col_1, RectCollider col_2) {
+    public static boolean isCollide(ColliderStructure col_1, ColliderStructure col_2) {
         if (col_1.TLdot[0] < col_2.TLdot[0] &&
             col_1.TRdot[0] > col_2.TLdot[0] &&
             col_1.TLdot[1] < col_2.DLdot[1] &&
@@ -33,7 +33,7 @@ public class ColliderScripts extends scripts.CompScriptStructure {
         boolean blockSide = false;
         float sub_x;
         float sub_y;
-        if (ColliderScripts.isCollide(collision, collider) && !collision.equals(collider) && collider.isCollider && !collision.isCollider) {
+        if (ColliderScripts.isCollide(collision.getColliderStruct(), collider.getColliderStruct()) && !collision.equals(collider) && collider.isCollider && !collision.isCollider) {
             sub_x = collision.posX - collider.posX;
             sub_y = collision.posY - collider.posY;
             if (Math.abs(sub_x) > Math.abs(sub_y)) {

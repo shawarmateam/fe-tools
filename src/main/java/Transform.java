@@ -43,10 +43,6 @@ public class Transform {
         if (this.x+x < x_limit && rectCollider == null)
             this.x += x;
         else if (rectCollider != null) {
-//            boolean HorOrVer = true; // true = horizontal, false = vertical
-//            boolean blockSide = true; // for x: true = right, false = left for y: true = top, false = down
-//            boolean isCollide = false;
-//            boolean addY = true;
             float sub_x;
             float sub_y;
             boolean addX = true;
@@ -54,37 +50,47 @@ public class Transform {
                 boolean HorOrVer = false; // true = horizontal, false = vertical
                 boolean blockSide = true; // for x: true = right, false = left for y: true = top, false = down
                 boolean isCollide = false;
-                if (ColliderScripts.isCollide(rect_col, rectCollider) && !rect_col.equals(rectCollider)) {
+                if (ColliderScripts.isCollide(rect_col.getColliderStruct(), rectCollider.getColliderStruct()) && !rect_col.equals(rectCollider)) {
                     isCollide=true;
                     sub_x = rect_col.posX - rectCollider.posX;
                     sub_y = rect_col.posY - rectCollider.posY;
                     if (Math.abs(sub_x) >= Math.abs(sub_y)) {
                         HorOrVer = true;
+                        if (sub_x > 0)
+                            blockSide = true;
+                        if (sub_x < 0)
+                            blockSide = false;
                     }
                     if (Math.abs(sub_x) < Math.abs(sub_y)) {
                         HorOrVer = false;
-                        if (sub_y > 0)
-                            blockSide = true;
-                        if (sub_y < 0)
-                            blockSide = false;
                     }
-                    System.out.println(3333);
                     if (!blockSide && x > 0 || blockSide && x < 0) {
                         if (addX) {
-                            System.out.println(1111);
-                            this.x += x;
+                            //this.x += x;
                             rectCollider.update();
+                            System.out.println("11111111");
                             addX=false;
                         }
                     }
-                    if (ColliderScripts.isCollide(rect_col, rectCollider)) {
-                        System.out.println(6666);
-                        this.x -= x; // TODO: сделать сдесь адекватное отнятие взависимости от вычисления насколько он вдавился в стену
+                    ColliderStructure check_collider = new ColliderStructure(rectCollider.TLdot, rectCollider.TRdot, rectCollider.DLdot, rectCollider.DRdot, rectCollider.Center);
+                    check_collider.mvAllx(x);
+                    System.out.println(check_collider.TRdot[0]+" "+check_collider.TLdot[0]+" "+check_collider.DLdot[0]+" "+check_collider.DRdot[0]);
+                    if (ColliderScripts.isCollide(rect_col.getColliderStruct(), check_collider)) {
+                        // TODO: сделать проверку столкновения не при добавлении X, а в бесконечном цикле (для тестов сделать освобождение из куба только по нажатию клавиши)
+                        // PS не убирать блок столкновений, оставить тут.
+                        if (!blockSide && HorOrVer)
+                            this.x += rect_col.TRdot[0]-rectCollider.posX;
+                        else if (blockSide && HorOrVer)
+                            this.x -= rectCollider.TRdot[0]-rect_col.posX;
                         rectCollider.update();
+                    } else {
+                        if (addX) {
+                            this.x += x;
+                            addX = false;
+                        }
                     }
                 } else if (!rect_col.equals(rectCollider)) {
                     if (addX) {
-                        System.out.println(2222);
                         this.x += x;
                         addX=false;
                     }
@@ -107,7 +113,7 @@ public class Transform {
                 boolean HorOrVer = false; // true = horizontal, false = vertical
                 boolean blockSide = true; // for x: true = right, false = left for y: true = top, false = down
                 boolean isCollide = false;
-                if (ColliderScripts.isCollide(rect_col, rectCollider) && !rect_col.equals(rectCollider)) {
+                if (ColliderScripts.isCollide(rect_col.getColliderStruct(), rectCollider.getColliderStruct()) && !rect_col.equals(rectCollider)) {
                     isCollide=true;
                     sub_x = rect_col.posX - rectCollider.posX;
                     sub_y = rect_col.posY - rectCollider.posY;
@@ -121,23 +127,19 @@ public class Transform {
                         if (sub_y < 0)
                             blockSide = false;
                     }
-                    System.out.println(3333);
                     if (!blockSide && y > 0 || blockSide && y < 0) {
                         if (addY) {
-                            System.out.println(1111);
                             this.y += y;
                             rectCollider.update();
-                            if (ColliderScripts.isCollide(rect_col, rectCollider)) {
-                                System.out.println(6666);
-                                this.y -= y*2;
-                                rectCollider.update();
-                            }
                             addY=false;
                         }
                     }
+                    if (ColliderScripts.isCollide(rect_col.getColliderStruct(), rectCollider.getColliderStruct())) {
+                        this.y -= y;
+                        rectCollider.update();
+                    }
                 } else if (!rect_col.equals(rectCollider)) {
                     if (addY) {
-                        System.out.println(2222);
                         this.y += y;
                         addY=false;
                     }
