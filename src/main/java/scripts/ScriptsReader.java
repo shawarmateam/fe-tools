@@ -9,10 +9,12 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class ScriptsReader {
     private ArrayList<String> SCRs;
-    private boolean hasStarted = false;
+    private static boolean hasStarted = false;
+    final ArrayList<Object> SCRsCLS = new ArrayList<>();
     public ScriptsReader() {
         SCRs = readScripts();
         try {
@@ -51,28 +53,27 @@ public class ScriptsReader {
         } else {
             for (int i = 0; i < SCRs.size(); i++) {
                 Class<FilesScripts> FileClass = (Class<FilesScripts>) Class.forName(SCRs.get(i));
-                Method start = FileClass.getMethod("start");
-                Object t = FileClass.newInstance();
-                start.invoke(t);
+                SCRsCLS.add(FileClass.getDeclaredConstructor().newInstance());
+                Method start = FileClass.getDeclaredMethod("start");
+                start.invoke(SCRsCLS.get(i));
             }
         }
     }
     public void runUpdateInSCRs(float dt) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException, InstantiationException {
-        ArrayList<String> SCRs = readScripts();
+        //ArrayList<String> SCRs = readScripts();
         ArrayList<String> Comps = readComponents();
 
         for (String comp : Comps) {
             Class<CompScriptStructure> FileClass = (Class<CompScriptStructure>) Class.forName(comp);
-            Method updateAll = FileClass.getMethod("updateAll");
-            Object t = FileClass.newInstance();
+            Method updateAll = FileClass.getDeclaredMethod("updateAll");
+            Object t = FileClass.getDeclaredConstructor().newInstance();
             updateAll.invoke(t);
         }
 
-        for (String scr : SCRs) {
-            Class<FilesScripts> FileClass = (Class<FilesScripts>) Class.forName(scr);
-            Method update = FileClass.getMethod("update", float.class);
-            Object t = FileClass.newInstance();
-            update.invoke(t, dt);
+        for (int i = 0; i < SCRsCLS.size(); i++) {
+            Class<FilesScripts> FileClass = (Class<FilesScripts>) Class.forName(SCRs.get(i));
+            Method update = FileClass.getDeclaredMethod("update", float.class);
+            update.invoke(SCRsCLS.get(i), dt);
         }
     }
 }

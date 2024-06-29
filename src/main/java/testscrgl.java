@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import static org.lwjgl.glfw.GLFW.*;
 
 public class testscrgl extends FilesScripts {
-
+    Entity test_ent;
+    Entity wall_test;
     @Override
     public void start() {
         System.out.println("starting...");
@@ -31,27 +32,29 @@ public class testscrgl extends FilesScripts {
 //        EntityScripts.getEntityByName("wall_test").transform.setX(1.5f);
 //        EntityScripts.getEntityByName("wall_test").transform.setY(1.5f);
 
-        EntityScripts.getEntityByName("test").addComponent(testcol);
-        EntityScripts.getEntityByName("wall_test").addComponent(colwall);
-        EntityScripts.getEntityByName("test").transform.rectCollider = testcol;
-        EntityScripts.getEntityByName("wall_test").transform.rectCollider = colwall;
+        test_ent = EntityScripts.getEntityByName("test");
+        wall_test = EntityScripts.getEntityByName("wall_test");
+        test_ent.addComponent(testcol);
+        wall_test.addComponent(colwall);
+        test_ent.transform.rectCollider = testcol;
+        wall_test.transform.rectCollider = colwall;
         EntityScripts.initAll();
     }
 
     @Override
     public void update(float dt) {
         if (KeyListener.isKeyPressed(GLFW_KEY_F)) {
-            EntityScripts.getEntityByName("test").transform.addX(-.100f*dt);
+            test_ent.transform.addX(-.100f*dt);
         } else if (KeyListener.isKeyPressed(GLFW_KEY_G)) {
-            EntityScripts.getEntityByName("test").transform.addX(.100f*dt);
+            test_ent.transform.addX(.100f*dt);
         } else if (KeyListener.isKeyPressed(GLFW_KEY_T)) {
-            EntityScripts.getEntityByName("test").transform.addY(.100f*dt);
+            test_ent.transform.addY(.100f*dt);
         } else if (KeyListener.isKeyPressed(GLFW_KEY_V)) {
-            EntityScripts.getEntityByName("test").transform.addY(-.100f*dt);
+            test_ent.transform.addY(-.100f*dt);
         } else if (KeyListener.isKeyPressed(GLFW_KEY_K)) {
-            System.out.println(EntityScripts.getEntityByName("test").transform.getX() + " " + EntityScripts.getEntityByName("test").transform.getY());
+            System.out.println(test_ent.transform.getX() + " " + test_ent.transform.getY());
         } else if (KeyListener.isKeyPressed(GLFW_KEY_Z)) {
-            EntityScripts.getEntityByName("test").transform.addX(0);
+            test_ent.transform.addX(0);
         }
     }
 }

@@ -286,11 +286,11 @@ public class ImGuiLayer {
                         ent.transform.getY()
                 };
                 ImGui.dragFloat2("pos", ent_pos);
-                if (EntityScripts.getEntityByName(ent.name).transform.getX() != ent_pos[0] ||
-                        EntityScripts.getEntityByName(ent.name).transform.getY() != ent_pos[1])
+                if (ent.transform.getX() != ent_pos[0] ||
+                        ent.transform.getY() != ent_pos[1])
                 {
-                    EntityScripts.getEntityByName(ent.name).transform.setX(ent_pos[0]);
-                    EntityScripts.getEntityByName(ent.name).transform.setY(ent_pos[1]);
+                    ent.transform.setX(ent_pos[0]);
+                    ent.transform.setY(ent_pos[1]);
                 }
             }
             ImGui.end();
