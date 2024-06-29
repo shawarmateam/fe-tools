@@ -41,13 +41,13 @@ public class testscrgl extends FilesScripts {
     @Override
     public void update(float dt) {
         if (KeyListener.isKeyPressed(GLFW_KEY_F)) {
-            EntityScripts.getEntityByName("test").transform.addX(.100f*dt);
-        } else if (KeyListener.isKeyPressed(GLFW_KEY_G)) {
             EntityScripts.getEntityByName("test").transform.addX(-.100f*dt);
+        } else if (KeyListener.isKeyPressed(GLFW_KEY_G)) {
+            EntityScripts.getEntityByName("test").transform.addX(.100f*dt);
         } else if (KeyListener.isKeyPressed(GLFW_KEY_T)) {
-            EntityScripts.getEntityByName("test").transform.addY(-.100f*dt);
-        } else if (KeyListener.isKeyPressed(GLFW_KEY_V)) {
             EntityScripts.getEntityByName("test").transform.addY(.100f*dt);
+        } else if (KeyListener.isKeyPressed(GLFW_KEY_V)) {
+            EntityScripts.getEntityByName("test").transform.addY(-.100f*dt);
         } else if (KeyListener.isKeyPressed(GLFW_KEY_K)) {
             System.out.println(EntityScripts.getEntityByName("test").transform.getX() + " " + EntityScripts.getEntityByName("test").transform.getY());
         }

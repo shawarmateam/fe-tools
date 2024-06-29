@@ -71,37 +71,31 @@ public class Transform {
                             addX=false;
                         }
                     }
-                    ColliderStructure check_collider = new ColliderStructure(rectCollider.TLdot, rectCollider.TRdot, rectCollider.DLdot, rectCollider.DRdot, rectCollider.Center);
-                    if (x > 0) {
-                        check_collider.mvAllx(x);
-                        System.out.println(11);
+                }
+                ColliderStructure check_collider = new ColliderStructure(rectCollider.TLdot, rectCollider.TRdot, rectCollider.DLdot, rectCollider.DRdot, rectCollider.Center);
+                if (x > 0) {
+                    check_collider.mvAllx(x);
+                    System.out.println(11);
+                }
+                else {
+                    check_collider.mvAllx(-x);
+                    System.out.println(12);
+                }
+                if (ColliderScripts.isCollide(rect_col.getColliderStruct(), check_collider) && !rect_col.equals(rectCollider)) {
+                    if (!blockSide && HorOrVer) {
+                        this.x += (rect_col.posX - rectCollider.TRdot[0]);
+                        System.out.println(rect_col.posX - rectCollider.TRdot[0]);
                     }
-                    else {
-                        check_collider.mvAllx(-x);
-                        System.out.println(12);
+                    else if (blockSide && HorOrVer) {
+                        this.x -= (rectCollider.posX - rect_col.TRdot[0]);
+                        System.out.println(rectCollider.posX - rect_col.TRdot[0]);
                     }
-                    if (ColliderScripts.isCollide(rect_col.getColliderStruct(), check_collider)) {
-                        if (!blockSide && HorOrVer) {
-                            this.x += rect_col.TRdot[0] - rectCollider.posX;
-                            System.out.println(13);
-                        }
-                        else if (blockSide && HorOrVer) {
-                            this.x -= rect_col.TRdot[0] - rectCollider.posX;
-                            System.out.println(14);
-                        }
-                        rectCollider.update();
-                    } else {
-                        if (addX) {
-                            this.x += x;
-                            System.out.println(15);
-                            addX = false;
-                        }
-                    }
+                    rectCollider.update();
                 } else if (!rect_col.equals(rectCollider)) {
                     if (addX) {
-                        this.x += x;
-                        System.out.println(16);
-                        addX=false;
+                        //this.x += x;
+                        System.out.println(15);
+                        addX = false;
                     }
                 }
             }
