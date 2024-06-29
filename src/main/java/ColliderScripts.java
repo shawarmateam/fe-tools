@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class ColliderScripts extends scripts.CompScriptStructure {
     final static ArrayList<RectCollider> rc = new ArrayList<>();
-    public static boolean isCollide(ColliderStructure col_1, ColliderStructure col_2) {
+    public static boolean isCollide(ColliderStructure col_1, ColliderStructure col_2) { // TODO: пофиксить тут проблему (если один квадрат 0, а др. 1 по X и одинакого по Y, то столкновение не читается)
         if (col_1.TLdot[0] < col_2.TLdot[0] &&
             col_1.TRdot[0] > col_2.TLdot[0] &&
             col_1.TLdot[1] < col_2.DLdot[1] &&
@@ -10,9 +10,9 @@ public class ColliderScripts extends scripts.CompScriptStructure {
         {
             return true;
         } else if (col_2.TLdot[0] < col_1.TLdot[0] &&
-                col_2.TRdot[0] > col_1.TLdot[0] &&
-                col_2.TLdot[1] < col_1.DLdot[1] &&
-                col_2.DLdot[1] > col_1.TLdot[1])
+                   col_2.TRdot[0] > col_1.TLdot[0] &&
+                   col_2.TLdot[1] < col_1.DLdot[1] &&
+                   col_2.DLdot[1] > col_1.TLdot[1])
             {
                 return true;
             }

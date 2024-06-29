@@ -43,60 +43,34 @@ public class Transform {
         if (this.x+x < x_limit && rectCollider == null)
             this.x += x;
         else if (rectCollider != null) {
-            float sub_x;
-            float sub_y;
             boolean addX = true;
             for (RectCollider rect_col : rc) {
-                boolean HorOrVer = false; // true = horizontal, false = vertical
-                boolean blockSide = true; // for x: true = right, false = left for y: true = top, false = down
-                boolean isCollide = false;
-                if (ColliderScripts.isCollide(rect_col.getColliderStruct(), rectCollider.getColliderStruct()) && !rect_col.equals(rectCollider)) {
-                    isCollide=true;
-                    sub_x = rect_col.posX - rectCollider.posX;
-                    sub_y = rect_col.posY - rectCollider.posY;
-                    if (Math.abs(sub_x) >= Math.abs(sub_y)) {
-                        HorOrVer = true;
-                        if (sub_x > 0)
-                            blockSide = true;
-                        if (sub_x < 0)
-                            blockSide = false;
-                    }
-                    if (Math.abs(sub_x) < Math.abs(sub_y)) {
-                        HorOrVer = false;
-                    }
-                    if (!blockSide && x > 0 || blockSide && x < 0) {
-                        if (addX) {
-                            //this.x += x;
-                            rectCollider.update();
-                            addX=false;
-                        }
-                    }
-                }
                 ColliderStructure check_collider = new ColliderStructure(rectCollider.TLdot, rectCollider.TRdot, rectCollider.DLdot, rectCollider.DRdot, rectCollider.Center);
-                if (x > 0) {
-                    check_collider.mvAllx(x);
-                    System.out.println(11);
-                }
-                else {
-                    check_collider.mvAllx(-x);
-                    System.out.println(12);
-                }
-                if (ColliderScripts.isCollide(rect_col.getColliderStruct(), check_collider) && !rect_col.equals(rectCollider)) {
-                    if (!blockSide && HorOrVer) {
-                        this.x += (rect_col.posX - rectCollider.TRdot[0]);
-                        System.out.println(rect_col.posX - rectCollider.TRdot[0]);
+                check_collider.mvAllx(x);
+
+                if (rectCollider.isCollider && !rect_col.isCollider && ColliderScripts.isCollide(check_collider, rect_col.getColliderStruct())) {
+                    System.out.println("12345 "+(rect_col.posX));
+                    System.out.println("1234567 "+(rectCollider.TRdot[0]));
+                    switch (whatSideIsCollide(check_collider, rect_col.getColliderStruct())) {
+                        case -1, 2, 3:
+                            break;
+                        case 0:
+                            addX=false;
+                            rectCollider.update();
+                            this.x += (rect_col.posX-rectCollider.TRdot[0]);
+                            System.out.println(3444);
+                            break;
+                        case 1:
+                            addX=false;
+                            rectCollider.update();
+                            this.x -= (rectCollider.posX-rect_col.TRdot[0]);
+                            System.out.println(3445);
+                            break;
                     }
-                    else if (blockSide && HorOrVer) {
-                        this.x -= (rectCollider.posX - rect_col.TRdot[0]);
-                        System.out.println(rectCollider.posX - rect_col.TRdot[0]);
-                    }
-                    rectCollider.update();
-                } else if (!rect_col.equals(rectCollider)) {
-                    if (addX) {
-                        //this.x += x;
-                        System.out.println(15);
-                        addX = false;
-                    }
+                } else if (addX && rectCollider.isCollider && !rect_col.isCollider) {
+                    System.out.println(333);
+                    this.x += x;
+                    addX=false;
                 }
             }
         }
@@ -105,47 +79,32 @@ public class Transform {
         if (this.y+y < y_limit && rectCollider == null)
             this.y += y;
         else if (rectCollider != null) {
-//            boolean HorOrVer = true; // true = horizontal, false = vertical
-//            boolean blockSide = true; // for x: true = right, false = left for y: true = top, false = down
-//            boolean isCollide = false;
-//            boolean addY = true;
-            float sub_x;
-            float sub_y;
             boolean addY = true;
             for (RectCollider rect_col : rc) {
-                boolean HorOrVer = false; // true = horizontal, false = vertical
-                boolean blockSide = true; // for x: true = right, false = left for y: true = top, false = down
-                boolean isCollide = false;
-                if (ColliderScripts.isCollide(rect_col.getColliderStruct(), rectCollider.getColliderStruct()) && !rect_col.equals(rectCollider)) {
-                    isCollide=true;
-                    sub_x = rect_col.posX - rectCollider.posX;
-                    sub_y = rect_col.posY - rectCollider.posY;
-                    if (Math.abs(sub_x) >= Math.abs(sub_y)) {
-                        HorOrVer = true;
-                    }
-                    if (Math.abs(sub_x) < Math.abs(sub_y)) {
-                        HorOrVer = false;
-                        if (sub_y > 0)
-                            blockSide = true;
-                        if (sub_y < 0)
-                            blockSide = false;
-                    }
-                    if (!blockSide && y > 0 || blockSide && y < 0) {
-                        if (addY) {
-                            this.y += y;
-                            rectCollider.update();
+                ColliderStructure check_collider = new ColliderStructure(rectCollider.TLdot, rectCollider.TRdot, rectCollider.DLdot, rectCollider.DRdot, rectCollider.Center);
+                check_collider.mvAlly(y);
+
+                if (rectCollider.isCollider && !rect_col.isCollider && ColliderScripts.isCollide(check_collider, rect_col.getColliderStruct())) {
+                    switch (whatSideIsCollide(check_collider, rect_col.getColliderStruct())) {
+                        case -1, 0, 1:
+                            break;
+                        case 3:
                             addY=false;
-                        }
+                            rectCollider.update();
+                            this.y -= (rectCollider.posY-rect_col.TRdot[1]);
+                            System.out.println(3444);
+                            break;
+                        case 2:
+                            addY=false;
+                            rectCollider.update();
+                            this.y += (rect_col.posY-rectCollider.TRdot[1]);
+                            System.out.println(3445);
+                            break;
                     }
-                    if (ColliderScripts.isCollide(rect_col.getColliderStruct(), rectCollider.getColliderStruct())) {
-                        this.y -= y;
-                        rectCollider.update();
-                    }
-                } else if (!rect_col.equals(rectCollider)) {
-                    if (addY) {
-                        this.y += y;
-                        addY=false;
-                    }
+                } else if (addY && rectCollider.isCollider && !rect_col.isCollider) {
+                    System.out.println(333);
+                    this.y += y;
+                    addY=false;
                 }
             }
         }
@@ -157,5 +116,39 @@ public class Transform {
                 rc.add(ent.getComponent(RectCollider.class));
             }
         }
+    }
+
+    public static short whatSideIsCollide(ColliderStructure collision, ColliderStructure collider) { // 0 = left, 1 = right, 2 = top, 3 = bottom, -1 = null
+        boolean HorOrVer = true;
+        boolean blockSide = false;
+        float sub_x;
+        float sub_y;
+        if (ColliderScripts.isCollide(collision, collider) && !collision.equals(collider)) {
+            sub_x = collision.TLdot[0] - collider.TLdot[0];
+            sub_y = collision.TLdot[1] - collider.TLdot[1];
+            if (Math.abs(sub_x) > Math.abs(sub_y)) {
+                HorOrVer = true;
+                if (sub_x > 0)
+                    blockSide = true;
+                if (sub_x < 0)
+                    blockSide = false;
+            }
+            if (Math.abs(sub_x) <= Math.abs(sub_y)) {
+                HorOrVer = false;
+                if (sub_y > 0)
+                    blockSide = true;
+                if (sub_y < 0)
+                    blockSide = false;
+            }
+            if (HorOrVer && !blockSide)
+                return 0;
+            if (HorOrVer && blockSide)
+                return 1;
+            if (!HorOrVer && !blockSide)
+                return 3;
+            if (!HorOrVer && blockSide)
+                return 2;
+        }
+        return -1;
     }
 }

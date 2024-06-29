@@ -50,6 +50,8 @@ public class testscrgl extends FilesScripts {
             EntityScripts.getEntityByName("test").transform.addY(-.100f*dt);
         } else if (KeyListener.isKeyPressed(GLFW_KEY_K)) {
             System.out.println(EntityScripts.getEntityByName("test").transform.getX() + " " + EntityScripts.getEntityByName("test").transform.getY());
+        } else if (KeyListener.isKeyPressed(GLFW_KEY_Z)) {
+            EntityScripts.getEntityByName("test").transform.addX(0);
         }
     }
 }

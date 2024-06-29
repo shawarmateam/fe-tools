@@ -15,4 +15,12 @@ public class ColliderStructure {
         this.DRdot[0] += x;
         this.Center[0] += x;
     }
+
+    public void mvAlly(float y) {
+        this.TLdot[1] += y;
+        this.TRdot[1] += y;
+        this.DLdot[1] += y;
+        this.DRdot[1] += y;
+        this.Center[1] += y;
+    }
 }
