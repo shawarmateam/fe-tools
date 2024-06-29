@@ -88,16 +88,17 @@ public class Transform {
                     switch (whatSideIsCollide(check_collider, rect_col.getColliderStruct())) {
                         case -1, 0, 1:
                             break;
-                        case 3:
-                            addY=false;
-                            rectCollider.update();
-                            this.y -= (rectCollider.posY-rect_col.TRdot[1]);
-                            System.out.println(3444);
-                            break;
                         case 2:
                             addY=false;
                             rectCollider.update();
-                            this.y += (rect_col.posY-rectCollider.TRdot[1]);
+                            System.out.println(rectCollider.posY-rect_col.TRdot[1]);
+                            this.y -= (rectCollider.posY-rect_col.DRdot[1]);
+                            System.out.println(3444);
+                            break;
+                        case 3:
+                            addY=false;
+                            rectCollider.update();
+                            this.y += (rect_col.posY-rectCollider.DRdot[1]);
                             System.out.println(3445);
                             break;
                     }
