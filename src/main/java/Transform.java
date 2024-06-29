@@ -68,30 +68,39 @@ public class Transform {
                         if (addX) {
                             //this.x += x;
                             rectCollider.update();
-                            System.out.println("11111111");
                             addX=false;
                         }
                     }
                     ColliderStructure check_collider = new ColliderStructure(rectCollider.TLdot, rectCollider.TRdot, rectCollider.DLdot, rectCollider.DRdot, rectCollider.Center);
-                    check_collider.mvAllx(x);
-                    System.out.println(check_collider.TRdot[0]+" "+check_collider.TLdot[0]+" "+check_collider.DLdot[0]+" "+check_collider.DRdot[0]);
+                    if (x > 0) {
+                        check_collider.mvAllx(x);
+                        System.out.println(11);
+                    }
+                    else {
+                        check_collider.mvAllx(-x);
+                        System.out.println(12);
+                    }
                     if (ColliderScripts.isCollide(rect_col.getColliderStruct(), check_collider)) {
-                        // TODO: сделать проверку столкновения не при добавлении X, а в бесконечном цикле (для тестов сделать освобождение из куба только по нажатию клавиши)
-                        // PS не убирать блок столкновений, оставить тут.
-                        if (!blockSide && HorOrVer)
-                            this.x += rect_col.TRdot[0]-rectCollider.posX;
-                        else if (blockSide && HorOrVer)
-                            this.x -= rectCollider.TRdot[0]-rect_col.posX;
+                        if (!blockSide && HorOrVer) {
+                            this.x += rect_col.TRdot[0] - rectCollider.posX;
+                            System.out.println(13);
+                        }
+                        else if (blockSide && HorOrVer) {
+                            this.x -= rect_col.TRdot[0] - rectCollider.posX;
+                            System.out.println(14);
+                        }
                         rectCollider.update();
                     } else {
                         if (addX) {
                             this.x += x;
+                            System.out.println(15);
                             addX = false;
                         }
                     }
                 } else if (!rect_col.equals(rectCollider)) {
                     if (addX) {
                         this.x += x;
+                        System.out.println(16);
                         addX=false;
                     }
                 }

@@ -33,7 +33,7 @@ public class SceneManager {
         Matrix4f projection = new Matrix4f()
                 .ortho2D(cam.transform.sizeX/2, -cam.transform.sizeX/2, cam.transform.sizeY/2, -cam.transform.sizeY/2);
         Matrix4f scale = new Matrix4f()
-                .translate(new Vector3f(0, 0, 0))
+                .translate(new Vector3f(0, 0, 0)) // TODO: пофиксить объектную матрицу
                 .scale(scaleOfCam[0]);
         Matrix4f target = new Matrix4f();
         projection.mul(scale, target);

@@ -64,7 +64,7 @@ public class App {
 
                 if (updateProjSize) {
                     projection = new Matrix4f()
-                            .ortho2D(-cam.transform.sizeX/2, cam.transform.sizeX/2, -cam.transform.sizeY/2, cam.transform.sizeY/2);
+                            .ortho2D(cam.transform.sizeX/2, -cam.transform.sizeX/2, cam.transform.sizeY/2, -cam.transform.sizeY/2);
                     projection.mul(scale, target);
                     updateProjSize=false;
                 }
