@@ -65,7 +65,7 @@ public class ImGuiLayer {
         fontcfg.setPixelSnapH(true);
 
         fontatl.clear();
-        fontatl.addFontFromFileTTF("assets/JetBrainsMonoNL-Medium.ttf", 14); // <<
+        fontatl.addFontFromFileTTF("assets/JetBrainsMonoNL-Medium.ttf", 14, fontcfg); // <<
         fontcfg.destroy();
 
         // ------------------------------------------------------------
