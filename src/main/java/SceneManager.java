@@ -18,7 +18,7 @@ public class SceneManager {
     private static boolean cooldown_p = false;
     public static boolean updateProjSize = false;
     public static boolean isSceneStarted = false;
-    public static int[] scaleOfCam = new int[] {80};
+    public static int[] scaleOfCam = new int[] {80}; // TODO: сделать так, чтобы если объект был show = false, то он игнорировался
     public static boolean updateScaleOfCam = false;
 //    public static PosTexture texture;
     public void run() {
@@ -70,6 +70,7 @@ public class SceneManager {
                             ent.transform.getX(), ent.transform.getY(),
                             shader, scale, cam);
                 }
+
                 if (!isSceneStarted) {
                     new PosTexture(text.getWidth(), text.getHeight()).renderTexture(text, -3.4f, 1, shader, scale, cam);
                 }

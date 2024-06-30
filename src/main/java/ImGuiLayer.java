@@ -27,11 +27,14 @@ public class ImGuiLayer {
     ArrayList<String> ents_name = new ArrayList<>();
     ImBoolean[] selectionBoolean;
     private boolean startFileChooser = false;
+    private boolean startFileSaver = false;
     String pwd=(System.getenv("PWD")!=null)?System.getenv("PWD"):System.getenv("cd");
     ImString dir = new ImString(pwd);
     private String path_to_lvl;
     private boolean isOpenClickable = false;
+    private boolean isSaveClickable = false;
     boolean isOpenClicked=false;
+    boolean isSaveClicked=false;
 
     // LWJGL3 renderer (SHOULD be initialized)
     private final ImGuiImplGl3 imGuiGl3 = new ImGuiImplGl3();
@@ -285,19 +288,36 @@ public class ImGuiLayer {
                         ent.transform.getX(),
                         ent.transform.getY()
                 };
-                ImGui.dragFloat2("pos", ent_pos);
-                if (ent.transform.getX() != ent_pos[0] ||
-                        ent.transform.getY() != ent_pos[1])
+                float[] ent_size = new float[] {
+                        ent.transform.sizeX,
+                        ent.transform.sizeY
+                };
+
+                if (ImGui.dragFloat2("pos", ent_pos))
                 {
                     ent.transform.setX(ent_pos[0]);
                     ent.transform.setY(ent_pos[1]);
                 }
+
+                if (ImGui.dragFloat2("size", ent_size))
+                {
+                    ent.transform.sizeX=ent_size[0];
+                    ent.transform.sizeY=ent_size[1];
+                }
+
             }
             ImGui.end();
         }
 
-        if (startFileChooser)
+        if (startFileChooser) {
+            startFileSaver=false;
             fileChooser();
+        }
+
+        if (startFileSaver) {
+            startFileChooser=false;
+            fileSaver();
+        }
 
         if (isOpenClicked) {
             SceneLoader.readScene(new File(path_to_lvl));
@@ -305,11 +325,19 @@ public class ImGuiLayer {
             isOpenClicked=false;
         }
 
+        if (isSaveClicked) {
+            System.out.println(path_to_lvl);
+            isSaveClicked=false;
+        }
+
         if (!hideBar) {
             if (ImGui.beginMainMenuBar()) {
                 if (ImGui.beginMenu("File")) {
                     if (ImGui.menuItem("Open")) {
                         startFileChooser=true;
+                    }
+                    if (ImGui.menuItem("Save")) {
+                        startFileSaver=true;
                     }
                     ImGui.endMenu();
                 }
@@ -369,7 +397,57 @@ public class ImGuiLayer {
             if (isOpenClickable && ImGui.button("open")) {
                 startFileChooser=false;
                 isOpenClicked=true;
-                System.out.println("'"+path_to_lvl+"'");
+            }
+            ImGui.end();
+        }
+    }
+
+    public void fileSaver() {
+        if (ImGui.begin("Save as")) {
+            File dir_f = new File(dir.get());
+
+            ImGui.inputText("##input", dir);
+            ImGui.sameLine();
+            if (ImGui.button("<")) {
+                dir = new ImString(dir_f.getParent());
+            }
+            ImGui.separator();
+
+            File[] files = dir_f.listFiles();
+            if (files!=null) {
+                for (File file : files) {
+                    if (file.isDirectory()) {
+                        if (ImGui.selectable("D: " + file.getName(), false)) {
+                            //dir=new ImString(dir.get()+"/"+file.getName());
+                            dir = new ImString(new File(dir_f, file.getName()).getPath()); // TODO: доделать fileSaver
+                            ImGui.openPopup("Save as");
+                        }
+                    }
+                    else {
+                        boolean isDotPassed = false;
+                        StringBuilder extension = new StringBuilder();
+                        for (int i = 0; i < file.getName().length(); i++) {
+                            if (file.getName().charAt(i) == '.') {
+                                isDotPassed=true;
+                            } else if (isDotPassed) {
+                                extension.append(file.getName().charAt(i));
+                            }
+                        }
+                        if (extension.toString().equals("lvl") && ImGui.selectable("F: " + file.getName(), false)) {
+                            path_to_lvl = file.getPath();
+                            isSaveClickable=true;
+                        }
+                    }
+                }
+            }
+
+            ImGui.separator();
+            if (ImGui.button("cancel"))
+                startFileSaver=false;
+            ImGui.sameLine();
+            if (isSaveClickable && ImGui.button("save")) {
+                startFileSaver=false;
+                isSaveClicked=true;
             }
             ImGui.end();
         }

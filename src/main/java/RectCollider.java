@@ -5,7 +5,6 @@ public class RectCollider extends ComponentStruct {
     public float posX, posY;
     float sizeX, sizeY;
     public float[] TLdot, TRdot, DLdot, DRdot, Center;
-    public float[][] dots;
     public boolean isCollider; // for example: collider = wall (true), collision = player (false)
     public ArrayList<String> dep = new ArrayList<>(); // what collider will collide /w collision
 
@@ -21,7 +20,6 @@ public class RectCollider extends ComponentStruct {
         DLdot = new float[] {posX, posY+sizeY};
         DRdot = new float[] {posX+sizeX, posY+sizeY};
         Center = new float[] {posX+(sizeX/2), posY+(sizeY/2)};
-        dots = new float[][] {TLdot, TRdot, DLdot, DRdot, Center};
     }
 
     public RectCollider(float posXoffset, float posYoffset, float sizeX, float sizeY) {
@@ -35,7 +33,6 @@ public class RectCollider extends ComponentStruct {
         DLdot = new float[] {posX, posY+sizeY};
         DRdot = new float[] {posX+sizeX, posY+sizeY};
         Center = new float[] {posX+(sizeX/2), posY+(sizeY/2)};
-        dots = new float[][] {TLdot, TRdot, DLdot, DRdot, Center};
     }
 
     @Override
@@ -48,7 +45,6 @@ public class RectCollider extends ComponentStruct {
         DLdot = new float[] {posX, posY+sizeY};
         DRdot = new float[] {posX+sizeX, posY+sizeY};
         Center = new float[] {posX+(sizeX/2), posY+(sizeY/2)};
-        dots = new float[][] {TLdot, TRdot, DLdot, DRdot, Center};
     }
 
     public ColliderStructure getColliderStruct() {

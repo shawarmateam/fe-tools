@@ -4,6 +4,7 @@ public class Entity {
     public Transform transform;
     public RenderTexture texture;
     public String name;
+    public boolean show = true;
     ArrayList<ComponentStruct> comps = new ArrayList<>();
 
     public Entity(RenderTexture texture, Transform transform, String name) {

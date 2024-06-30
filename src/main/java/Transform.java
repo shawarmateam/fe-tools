@@ -49,8 +49,6 @@ public class Transform {
                 check_collider.mvAllx(x);
 
                 if (rectCollider.isCollider && !rect_col.isCollider && ColliderScripts.isCollide(check_collider, rect_col.getColliderStruct())) {
-                    System.out.println("12345 "+(rect_col.posX));
-                    System.out.println("1234567 "+(rectCollider.TRdot[0]));
                     switch (whatSideIsCollide(check_collider, rect_col.getColliderStruct())) {
                         case -1, 2, 3:
                             break;
@@ -58,17 +56,14 @@ public class Transform {
                             addX=false;
                             rectCollider.update();
                             this.x += (rect_col.posX-rectCollider.TRdot[0]);
-                            System.out.println(3444);
                             break;
                         case 1:
                             addX=false;
                             rectCollider.update();
                             this.x -= (rectCollider.posX-rect_col.TRdot[0]);
-                            System.out.println(3445);
                             break;
                     }
                 } else if (addX && rectCollider.isCollider && !rect_col.isCollider) {
-                    System.out.println(333);
                     this.x += x;
                     addX=false;
                 }
@@ -91,19 +86,15 @@ public class Transform {
                         case 2:
                             addY=false;
                             rectCollider.update();
-                            System.out.println(rectCollider.posY-rect_col.TRdot[1]);
                             this.y -= (rectCollider.posY-rect_col.DRdot[1]);
-                            System.out.println(3444);
                             break;
                         case 3:
                             addY=false;
                             rectCollider.update();
                             this.y += (rect_col.posY-rectCollider.DRdot[1]);
-                            System.out.println(3445);
                             break;
                     }
                 } else if (addY && rectCollider.isCollider && !rect_col.isCollider) {
-                    System.out.println(333);
                     this.y += y;
                     addY=false;
                 }
