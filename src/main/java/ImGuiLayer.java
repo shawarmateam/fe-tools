@@ -58,7 +58,15 @@ public class ImGuiLayer {
         io.setConfigFlags(ImGuiConfigFlags.NavEnableKeyboard); // Navigation with keyboard
         io.setBackendFlags(ImGuiBackendFlags.HasMouseCursors); // Mouse cursors to display while resizing windows etc.
         io.setBackendPlatformName("imgui_java_impl_glfw");
-        //io.getFonts().addFontFromFileTTF("assets/ProggyCleanRu.ttf", 14); // <<
+        ImFontAtlas fontatl = io.getFonts();
+        ImFontConfig fontcfg = new ImFontConfig();
+
+        fontcfg.setGlyphRanges(fontatl.getGlyphRangesCyrillic());
+        fontcfg.setPixelSnapH(true);
+
+        fontatl.clear();
+        fontatl.addFontFromFileTTF("assets/JetBrainsMonoNL-Medium.ttf", 14); // <<
+        fontcfg.destroy();
 
         // ------------------------------------------------------------
         // Keyboard mapping. ImGui will use those indices to peek into the io.KeysDown[] array.
@@ -306,7 +314,6 @@ public class ImGuiLayer {
                     ent.transform.sizeX=ent_size[0];
                     ent.transform.sizeY=ent_size[1];
                 }
-
             }
             ImGui.end();
         }
