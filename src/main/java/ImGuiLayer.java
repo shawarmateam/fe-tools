@@ -36,7 +36,6 @@ public class ImGuiLayer {
     private boolean isSaveClickable = false;
     boolean isOpenClicked=false;
     boolean isSaveClicked=false;
-    boolean clearField = false;
 
     // LWJGL3 renderer (SHOULD be initialized)
     private final ImGuiImplGl3 imGuiGl3 = new ImGuiImplGl3();
@@ -59,6 +58,7 @@ public class ImGuiLayer {
         io.setConfigFlags(ImGuiConfigFlags.NavEnableKeyboard); // Navigation with keyboard
         io.setBackendFlags(ImGuiBackendFlags.HasMouseCursors); // Mouse cursors to display while resizing windows etc.
         io.setBackendPlatformName("imgui_java_impl_glfw");
+        //io.getFonts().addFontFromFileTTF("assets/ProggyCleanRu.ttf", 14); // <<
 
         // ------------------------------------------------------------
         // Keyboard mapping. ImGui will use those indices to peek into the io.KeysDown[] array.
@@ -338,7 +338,7 @@ public class ImGuiLayer {
                     if (ImGui.menuItem("Open")) {
                         startFileChooser=true;
                     }
-                    if (ImGui.menuItem("Save")) {
+                    if (SceneManager.isSceneStarted && ImGui.menuItem("Save")) {
                         startFileSaver=true;
                     }
                     ImGui.endMenu();
@@ -421,7 +421,7 @@ public class ImGuiLayer {
                     if (file.isDirectory()) {
                         if (ImGui.selectable("D: " + file.getName(), false)) {
                             //dir=new ImString(dir.get()+"/"+file.getName());
-                            dir = new ImString(new File(dir_f, file.getName()).getPath()); // TODO: доделать fileSaver
+                            dir = new ImString(new File(dir_f, file.getName()).getPath());
                             ImGui.openPopup("Save as");
                         }
                     }
@@ -437,21 +437,29 @@ public class ImGuiLayer {
                         }
                         if (extension.toString().equals("lvl") && ImGui.selectable("F: " + file.getName(), false)) {
                             path_to_lvl = file.getPath();
-                            file_name_to_save = new ImString(file.getName());
-                            clearField=true;
+                            file_name_to_save.set(file.getName());
                             isSaveClickable=true;
                         }
                     }
                 }
             }
 
+            if (ImGui.beginPopupModal("Rewrite?")) {
+                ImGui.text("This file already exists. Do you want to rewrite it?\n(this operation can't be undone!)");
+                ImGui.separator();
+                if (ImGui.button("OK")) {
+                    startFileSaver = false;
+                    isSaveClicked = true;
+                }
+                ImGui.sameLine();
+                if (ImGui.button("Cancel")) {
+                    ImGui.closeCurrentPopup();
+                }
+                ImGui.endPopup();
+            }
+
             ImGui.separator();
             if (ImGui.inputText("file name", file_name_to_save)) {
-                if (clearField) {
-                    file_name_to_save=new ImString();
-                    System.out.println("test");
-                    clearField=false;
-                }
                 String div = (System.getProperty("os.name").toLowerCase().contains("linux")||System.getProperty("os.name").toLowerCase().contains("mac"))?"/":"\\";
                 // if os name is Linux or macos div = "/". else div = "\"
                 path_to_lvl=dir_f.getPath()+div+file_name_to_save.get();
@@ -460,8 +468,12 @@ public class ImGuiLayer {
                 startFileSaver=false;
             ImGui.sameLine();
             if (isSaveClickable && ImGui.button("save")) {
-                startFileSaver=false;
-                isSaveClicked=true;
+                if (new File(path_to_lvl).exists()) {
+                    ImGui.openPopup("Rewrite?");
+                } else {
+                    startFileSaver = false;
+                    isSaveClicked = true;
+                }
             }
             ImGui.end();
         }
@@ -493,14 +505,16 @@ public class ImGuiLayer {
         io.setDisplayFramebufferScale(1f, 1f);
         io.setMousePos((float) mousePosX[0], (float) mousePosY[0]);
         io.setDeltaTime(deltaTime);
-        wantCaptureMouse=io.getWantCaptureMouse();
-        if (wantCaptureMouse)
+
+        if (!wantCaptureMouse && io.getWantCaptureMouse()) {
             initImGui();
-        else {
+        }
+        else if (!wantCaptureMouse && !io.getWantCaptureMouse()) {
             glfwSetScrollCallback(SceneManagersWindow.getWindow(), MouseListener::mouseScrollCallback);
             glfwSetMouseButtonCallback(SceneManagersWindow.getWindow(), MouseListener::mouseButtonCallback);
             glfwSetKeyCallback(SceneManagersWindow.getWindow(), KeyListener::keyCallback);
         }
+        wantCaptureMouse=io.getWantCaptureMouse();
 
         // Update the mouse cursor
         final int imguiCursor = ImGui.getMouseCursor();
