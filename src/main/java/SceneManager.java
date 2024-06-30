@@ -18,7 +18,7 @@ public class SceneManager {
     private static boolean cooldown_p = false;
     public static boolean updateProjSize = false;
     public static boolean isSceneStarted = false;
-    public static int[] scaleOfCam = new int[] {80}; // TODO: сделать так, чтобы если объект был show = false, то он игнорировался
+    public static int[] scaleOfCam = new int[] {80};
     public static boolean updateScaleOfCam = false;
 //    public static PosTexture texture;
     public void run() {
@@ -33,7 +33,7 @@ public class SceneManager {
         Matrix4f projection = new Matrix4f()
                 .ortho2D(cam.transform.sizeX/2, -cam.transform.sizeX/2, cam.transform.sizeY/2, -cam.transform.sizeY/2);
         Matrix4f scale = new Matrix4f()
-                .translate(new Vector3f(0, 0, 0)) // TODO: пофиксить объектную матрицу
+                .translate(new Vector3f(0, 0, 0))
                 .scale(scaleOfCam[0]);
         Matrix4f target = new Matrix4f();
         projection.mul(scale, target);
@@ -162,7 +162,6 @@ public class SceneManager {
             scaleOfCam[0]--;
             updateScaleOfCam=true;
         }
-        // TODO: пофиксить баг с клавой, если кликнуть на интерфейс клава умирает
     }
 
     public static boolean isPressed(int key) {

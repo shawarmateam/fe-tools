@@ -28,6 +28,7 @@ public class ImGuiLayer {
     ImBoolean[] selectionBoolean;
     private boolean startFileChooser = false;
     private boolean startFileSaver = false;
+    private ImString file_name_to_save = new ImString();
     String pwd=(System.getenv("PWD")!=null)?System.getenv("PWD"):System.getenv("cd");
     ImString dir = new ImString(pwd);
     private String path_to_lvl;
@@ -35,6 +36,7 @@ public class ImGuiLayer {
     private boolean isSaveClickable = false;
     boolean isOpenClicked=false;
     boolean isSaveClicked=false;
+    boolean clearField = false;
 
     // LWJGL3 renderer (SHOULD be initialized)
     private final ImGuiImplGl3 imGuiGl3 = new ImGuiImplGl3();
@@ -435,6 +437,8 @@ public class ImGuiLayer {
                         }
                         if (extension.toString().equals("lvl") && ImGui.selectable("F: " + file.getName(), false)) {
                             path_to_lvl = file.getPath();
+                            file_name_to_save = new ImString(file.getName());
+                            clearField=true;
                             isSaveClickable=true;
                         }
                     }
@@ -442,6 +446,16 @@ public class ImGuiLayer {
             }
 
             ImGui.separator();
+            if (ImGui.inputText("file name", file_name_to_save)) {
+                if (clearField) {
+                    file_name_to_save=new ImString();
+                    System.out.println("test");
+                    clearField=false;
+                }
+                String div = (System.getProperty("os.name").toLowerCase().contains("linux")||System.getProperty("os.name").toLowerCase().contains("mac"))?"/":"\\";
+                // if os name is Linux or macos div = "/". else div = "\"
+                path_to_lvl=dir_f.getPath()+div+file_name_to_save.get();
+            }
             if (ImGui.button("cancel"))
                 startFileSaver=false;
             ImGui.sameLine();
