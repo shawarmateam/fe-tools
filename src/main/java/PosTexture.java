@@ -6,8 +6,6 @@ import static org.lwjgl.opengl.GL11.*;
 public class PosTexture {
     private Model model;
     public PosTexture(float w, float h) {
-//        float width = 1f;
-//        float height = 1f;
         float width = w/100;
         float height = (h+70)/100;
         float x = 0f;

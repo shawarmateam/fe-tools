@@ -16,7 +16,7 @@ public class Window {
     private static float targetAspectRatio;
 
     public void run() {
-        this.mainClass = new App();
+        mainClass = new App();
         this.init();
         this.loop();
 
@@ -32,18 +32,16 @@ public class Window {
     public void init() {
         width=600;
         height=600;
-        // Set up an error callback. The default implementation
-        // will print the error message in System.err.
+
         GLFWErrorCallback.createPrint(System.err).set();
 
-        // Initialize GLFW. Most GLFW functions will not work before doing this.
         if ( !glfwInit() )
             throw new IllegalStateException("Unable to initialize GLFW");
 
         // Configure GLFW
-        glfwDefaultWindowHints(); // optional, the current window hints are already the default
-        glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE); // the window will stay hidden after creation
-        glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE); // the window will not be resizable
+        glfwDefaultWindowHints();
+        glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
+        glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
         // Create the window
         window = glfwCreateWindow(width, height, "Files Engine", NULL, NULL);
@@ -55,10 +53,7 @@ public class Window {
             IntBuffer pWidth = stack.mallocInt(1);
             IntBuffer pHeight = stack.mallocInt(1);
 
-            // Get the window size passed to glfwCreateWindow
             glfwGetWindowSize(window, pWidth, pHeight);
-
-            // Get the resolution of the primary monitor
             GLFWVidMode vidmode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 
             // Center the window
@@ -72,7 +67,7 @@ public class Window {
             glfwSetScrollCallback(window, MouseListener::mouseScrollCallback);
             glfwSetMouseButtonCallback(window, MouseListener::mouseButtonCallback);
             glfwSetKeyCallback(window, KeyListener::keyCallback);
-        } // the stack frame is popped automatically
+        }
 
         // Make the OpenGL context current
         glfwMakeContextCurrent(window);

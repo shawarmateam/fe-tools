@@ -68,7 +68,7 @@ public class ImGuiLayer {
         fontAtlas.clear();
 
         fontConfig.setGlyphRanges(fontAtlas.getGlyphRangesCyrillic());
-        fontAtlas.addFontFromFileTTF("assets/ProggyCleanRu.ttf", 13, fontConfig);
+        fontAtlas.addFontFromFileTTF("assets/fonts/ProggyCleanRu.ttf", 13, fontConfig);
 
 
         fontConfig.setPixelSnapH(false);

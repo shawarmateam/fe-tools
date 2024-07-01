@@ -6,14 +6,12 @@ public class RectCollider extends ComponentStruct {
     float sizeX, sizeY;
     public float[] TLdot, TRdot, DLdot, DRdot, Center;
     public boolean isCollider; // for example: collider = wall (true), collision = player (false)
-    public ArrayList<String> dep = new ArrayList<>(); // what collider will collide /w collision
 
     public RectCollider(float posXoffset, float posYoffset, float sizeX, float sizeY, ArrayList<String> dep) {
         this.posXoffset = posXoffset;
         this.posYoffset = posYoffset;
         this.sizeX = sizeX;
         this.sizeY = sizeY;
-        this.dep = !dep.isEmpty() ? dep : null;
         this.isCollider = dep.isEmpty();
         TLdot = new float[] {posX, posY};
         TRdot = new float[] {posX+sizeX, posY};

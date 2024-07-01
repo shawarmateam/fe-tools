@@ -45,12 +45,7 @@ public class MouseListener {
     }
 
     public static void mouseScrollCallback(long window, double x_off, double y_off) {
-        if (yOff == y_off) {
-            isChanged = true;
-            System.out.println(yOff+" "+y_off);
-        }
-        else
-            isChanged=false;
+        isChanged = (yOff == y_off);
         xOff = x_off;
         yOff = y_off;
     }

@@ -38,15 +38,13 @@ public class SceneManager {
         Matrix4f target = new Matrix4f();
         projection.mul(scale, target);
         glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-//        texture = new PosTexture();
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         double start = Timer.getTime();
         double end = Timer.getTime();
         double dt = 0;
-        //SceneLoader.readScene(new File("/home/adisteyf/IdeaProjects/FilesEngine/assets/sample.lvl"));
-        //RenderText.setUpFonts();
+
         Batch test = new Batch();
-        test.font = new CFont("assets/JetBrainsMonoNL-Medium.ttf", 25);
+        test.font = new CFont("assets/fonts/JetBrainsMonoNL-Medium.ttf", 25);
         test.shader = shader;
         test.initBatch();
         RenderTexture text = new RenderTexture(test.getText("Not a single project was launched.", "#ffffff", test.font.getBitmap()));
@@ -75,7 +73,6 @@ public class SceneManager {
                     new PosTexture(text.getWidth(), text.getHeight()).renderTexture(text, -3.4f, 1, shader, scale, cam);
                 }
                 SceneManagersWindow.imGuiLayer.update((float) dt);
-//                test.addText("переделываю", 200, 200, .5f, 0xFF00AB0);
 
                 if (updateScaleOfCam) {
                     scale = new Matrix4f()

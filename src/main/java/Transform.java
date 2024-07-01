@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Transform {
     private float x, y;
-    private float x_limit, y_limit;
+    private final float x_limit, y_limit;
     public float sizeX, sizeY;
     public RectCollider rectCollider = null;
     ArrayList<RectCollider> rc = new ArrayList<>();
