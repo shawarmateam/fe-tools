@@ -107,28 +107,28 @@ public class SceneManager {
     }
 
     public static void checkHotKey() {
-        if (isPressed(GLFW_KEY_W)) {
+        if (KeyListener.isKeyPressed(GLFW_KEY_W)) {
             if (ImGuiLayer.invertCamMovement)
                 ImGuiLayer.camPos[1] -= ImGuiLayer.camSpeed[0];
             else
                 ImGuiLayer.camPos[1] += ImGuiLayer.camSpeed[0];
             ImGuiLayer.applyCamPos();
         }
-        if (isPressed(GLFW_KEY_A)) {
+        if (KeyListener.isKeyPressed(GLFW_KEY_A)) {
             if (ImGuiLayer.invertCamMovement)
                 ImGuiLayer.camPos[0] += ImGuiLayer.camSpeed[0];
             else
                 ImGuiLayer.camPos[0] -= ImGuiLayer.camSpeed[0];
             ImGuiLayer.applyCamPos();
         }
-        if (isPressed(GLFW_KEY_S)) {
+        if (KeyListener.isKeyPressed(GLFW_KEY_S)) {
             if (ImGuiLayer.invertCamMovement)
                 ImGuiLayer.camPos[1] += ImGuiLayer.camSpeed[0];
             else
                 ImGuiLayer.camPos[1] -= ImGuiLayer.camSpeed[0];
             ImGuiLayer.applyCamPos();
         }
-        if (isPressed(GLFW_KEY_D)) {
+        if (KeyListener.isKeyPressed(GLFW_KEY_D)) {
             if (ImGuiLayer.invertCamMovement)
                 ImGuiLayer.camPos[0] -= ImGuiLayer.camSpeed[0];
             else
@@ -136,21 +136,21 @@ public class SceneManager {
             ImGuiLayer.applyCamPos();
         }
         cam.init();
-        if (isPressed(GLFW_KEY_MINUS) && !cooldown_m) {
+        if (KeyListener.isKeyPressed(GLFW_KEY_MINUS) && !cooldown_m) {
             if (ImGuiLayer.camSpeed[0] > 1) {
                 ImGuiLayer.camSpeed[0] -= 1;
                 cooldown_m = true;
             }
-        } else if (!isPressed(GLFW_KEY_MINUS)) {
+        } else if (!KeyListener.isKeyPressed(GLFW_KEY_MINUS)) {
             cooldown_m = false;
         }
 
-        if (isPressed(GLFW_KEY_EQUAL) && isPressed(GLFW_KEY_LEFT_SHIFT) && !cooldown_p) {
+        if (KeyListener.isKeyPressed(GLFW_KEY_EQUAL) && KeyListener.isKeyPressed(GLFW_KEY_LEFT_SHIFT) && !cooldown_p) {
             if (ImGuiLayer.camSpeed[0] < 25) {
                 ImGuiLayer.camSpeed[0] += 1;
                 cooldown_p = true;
             }
-        } else if (!isPressed(GLFW_KEY_EQUAL) || !isPressed(GLFW_KEY_LEFT_SHIFT)) {
+        } else if (!KeyListener.isKeyPressed(GLFW_KEY_EQUAL) || !KeyListener.isKeyPressed(GLFW_KEY_LEFT_SHIFT)) {
             cooldown_p = false;
         }
 
@@ -162,10 +162,6 @@ public class SceneManager {
             scaleOfCam[0]--;
             updateScaleOfCam=true;
         }
-    }
-
-    public static boolean isPressed(int key) {
-        return glfwGetKey(window, key) == GL_TRUE;
     }
 
     public static void main(String[] args) {
