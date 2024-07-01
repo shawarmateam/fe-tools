@@ -87,8 +87,7 @@ public class SceneManager {
                     updateProjSize=false;
                 }
 
-                boolean isAnyWinFocused = ImGuiLayer.isAnyWindowFocused();
-                if (isSceneStarted && !isAnyWinFocused) {
+                if (isSceneStarted) {
                     checkHotKey();
                 }
                 // TODO: сделать так, чтобы все сущ. камеры были в ArrayList из камер

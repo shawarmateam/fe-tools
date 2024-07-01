@@ -21,7 +21,6 @@ public class ImGuiLayer {
     public static boolean invertCamMovement = false;
     public static boolean hideBar = false;
     public static float[] camPos = new float[] {0f, 0f, 0f};
-    private static boolean isAnyWindowFocused = false;
     private final long[] mouseCursors = new long[ImGuiMouseCursor.COUNT];
     ArrayList<Boolean> selection = new ArrayList<>();
     ArrayList<String> ents_name = new ArrayList<>();
@@ -219,9 +218,6 @@ public class ImGuiLayer {
             if (ImGui.dragInt("cam zooming", SceneManager.scaleOfCam)) {
                 SceneManager.updateScaleOfCam = true;
             }
-
-            if (ImGui.isWindowFocused())
-                isAnyWindowFocused=true;
         }
         ImGui.end();
 
@@ -249,8 +245,6 @@ public class ImGuiLayer {
                     selectionBoolean[i] = new ImBoolean(true);
                 }
             }
-            if (ImGui.isWindowFocused())
-                isAnyWindowFocused=true;
         }
         ImGui.end();
 
@@ -486,6 +480,7 @@ public class ImGuiLayer {
         io.setDeltaTime(deltaTime);
 
         if (!wantCaptureMouse && io.getWantCaptureMouse()) {
+            KeyListener.clearKeyPressed();
             connectCallbacks();
         }
         else if (wantCaptureMouse && !io.getWantCaptureMouse()) {
@@ -493,6 +488,7 @@ public class ImGuiLayer {
             glfwSetScrollCallback(glfwWindow, MouseListener::mouseScrollCallback);
             glfwSetMouseButtonCallback(glfwWindow, MouseListener::mouseButtonCallback);
             glfwSetKeyCallback(glfwWindow, KeyListener::keyCallback);
+            glfwSetCursorPosCallback(glfwWindow, MouseListener::mousePosCallback);
         }
         wantCaptureMouse=io.getWantCaptureMouse();
 
@@ -508,14 +504,6 @@ public class ImGuiLayer {
         // After Dear ImGui prepared a draw data, we use it in the LWJGL3 renderer.
         // At that moment ImGui will be rendered to the current OpenGL context.
         imGuiGl3.renderDrawData(ImGui.getDrawData());
-    }
-
-    public static boolean isAnyWindowFocused() {
-        if (isAnyWindowFocused) {
-            isAnyWindowFocused=false;
-            return true;
-        }
-        return false;
     }
 
     // If you want to clean a room after yourself - do it by yourself
