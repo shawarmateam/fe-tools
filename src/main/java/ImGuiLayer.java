@@ -35,6 +35,7 @@ public class ImGuiLayer {
     private boolean isSaveClickable = false;
     boolean isOpenClicked=false;
     boolean isSaveClicked=false;
+    final ImBoolean[] isNotWinClosed = new ImBoolean[3];
 
     // LWJGL3 renderer (SHOULD be initialized)
     private final ImGuiImplGl3 imGuiGl3 = new ImGuiImplGl3();
@@ -82,6 +83,10 @@ public class ImGuiLayer {
         io.setConfigFlags(ImGuiConfigFlags.NavEnableKeyboard); // Navigation with keyboard
         io.setBackendFlags(ImGuiBackendFlags.HasMouseCursors); // Mouse cursors to display while resizing windows etc.
         io.setBackendPlatformName("imgui_java_impl_glfw");
+
+        for (int i = 0; i < isNotWinClosed.length; i++) {
+            isNotWinClosed[i] = new ImBoolean(true);
+        }
 
         // ------------------------------------------------------------
         // Keyboard mapping. ImGui will use those indices to peek into the io.KeysDown[] array.
@@ -193,7 +198,7 @@ public class ImGuiLayer {
     }
 
     public void content() {
-        if (ImGui.begin("Editor Settings")) {
+        if (isNotWinClosed[0].get() && ImGui.begin("Editor Settings", isNotWinClosed[0])) {
             ImGui.sliderInt("cam speed", camSpeed, 1, 25);
             boolean isClicked = ImGui.checkbox("invert cam movement", invertCamMovement);
             if (isClicked && !invertCamMovement)
@@ -218,8 +223,8 @@ public class ImGuiLayer {
             if (ImGui.dragInt("cam zooming", SceneManager.scaleOfCam)) {
                 SceneManager.updateScaleOfCam = true;
             }
+            ImGui.end();
         }
-        ImGui.end();
 
         if (ImGui.begin("Entities")) {
             ents_name = new ArrayList<>();
