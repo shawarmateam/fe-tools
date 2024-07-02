@@ -36,6 +36,7 @@ public class ImGuiLayer {
     boolean isOpenClicked=false;
     boolean isSaveClicked=false;
     final ImBoolean[] isNotWinClosed = new ImBoolean[3];
+    static ImVec2 viewportSize = null;
 
     // LWJGL3 renderer (SHOULD be initialized)
     private final ImGuiImplGl3 imGuiGl3 = new ImGuiImplGl3();
@@ -290,11 +291,19 @@ public class ImGuiLayer {
         }
 
         if (ImGui.begin("Game Viewport")) {
-            ImVec2 winSize = ImGui.getWindowSize();
-            //ImVec2 winPos;
-            //ImGui.setCursorPos(winPos.x, winPos.y);
+            viewportSize = ImGui.getWindowSize();
+
+            if (SceneManagersWindow.getHeight() != viewportSize.y || SceneManagersWindow.getWidth() != viewportSize.x) {
+                //SceneManagersWindow.setWidth((int) viewportSize.x);
+                //SceneManagersWindow.setHeight((int) viewportSize.y);
+                SceneManager.cam.transform.sizeX = (int) viewportSize.x;
+                SceneManager.cam.transform.sizeY = (int) viewportSize.y;
+                SceneManager.cam.init();
+                SceneManager.updateProjSize = true;
+            }
+
             int texID = SceneManager.getFrameBuffer().getTextureId();
-            ImGui.image(texID, winSize.x, winSize.y, 0, 1, 1, 0);
+            ImGui.image(texID, viewportSize.x, viewportSize.y, 0, 1, 1, 0);
 
             ImGui.end();
         }
@@ -507,7 +516,6 @@ public class ImGuiLayer {
             connectCallbacks();
         }
         else if (wantCaptureMouse && !io.getWantCaptureMouse()) {
-            System.out.println(122);
             glfwSetScrollCallback(glfwWindow, MouseListener::mouseScrollCallback);
             glfwSetMouseButtonCallback(glfwWindow, MouseListener::mouseButtonCallback);
             glfwSetKeyCallback(glfwWindow, KeyListener::keyCallback);
@@ -533,5 +541,9 @@ public class ImGuiLayer {
     private void destroyImGui() {
         imGuiGl3.dispose();
         ImGui.destroyContext();
+    }
+
+    public static ImVec2 getViewportSize() {
+        return viewportSize;
     }
 }

@@ -19,7 +19,7 @@ public class WindowSizeListener {
         int vpX = (int)(((float)screenWidth / 2f) - ((float)aspectWidth / 2f));
         int vpY = (int)(((float)screenHeight / 2f) - ((float)aspectHeight / 2f));
 
-        glViewport(vpX, vpY, aspectWidth, aspectHeight);
+        //glViewport(vpX, vpY, aspectWidth, aspectHeight);
     }
 
     public static void resizeCallbackApp(long window, int screenWidth, int screenHeight) {
