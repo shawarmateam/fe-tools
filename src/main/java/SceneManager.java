@@ -63,9 +63,12 @@ public class SceneManager {
             glfwPollEvents();
             if (canRender) {
                 start = end;
+//                frameBuffer.bind();
                 glfwSwapBuffers(window); // swap the color buffer
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
                 glLoadIdentity();
+                frameBuffer.bind();
+                glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
                 for (Entity ent : ents) {
                     new PosTexture(ent.texture.getWidth(), ent.texture.getHeight()).renderTexture(ent.texture,
@@ -77,8 +80,7 @@ public class SceneManager {
                     new PosTexture(text.getWidth(), text.getHeight()).renderTexture(text, -3.4f, 1, shader, scale, cam);
                 }
 
-                //frameBuffer.bind();
-
+                frameBuffer.unbind();
                 SceneManagersWindow.imGuiLayer.update((float) dt);
 
                 if (updateScaleOfCam) {
