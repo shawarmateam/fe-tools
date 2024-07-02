@@ -253,7 +253,7 @@ public class ImGuiLayer {
             ImGui.end();
         }
 
-        if (ImGui.begin("Inspector")) {
+        if (isNotWinClosed[2].get() && ImGui.begin("Inspector", isNotWinClosed[2])) {
             Entity ent=null;
             for (int i = 0; i < ents_name.size(); i++) {
                 if (selectionBoolean != null && selectionBoolean[i].get()) {
@@ -322,11 +322,14 @@ public class ImGuiLayer {
                     ImGui.endMenu();
                 }
                 if (ImGui.beginMenu("Edit")) {
+                    if (ImGui.menuItem("Editor Settings")) {
+                        isNotWinClosed[0]=new ImBoolean(true);
+                    }
                     if (ImGui.menuItem("Entities")) {
                         isNotWinClosed[1]=new ImBoolean(true);
                     }
-                    if (ImGui.menuItem("Editor Settings")) {
-                        isNotWinClosed[0]=new ImBoolean(true);
+                    if (ImGui.menuItem("Inspector")) {
+                        isNotWinClosed[2]=new ImBoolean(true);
                     }
                     ImGui.endMenu();
                 }
