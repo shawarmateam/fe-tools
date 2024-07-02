@@ -69,6 +69,8 @@ public class SceneManager {
                 glLoadIdentity();
                 frameBuffer.bind();
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+                if (ImGuiLayer.viewportSize != null)
+                    glViewport((int) ImGuiLayer.viewportSize.x/2, (int) ImGuiLayer.viewportSize.y/2, (int) ImGuiLayer.viewportSize.x, (int) ImGuiLayer.viewportSize.y);
 
                 for (Entity ent : ents) {
                     new PosTexture(ent.texture.getWidth(), ent.texture.getHeight()).renderTexture(ent.texture,
