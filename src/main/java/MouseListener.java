@@ -7,13 +7,18 @@ public class MouseListener {
     private static boolean mouse1;
     private static boolean mouse2;
     private static boolean mouse3;
+    private static boolean[] isDragged = new boolean[3]; // 0 == mouse1, 1 == mouse2, 2 == mouse3
     private static double xOff;
     private static double yOff;
     public static boolean isChanged=false;
 
     public static void mousePosCallback(long window, double xp, double yp) {
+        isDragged[0] = mouse1;
+        isDragged[1] = mouse2;
+        isDragged[2] = mouse3;
         xPos = xp;
         yPos = yp;
+        System.out.println(isDragged[0]+" "+isDragged[1]+" "+isDragged[2]);
     }
 
     public static void mouseButtonCallback(long window, int button, int action, int mods) {
@@ -33,12 +38,15 @@ public class MouseListener {
             switch (button) {
                 case 0:
                     mouse1 = false;
+                    isDragged[0]=false;
                     break;
                 case 1:
                     mouse2 = false;
+                    isDragged[1]=false;
                     break;
                 case 2:
                     mouse3 = false;
+                    isDragged[2]=false;
                     break;
             }
         }
