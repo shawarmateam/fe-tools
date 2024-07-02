@@ -17,7 +17,7 @@ import static org.lwjgl.glfw.GLFW.*;
 public class ImGuiLayer {
     public static boolean wantCaptureMouse = false;
     private long glfwWindow;
-    public static int[] camSpeed = new int[] {10};
+    public static int[] camSpeed = new int[] {1};
     public static boolean invertCamMovement = false;
     public static boolean hideBar = false;
     public static float[] camPos = new float[] {0f, 0f, 0f};
@@ -199,7 +199,7 @@ public class ImGuiLayer {
 
     public void content() {
         if (isNotWinClosed[0].get() && ImGui.begin("Editor Settings", isNotWinClosed[0])) {
-            ImGui.sliderInt("cam speed", camSpeed, 1, 25);
+            ImGui.sliderInt("cam speed", camSpeed, 1, 5);
             boolean isClicked = ImGui.checkbox("invert cam movement", invertCamMovement);
             if (isClicked && !invertCamMovement)
                 invertCamMovement=true;
@@ -213,7 +213,7 @@ public class ImGuiLayer {
                 hideBar=false;
 
 //            ImGui.inputFloat("cam zooming", camZ, 0.01f, 1.0f, "%.3f");
-            if (ImGui.dragFloat3("cam pos", camPos)) {
+            if (ImGui.dragFloat3("cam pos", camPos, 0.1f, 0.1f, 0.1f, "%.3f")) {
                 SceneManager.cam.transform.setX(camPos[0]);
                 SceneManager.cam.transform.setY(camPos[1]);
                 SceneManager.cam.setZ(camPos[2]);

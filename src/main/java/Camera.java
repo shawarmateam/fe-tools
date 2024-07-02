@@ -14,7 +14,7 @@ public class Camera {
         projection = new Matrix4f().setOrtho2D(-transform.sizeX /2,transform.sizeX /2,-transform.sizeY /2,transform.sizeY /2);
     }
     public void init() {
-        pos = new Vector3f(-transform.getX(), -transform.getY(), -zPos);
+        pos = new Vector3f(-transform.getX()*SceneManager.scaleOfCam[0], -transform.getY()*SceneManager.scaleOfCam[0], -zPos);
     }
 
     public void setZ(float z) {

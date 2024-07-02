@@ -142,7 +142,7 @@ public class SceneManager {
         }
 
         if (KeyListener.isKeyPressed(GLFW_KEY_EQUAL) && KeyListener.isKeyPressed(GLFW_KEY_LEFT_SHIFT) && !cooldown_p) {
-            if (ImGuiLayer.camSpeed[0] < 25) {
+            if (ImGuiLayer.camSpeed[0] < 5) {
                 ImGuiLayer.camSpeed[0] += 1;
                 cooldown_p = true;
             }
