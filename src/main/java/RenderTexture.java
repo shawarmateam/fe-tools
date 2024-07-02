@@ -50,7 +50,19 @@ public class RenderTexture {
         }
     }
 
+    public RenderTexture(int w, int h) { // <<
+        this.texture_path = "null0";
+        id = glGenTextures();
+        glBindTexture(GL_TEXTURE_2D, id);
+
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+    }
+
     public RenderTexture(BufferedImage image) {
+        texture_path = "null1";
         width = image.getWidth();
         height = image.getHeight();
 
@@ -90,5 +102,8 @@ public class RenderTexture {
     }
     public int getHeight() {
         return height;
+    }
+    public int getId() {
+        return id;
     }
 }

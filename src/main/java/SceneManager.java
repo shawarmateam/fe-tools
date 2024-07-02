@@ -20,7 +20,8 @@ public class SceneManager {
     public static boolean isSceneStarted = false;
     public static int[] scaleOfCam = new int[] {80};
     public static boolean updateScaleOfCam = false;
-//    public static PosTexture texture;
+    public static FrameBuffer frameBuffer = null;
+
     public void run() {
         window = SceneManagersWindow.getWindow();
         GL.createCapabilities();
@@ -50,6 +51,9 @@ public class SceneManager {
         RenderTexture text = new RenderTexture(test.getText("Not a single project was launched.", "#ffffff", test.font.getBitmap()));
         SceneManagersWindow.imGuiLayer = new ImGuiLayer(window);
         SceneManagersWindow.imGuiLayer.initImGui();
+
+        frameBuffer = new FrameBuffer(1920, 1080);
+
         WindowSizeListener.resizeCallbackSM(window, SceneManagersWindow.getWidth(), SceneManagersWindow.getHeight());
         glfwSetScrollCallback(window, MouseListener::mouseScrollCallback);
         glfwSetMouseButtonCallback(window, MouseListener::mouseButtonCallback);
@@ -72,6 +76,9 @@ public class SceneManager {
                 if (!isSceneStarted) {
                     new PosTexture(text.getWidth(), text.getHeight()).renderTexture(text, -3.4f, 1, shader, scale, cam);
                 }
+
+                //frameBuffer.bind();
+
                 SceneManagersWindow.imGuiLayer.update((float) dt);
 
                 if (updateScaleOfCam) {
@@ -159,6 +166,10 @@ public class SceneManager {
             scaleOfCam[0]--;
             updateScaleOfCam=true;
         }
+    }
+
+    public static FrameBuffer getFrameBuffer() {
+        return frameBuffer;
     }
 
     public static void main(String[] args) {

@@ -289,6 +289,16 @@ public class ImGuiLayer {
             ImGui.end();
         }
 
+//        if (ImGui.begin("Game Viewport")) {
+//            ImVec2 winSize = ImGui.getWindowSize();
+//            //ImVec2 winPos;
+//            //ImGui.setCursorPos(winPos.x, winPos.y);
+//            int texID = SceneManager.getFrameBuffer().getTextureId();
+//            ImGui.image(texID, winSize.x, winSize.y, 0, 1, 1, 0);
+//
+//            ImGui.end();
+//        }
+
         if (startFileChooser) {
             startFileSaver=false;
             fileChooser();
