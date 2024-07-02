@@ -103,6 +103,7 @@ public class SceneManager {
     }
 
     public static void checkHotKey() {
+        System.out.println(MouseListener.isDraggedMouse1()+" "+MouseListener.isDraggedMouse2()+" "+MouseListener.isDraggedMouse3());
         if (KeyListener.isKeyPressed(GLFW_KEY_W)) {
             if (ImGuiLayer.invertCamMovement)
                 ImGuiLayer.camPos[1] -= ImGuiLayer.camSpeed[0];
