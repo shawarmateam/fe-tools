@@ -50,6 +50,10 @@ public class ImGuiLayer {
         // This line is critical for Dear ImGui to work.
         ImGui.createContext();
 
+        for (int i = 0; i < isNotWinClosed.length; i++) {
+            isNotWinClosed[i] = new ImBoolean(true);
+        }
+
         // ------------------------------------------------------------
         // Initialize ImGuiIO config
         final ImGuiIO io = ImGui.getIO();
@@ -83,10 +87,6 @@ public class ImGuiLayer {
         io.setConfigFlags(ImGuiConfigFlags.NavEnableKeyboard); // Navigation with keyboard
         io.setBackendFlags(ImGuiBackendFlags.HasMouseCursors); // Mouse cursors to display while resizing windows etc.
         io.setBackendPlatformName("imgui_java_impl_glfw");
-
-        for (int i = 0; i < isNotWinClosed.length; i++) {
-            isNotWinClosed[i] = new ImBoolean(true);
-        }
 
         // ------------------------------------------------------------
         // Keyboard mapping. ImGui will use those indices to peek into the io.KeysDown[] array.
@@ -226,7 +226,7 @@ public class ImGuiLayer {
             ImGui.end();
         }
 
-        if (ImGui.begin("Entities")) {
+        if (isNotWinClosed[1].get() && ImGui.begin("Entities", isNotWinClosed[1])) {
             ents_name = new ArrayList<>();
             for (Entity i : SceneManager.ents) {
                 ents_name.add(i.name);
@@ -250,8 +250,8 @@ public class ImGuiLayer {
                     selectionBoolean[i] = new ImBoolean(true);
                 }
             }
+            ImGui.end();
         }
-        ImGui.end();
 
         if (ImGui.begin("Inspector")) {
             Entity ent=null;
@@ -322,7 +322,12 @@ public class ImGuiLayer {
                     ImGui.endMenu();
                 }
                 if (ImGui.beginMenu("Edit")) {
-                    if (ImGui.menuItem("test2")) {}
+                    if (ImGui.menuItem("Entities")) {
+                        isNotWinClosed[1]=new ImBoolean(true);
+                    }
+                    if (ImGui.menuItem("Editor Settings")) {
+                        isNotWinClosed[0]=new ImBoolean(true);
+                    }
                     ImGui.endMenu();
                 }
                 ImGui.endMainMenuBar();
