@@ -73,7 +73,20 @@ public class SceneManager {
                     int[] viewport = new int[4];
                     glGetIntegerv(GL_VIEWPORT, viewport);
                     if (viewport[2] != ImGuiLayer.viewportSize.x || viewport[3] != ImGuiLayer.viewportSize.y) {
-                        glViewport((int) ImGuiLayer.viewportSize.x / 2, (int) ImGuiLayer.viewportSize.y / 2, (int) ImGuiLayer.viewportSize.x, (int) ImGuiLayer.viewportSize.y);
+                        int screenWidth = (int) ImGuiLayer.viewportSize.x;
+                        int screenHeight = (int) ImGuiLayer.viewportSize.y;
+
+                        int aspectWidth = screenWidth;
+                        int aspectHeight = (int)((float)aspectWidth / SceneManagersWindow.getTargetAspectRatio());
+                        if (aspectHeight > screenHeight) {
+                            aspectHeight = screenHeight;
+                            aspectWidth = (int)((float)aspectHeight * SceneManagersWindow.getTargetAspectRatio());
+                        }
+
+                        int vpX = (int)(((float)screenWidth / 2f) - ((float)aspectWidth / 2f));
+                        int vpY = (int)(((float)screenHeight / 2f) - ((float)aspectHeight / 2f));
+
+                        glViewport(vpX, vpY, aspectWidth, aspectHeight);
                     }
                 }
 

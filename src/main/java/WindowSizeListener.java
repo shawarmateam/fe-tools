@@ -16,8 +16,8 @@ public class WindowSizeListener {
             aspectWidth = (int)((float)aspectHeight * SceneManagersWindow.getTargetAspectRatio());
         }
 
-//        int vpX = (int)(((float)screenWidth / 2f) - ((float)aspectWidth / 2f));
-//        int vpY = (int)(((float)screenHeight / 2f) - ((float)aspectHeight / 2f));
+        int vpX = (int)(((float)screenWidth / 2f) - ((float)aspectWidth / 2f));
+        int vpY = (int)(((float)screenHeight / 2f) - ((float)aspectHeight / 2f));
 
         //glViewport(vpX, vpY, aspectWidth, aspectHeight);
     }
