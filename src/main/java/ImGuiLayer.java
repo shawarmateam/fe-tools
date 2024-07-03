@@ -294,7 +294,7 @@ public class ImGuiLayer {
         if (ImGui.begin("Game Viewport", ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse)) {
             windowSize = getLargestSizeForViewport();
 
-            if (SceneManagersWindow.getHeight() != windowSize.y || SceneManagersWindow.getWidth() != windowSize.x) {
+            if (SceneManager.cam.transform.sizeX != windowSize.y || SceneManager.cam.transform.sizeY != windowSize.x) {
                 SceneManager.cam.transform.sizeX = (int) windowSize.x;
                 SceneManager.cam.transform.sizeY = (int) windowSize.y;
                 SceneManager.cam.init();
@@ -302,8 +302,6 @@ public class ImGuiLayer {
             }
 
             ImVec2 windowPos = getCenteredPositionForViewport(windowSize);
-            System.out.println(windowSize.x+" "+windowSize.y);
-
             ImGui.setCursorPos(windowPos.x, windowPos.y);
 
             int texID = SceneManager.getFrameBuffer().getTextureId();
@@ -549,18 +547,20 @@ public class ImGuiLayer {
 
     private static ImVec2 getLargestSizeForViewport() {
         ImVec2 windowSize = new ImVec2();
-        ImGui.getContentRegionAvail(windowSize);
-        windowSize.x -= ImGui.getScrollX();
-        windowSize.y -= ImGui.getScrollY();
+//        ImGui.getContentRegionAvail(windowSize);
+//        windowSize.x -= ImGui.getScrollX();
+//        windowSize.y -= ImGui.getScrollY();
+        windowSize = ImGui.getWindowSize();
 
         float aspectWidth = windowSize.x;
-        float aspectHeight = aspectWidth / Window.getTargetAspectRatio();
+        float aspectHeight = aspectWidth / SceneManagersWindow.getTargetAspectRatio();
         if (aspectHeight > windowSize.y) {
             // We must switch to pillar box mode
             aspectHeight = windowSize.y;
-            aspectWidth = aspectHeight * Window.getTargetAspectRatio();
+            aspectWidth = aspectHeight * SceneManagersWindow.getTargetAspectRatio();
         }
 
+        System.out.println(new ImVec2(aspectWidth, aspectHeight));
         return new ImVec2(aspectWidth, aspectHeight);
     }
 
