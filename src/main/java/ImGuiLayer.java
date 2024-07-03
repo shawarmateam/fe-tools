@@ -36,7 +36,8 @@ public class ImGuiLayer {
     boolean isOpenClicked=false;
     boolean isSaveClicked=false;
     final ImBoolean[] isNotWinClosed = new ImBoolean[3];
-    static ImVec2 viewportSize = null;
+    public static ImVec2 windowSize;
+//    static ImVec2 viewportSize = null;
 
     // LWJGL3 renderer (SHOULD be initialized)
     private final ImGuiImplGl3 imGuiGl3 = new ImGuiImplGl3();
@@ -290,20 +291,23 @@ public class ImGuiLayer {
             ImGui.end();
         }
 
-        if (ImGui.begin("Game Viewport")) {
-            viewportSize = ImGui.getWindowSize();
+        if (ImGui.begin("Game Viewport", ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse)) {
+            windowSize = getLargestSizeForViewport();
 
-            if (SceneManagersWindow.getHeight() != viewportSize.y || SceneManagersWindow.getWidth() != viewportSize.x) {
-                //SceneManagersWindow.setWidth((int) viewportSize.x);
-                //SceneManagersWindow.setHeight((int) viewportSize.y);
-                SceneManager.cam.transform.sizeX = (int) viewportSize.x;
-                SceneManager.cam.transform.sizeY = (int) viewportSize.y;
+            if (SceneManagersWindow.getHeight() != windowSize.y || SceneManagersWindow.getWidth() != windowSize.x) {
+                SceneManager.cam.transform.sizeX = (int) windowSize.x;
+                SceneManager.cam.transform.sizeY = (int) windowSize.y;
                 SceneManager.cam.init();
                 SceneManager.updateProjSize = true;
             }
 
+            ImVec2 windowPos = getCenteredPositionForViewport(windowSize);
+            System.out.println(windowSize.x+" "+windowSize.y);
+
+            ImGui.setCursorPos(windowPos.x, windowPos.y);
+
             int texID = SceneManager.getFrameBuffer().getTextureId();
-            ImGui.image(texID, viewportSize.x, viewportSize.y, 0, 1, 1, 0);
+            ImGui.image(texID, windowSize.x, windowSize.y, 0, 1, 1, 0);
 
             ImGui.end();
         }
@@ -543,7 +547,33 @@ public class ImGuiLayer {
         ImGui.destroyContext();
     }
 
-    public static ImVec2 getViewportSize() {
-        return viewportSize;
+    private static ImVec2 getLargestSizeForViewport() {
+        ImVec2 windowSize = new ImVec2();
+        ImGui.getContentRegionAvail(windowSize);
+        windowSize.x -= ImGui.getScrollX();
+        windowSize.y -= ImGui.getScrollY();
+
+        float aspectWidth = windowSize.x;
+        float aspectHeight = aspectWidth / Window.getTargetAspectRatio();
+        if (aspectHeight > windowSize.y) {
+            // We must switch to pillar box mode
+            aspectHeight = windowSize.y;
+            aspectWidth = aspectHeight * Window.getTargetAspectRatio();
+        }
+
+        return new ImVec2(aspectWidth, aspectHeight);
+    }
+
+    private static ImVec2 getCenteredPositionForViewport(ImVec2 aspectSize) {
+        ImVec2 windowSize = new ImVec2();
+        ImGui.getContentRegionAvail(windowSize);
+        windowSize.x -= ImGui.getScrollX();
+        windowSize.y -= ImGui.getScrollY();
+
+        float viewportX = (windowSize.x / 2.0f) - (aspectSize.x / 2.0f);
+        float viewportY = (windowSize.y / 2.0f) - (aspectSize.y / 2.0f);
+
+        return new ImVec2(viewportX + ImGui.getCursorPosX(),
+                viewportY + ImGui.getCursorPosY());
     }
 }
