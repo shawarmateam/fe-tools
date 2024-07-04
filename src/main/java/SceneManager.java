@@ -72,13 +72,13 @@ public class SceneManager {
                 frameBuffer.bind();
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-                if (ImGuiLayer.windowSize != null) {
-                    int[] viewport_size = new int[4];
-                    glGetIntegerv(GL_VIEWPORT, viewport_size);
-                    if (viewport_size[2] != ImGuiLayer.windowSize.x || viewport_size[3] != ImGuiLayer.windowSize.y) {
-                        glViewport((int) ImGuiLayer.windowSize.x/2,(int) ImGuiLayer.windowSize.y/2, (int) ImGuiLayer.windowSize.x, (int) ImGuiLayer.windowSize.y);
-                    }
-                }
+//                if (ImGuiLayer.windowSize != null) {
+//                    int[] viewport_size = new int[4];
+//                    glGetIntegerv(GL_VIEWPORT, viewport_size);
+//                    if (viewport_size[2] != ImGuiLayer.realWindowSize.x || viewport_size[3] != ImGuiLayer.realWindowSize.y) {
+//                        glViewport(0, 0, (int) ImGuiLayer.realWindowSize.x, (int) ImGuiLayer.realWindowSize.y);
+//                    }
+//                }
 
                 for (Entity ent : ents) {
                     new PosTexture(ent.texture.getWidth(), ent.texture.getHeight()).renderTexture(ent.texture,

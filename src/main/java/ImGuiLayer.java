@@ -39,6 +39,8 @@ public class ImGuiLayer {
     boolean isSaveClicked=false;
     final ImBoolean[] isNotWinClosed = new ImBoolean[3];
     public static ImVec2 windowSize;
+    public static ImVec2 windowPos;
+    public static ImVec2 realWindowSize;
 //    static ImVec2 viewportSize = null;
 
     // LWJGL3 renderer (SHOULD be initialized)
@@ -295,7 +297,8 @@ public class ImGuiLayer {
 
         if (ImGui.begin("Game Viewport", ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse)) {
             windowSize = getLargestSizeForViewport();
-            ImVec2 windowPos = getCenteredPositionForViewport(windowSize);
+            windowPos = getCenteredPositionForViewport(windowSize);
+            realWindowSize = ImGui.getWindowSize();
 
             lastWantCaptureMouse=wantCaptureMouse;
             wantCaptureMouse=ImGui.isWindowHovered() && !isMouseHoveringWinHeader();
@@ -307,9 +310,12 @@ public class ImGuiLayer {
                 SceneManager.updateProjSize = true;
             }
 
+            //ImGui.setCursorPos(windowPos.x, windowPos.y);
             ImGui.setCursorPos(windowPos.x, windowPos.y);
+            System.out.println(windowSize);
 
             int texID = SceneManager.getFrameBuffer().getTextureId();
+
             ImGui.image(texID, windowSize.x, windowSize.y, 0, 1, 1, 0);
 
             ImGui.end();
@@ -554,10 +560,9 @@ public class ImGuiLayer {
 
     private static ImVec2 getLargestSizeForViewport() {
         ImVec2 windowSize = new ImVec2();
-//        ImGui.getContentRegionAvail(windowSize);
-//        windowSize.x -= ImGui.getScrollX();
-//        windowSize.y -= ImGui.getScrollY();
-        windowSize = ImGui.getWindowSize();
+        ImGui.getContentRegionAvail(windowSize);
+        windowSize.x -= ImGui.getScrollX();
+        windowSize.y -= ImGui.getScrollY();
 
         float aspectWidth = windowSize.x;
         float aspectHeight = aspectWidth / SceneManagersWindow.getTargetAspectRatio();
