@@ -303,9 +303,9 @@ public class ImGuiLayer {
             lastWantCaptureMouse=wantCaptureMouse;
             wantCaptureMouse=ImGui.isWindowHovered() && !isMouseHoveringWinHeader();
 
-            if (SceneManager.cam.transform.sizeX != windowSize.y || SceneManager.cam.transform.sizeY != windowSize.x) {
-                SceneManager.cam.transform.sizeX = (int) windowSize.x;
-                SceneManager.cam.transform.sizeY = (int) windowSize.y;
+            if (SceneManager.cam.transform.sizeX != realWindowSize.y || SceneManager.cam.transform.sizeY != realWindowSize.x) {
+                SceneManager.cam.transform.sizeX = (int) realWindowSize.x;
+                SceneManager.cam.transform.sizeY = (int) realWindowSize.y;
                 SceneManager.cam.init();
                 SceneManager.updateProjSize = true;
             }

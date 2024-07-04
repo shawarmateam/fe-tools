@@ -55,6 +55,7 @@ public class SceneManager {
         SceneManagersWindow.imGuiLayer.initImGui();
 
         frameBuffer = new FrameBuffer(1920, 1080);
+        glViewport(0, 0, 1920, 1080);
 
         WindowSizeListener.resizeCallbackSM(window, SceneManagersWindow.getWidth(), SceneManagersWindow.getHeight());
         glfwSetScrollCallback(window, MouseListener::mouseScrollCallback);
