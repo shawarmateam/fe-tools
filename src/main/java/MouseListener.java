@@ -49,6 +49,7 @@ public class MouseListener {
                     break;
             }
         }
+        ImGuiLayer.changeMouseParams(button, action);
     }
 
     public static void mouseScrollCallback(long window, double x_off, double y_off) {

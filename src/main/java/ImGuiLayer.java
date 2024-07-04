@@ -591,6 +591,19 @@ public class ImGuiLayer {
         ImVec2 cursor_pos = ImGui.getIO().getMousePos();
 
         return cursor_pos.x >= window_pos.x && cursor_pos.x <= window_pos.x + window_size.x &&
-                cursor_pos.y >= window_pos.y && cursor_pos.y <= window_pos.y + header_size.y;
+                cursor_pos.y >= window_pos.y && cursor_pos.y <= window_pos.y + header_size.y; // isMouseHoveringRect didn't work
+    }
+
+    public static void changeMouseParams(int button, int action) {
+        final boolean[] mouseDown = new boolean[5];
+
+        mouseDown[0] = button == GLFW_MOUSE_BUTTON_1 && action != GLFW_RELEASE;
+        mouseDown[1] = button == GLFW_MOUSE_BUTTON_2 && action != GLFW_RELEASE;
+        mouseDown[2] = button == GLFW_MOUSE_BUTTON_3 && action != GLFW_RELEASE;
+        mouseDown[3] = button == GLFW_MOUSE_BUTTON_4 && action != GLFW_RELEASE;
+        mouseDown[4] = button == GLFW_MOUSE_BUTTON_5 && action != GLFW_RELEASE;
+
+        final ImGuiIO io = ImGui.getIO();
+        io.setMouseDown(mouseDown);
     }
 }
