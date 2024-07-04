@@ -78,7 +78,6 @@ public class SceneManager {
                     if (viewport_size[2] != ImGuiLayer.windowSize.x || viewport_size[3] != ImGuiLayer.windowSize.y) {
                         glViewport((int) ImGuiLayer.windowSize.x/2,(int) ImGuiLayer.windowSize.y/2, (int) ImGuiLayer.windowSize.x, (int) ImGuiLayer.windowSize.y);
                     }
-                    System.out.println(Arrays.toString(viewport_size));
                 }
 
                 for (Entity ent : ents) {
@@ -123,6 +122,7 @@ public class SceneManager {
     }
 
     public static void checkHotKey() {
+        System.out.println(ImGuiLayer.windowSize.x+" "+ImGuiLayer.windowSize.y);
         if (KeyListener.isKeyPressed(GLFW_KEY_W)) {
             if (ImGuiLayer.invertCamMovement)
                 ImGuiLayer.camPos[1] -= ImGuiLayer.camSpeed[0];

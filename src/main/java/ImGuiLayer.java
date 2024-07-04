@@ -3,6 +3,7 @@ import imgui.callback.ImStrConsumer;
 import imgui.callback.ImStrSupplier;
 import imgui.flag.*;
 import imgui.gl3.ImGuiImplGl3;
+import imgui.internal.ImRect;
 import imgui.type.ImBoolean;
 import imgui.type.ImFloat;
 import imgui.type.ImInt;
@@ -16,6 +17,7 @@ import static org.lwjgl.glfw.GLFW.*;
 
 public class ImGuiLayer {
     public static boolean wantCaptureMouse = false;
+    private static boolean lastWantCaptureMouse = false;
     private long glfwWindow;
     public static int[] camSpeed = new int[] {1};
     public static boolean invertCamMovement = false;
@@ -293,6 +295,10 @@ public class ImGuiLayer {
 
         if (ImGui.begin("Game Viewport", ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse)) {
             windowSize = getLargestSizeForViewport();
+            ImVec2 windowPos = getCenteredPositionForViewport(windowSize);
+
+            lastWantCaptureMouse=wantCaptureMouse;
+            wantCaptureMouse=ImGui.isWindowHovered() && !isMouseHoveringWinHeader();
 
             if (SceneManager.cam.transform.sizeX != windowSize.y || SceneManager.cam.transform.sizeY != windowSize.x) {
                 SceneManager.cam.transform.sizeX = (int) windowSize.x;
@@ -301,7 +307,6 @@ public class ImGuiLayer {
                 SceneManager.updateProjSize = true;
             }
 
-            ImVec2 windowPos = getCenteredPositionForViewport(windowSize);
             ImGui.setCursorPos(windowPos.x, windowPos.y);
 
             int texID = SceneManager.getFrameBuffer().getTextureId();
@@ -513,17 +518,19 @@ public class ImGuiLayer {
         io.setMousePos((float) mousePosX[0], (float) mousePosY[0]);
         io.setDeltaTime(deltaTime);
 
-        if (!wantCaptureMouse && io.getWantCaptureMouse()) {
+        if (!wantCaptureMouse && lastWantCaptureMouse) {
+            System.out.println(1);
             KeyListener.clearKeyPressed();
             connectCallbacks();
         }
-        else if (wantCaptureMouse && !io.getWantCaptureMouse()) {
+        else if (wantCaptureMouse && !lastWantCaptureMouse) {
+            System.out.println(2);
             glfwSetScrollCallback(glfwWindow, MouseListener::mouseScrollCallback);
             glfwSetMouseButtonCallback(glfwWindow, MouseListener::mouseButtonCallback);
             glfwSetKeyCallback(glfwWindow, KeyListener::keyCallback);
             glfwSetCursorPosCallback(glfwWindow, MouseListener::mousePosCallback);
         }
-        wantCaptureMouse=io.getWantCaptureMouse();
+        //wantCaptureMouse=io.getWantCaptureMouse();
 
         // Update the mouse cursor
         if (wantCaptureMouse) {
@@ -560,7 +567,6 @@ public class ImGuiLayer {
             aspectWidth = aspectHeight * SceneManagersWindow.getTargetAspectRatio();
         }
 
-        System.out.println(new ImVec2(aspectWidth, aspectHeight));
         return new ImVec2(aspectWidth, aspectHeight);
     }
 
@@ -575,5 +581,16 @@ public class ImGuiLayer {
 
         return new ImVec2(viewportX + ImGui.getCursorPosX(),
                 viewportY + ImGui.getCursorPosY());
+    }
+
+    public static boolean isMouseHoveringWinHeader() {
+        ImVec2 window_pos = ImGui.getWindowPos();
+        ImVec2 window_size = ImGui.getWindowSize();
+        ImVec2 header_size = new ImVec2(window_size.x, ImGui.getTextLineHeightWithSpacing());
+
+        ImVec2 cursor_pos = ImGui.getIO().getMousePos();
+
+        return cursor_pos.x >= window_pos.x && cursor_pos.x <= window_pos.x + window_size.x &&
+                cursor_pos.y >= window_pos.y && cursor_pos.y <= window_pos.y + header_size.y;
     }
 }
