@@ -525,12 +525,10 @@ public class ImGuiLayer {
         io.setDeltaTime(deltaTime);
 
         if (!wantCaptureMouse && lastWantCaptureMouse) {
-            System.out.println(1);
             KeyListener.clearKeyPressed();
             connectCallbacks();
         }
         else if (wantCaptureMouse && !lastWantCaptureMouse) {
-            System.out.println(2);
             glfwSetScrollCallback(glfwWindow, MouseListener::mouseScrollCallback);
             glfwSetMouseButtonCallback(glfwWindow, MouseListener::mouseButtonCallback);
             glfwSetKeyCallback(glfwWindow, KeyListener::keyCallback);
