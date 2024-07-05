@@ -50,7 +50,7 @@ public class SceneManager {
         test.font = new CFont("assets/fonts/JetBrainsMonoNL-Medium.ttf", 25);
         test.shader = shader;
         test.initBatch();
-        RenderTexture text = new RenderTexture(test.getText("Not a single project was launched.", "#ffffff", test.font.getBitmap()));
+//        RenderTexture text = new RenderTexture(test.getText("Not a single project was launched.", "#ffffff", test.font.getBitmap()));
         SceneManagersWindow.imGuiLayer = new ImGuiLayer(window);
         SceneManagersWindow.imGuiLayer.initImGui();
 
@@ -87,9 +87,9 @@ public class SceneManager {
                             shader, scale, cam);
                 }
 
-                if (!isSceneStarted) {
-                    new PosTexture(text.getWidth(), text.getHeight()).renderTexture(text, -3.4f, 1, shader, scale, cam);
-                }
+//                if (!isSceneStarted) {
+//                    new PosTexture(text.getWidth(), text.getHeight()).renderTexture(text, -3.4f, 1, shader, scale, cam);
+//                }
 
                 frameBuffer.unbind();
                 SceneManagersWindow.imGuiLayer.update((float) dt);
@@ -123,33 +123,32 @@ public class SceneManager {
     }
 
     public static void checkHotKey() {
-        System.out.println(ImGuiLayer.windowSize.x+" "+ImGuiLayer.windowSize.y);
         if (KeyListener.isKeyPressed(GLFW_KEY_W)) {
             if (ImGuiLayer.invertCamMovement)
-                ImGuiLayer.camPos[1] -= ImGuiLayer.camSpeed[0];
+                ImGuiLayer.camPos[1] -= (float) ImGuiLayer.camSpeed[0] /2;
             else
-                ImGuiLayer.camPos[1] += ImGuiLayer.camSpeed[0];
+                ImGuiLayer.camPos[1] += (float) ImGuiLayer.camSpeed[0] /2;
             ImGuiLayer.applyCamPos();
         }
         if (KeyListener.isKeyPressed(GLFW_KEY_A)) {
             if (ImGuiLayer.invertCamMovement)
-                ImGuiLayer.camPos[0] += ImGuiLayer.camSpeed[0];
+                ImGuiLayer.camPos[0] += (float) ImGuiLayer.camSpeed[0] /2;
             else
-                ImGuiLayer.camPos[0] -= ImGuiLayer.camSpeed[0];
+                ImGuiLayer.camPos[0] -= (float) ImGuiLayer.camSpeed[0] /2;
             ImGuiLayer.applyCamPos();
         }
         if (KeyListener.isKeyPressed(GLFW_KEY_S)) {
             if (ImGuiLayer.invertCamMovement)
-                ImGuiLayer.camPos[1] += ImGuiLayer.camSpeed[0];
+                ImGuiLayer.camPos[1] += (float) ImGuiLayer.camSpeed[0] /2;
             else
-                ImGuiLayer.camPos[1] -= ImGuiLayer.camSpeed[0];
+                ImGuiLayer.camPos[1] -= (float) ImGuiLayer.camSpeed[0] /2;
             ImGuiLayer.applyCamPos();
         }
         if (KeyListener.isKeyPressed(GLFW_KEY_D)) {
             if (ImGuiLayer.invertCamMovement)
-                ImGuiLayer.camPos[0] -= ImGuiLayer.camSpeed[0];
+                ImGuiLayer.camPos[0] -= (float) ImGuiLayer.camSpeed[0] /2;
             else
-                ImGuiLayer.camPos[0] += ImGuiLayer.camSpeed[0];
+                ImGuiLayer.camPos[0] += (float) ImGuiLayer.camSpeed[0] /2;
             ImGuiLayer.applyCamPos();
         }
         cam.init();

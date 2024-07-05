@@ -312,7 +312,6 @@ public class ImGuiLayer {
 
             //ImGui.setCursorPos(windowPos.x, windowPos.y);
             ImGui.setCursorPos(windowPos.x, windowPos.y);
-            System.out.println(windowSize);
 
             int texID = SceneManager.getFrameBuffer().getTextureId();
 
