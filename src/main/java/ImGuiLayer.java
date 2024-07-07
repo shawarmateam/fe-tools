@@ -37,7 +37,7 @@ public class ImGuiLayer {
     private boolean isSaveClickable = false;
     boolean isOpenClicked=false;
     boolean isSaveClicked=false;
-    final ImBoolean[] isNotWinClosed = new ImBoolean[3];
+    final ImBoolean[] isNotWinClosed = new ImBoolean[4];
     public static ImVec2 windowSize;
     public static ImVec2 windowPos;
     public static ImVec2 realWindowSize;
@@ -65,6 +65,9 @@ public class ImGuiLayer {
         final ImGuiIO io = ImGui.getIO();
 
         io.setIniFilename("fe.ini");
+        io.setConfigFlags(ImGuiConfigFlags.NavEnableKeyboard); // Navigation with keyboard
+        io.setBackendFlags(ImGuiBackendFlags.HasMouseCursors); // Mouse cursors to display while resizing windows etc.
+        io.setBackendPlatformName("imgui_java_impl_glfw");
         connectCallbacks();
 
         // Fonts configuration
@@ -89,10 +92,6 @@ public class ImGuiLayer {
 
     public void connectCallbacks() {
         final ImGuiIO io = ImGui.getIO();
-
-        io.setConfigFlags(ImGuiConfigFlags.NavEnableKeyboard); // Navigation with keyboard
-        io.setBackendFlags(ImGuiBackendFlags.HasMouseCursors); // Mouse cursors to display while resizing windows etc.
-        io.setBackendPlatformName("imgui_java_impl_glfw");
 
         // ------------------------------------------------------------
         // Keyboard mapping. ImGui will use those indices to peek into the io.KeysDown[] array.
@@ -295,7 +294,7 @@ public class ImGuiLayer {
             ImGui.end();
         }
 
-        if (ImGui.begin("Game Viewport", ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse)) {
+        if (isNotWinClosed[3].get() && ImGui.begin("Game Viewport", isNotWinClosed[3], ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse)) {
             windowSize = getLargestSizeForViewport();
             windowPos = getCenteredPositionForViewport(windowSize);
             realWindowSize = ImGui.getWindowSize();
@@ -361,6 +360,9 @@ public class ImGuiLayer {
                     }
                     if (ImGui.menuItem("Inspector")) {
                         isNotWinClosed[2]=new ImBoolean(true);
+                    }
+                    if (ImGui.menuItem("Game Viewport")) {
+                        isNotWinClosed[3]=new ImBoolean(true);
                     }
                     ImGui.endMenu();
                 }
@@ -501,8 +503,9 @@ public class ImGuiLayer {
 
         // Any Dear ImGui code SHOULD go between ImGui.newFrame()/ImGui.render() methods
         ImGui.newFrame();
-//        ImGui.showDemoWindow();
+        initDockspace();
         content();
+        ImGui.end();
         ImGui.render();
 
         endFrame();
@@ -607,5 +610,23 @@ public class ImGuiLayer {
 
         final ImGuiIO io = ImGui.getIO();
         io.setMouseDown(mouseDown);
+    }
+
+    public static void initDockspace() {
+        int windowFlags = ImGuiWindowFlags.MenuBar | ImGuiWindowFlags.NoDocking;
+
+        ImGui.setNextWindowPos(0.0f, 0.0f, ImGuiCond.Always);
+        ImGui.setNextWindowSize(SceneManagersWindow.getWidth(), SceneManagersWindow.getHeight());
+        ImGui.pushStyleVar(ImGuiStyleVar.WindowRounding, 0.0f);
+        ImGui.pushStyleVar(ImGuiStyleVar.WindowBorderSize, 0.0f);
+        windowFlags |= ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoCollapse |
+                ImGuiWindowFlags.NoResize | ImGuiWindowFlags.NoMove |
+                ImGuiWindowFlags.NoBringToFrontOnFocus | ImGuiWindowFlags.NoNavFocus;
+
+        ImGui.begin("Dockspace Demo", new ImBoolean(true), windowFlags);
+        ImGui.popStyleVar(2);
+
+        // Dockspace
+        ImGui.dockSpace(ImGui.getID("Dockspace"));
     }
 }
