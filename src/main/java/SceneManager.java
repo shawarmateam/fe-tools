@@ -113,10 +113,10 @@ public class SceneManager {
                 // TODO: сделать так, чтобы все сущ. камеры были в ArrayList из камер
 
                 end = Timer.getTime();
-                dt = (end - start)/sec_per_frame;
+                dt = ((end - start)/sec_per_frame < 0) ? 0 : (end - start)/sec_per_frame;
                 canRender=false;
             }
-            if (Timer.getTime() > start+sec_per_frame) {
+            if (Timer.getTime() >= start+sec_per_frame) {
                 canRender=true;
             }
         }

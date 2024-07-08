@@ -50,12 +50,7 @@ public class App {
             if (canRender) {
                 start = end;
                 glfwSwapBuffers(window); // swap the color buffer
-                try {
-                    scrReader.runUpdateInSCRs((float) dt);
-                } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException |
-                         IllegalAccessException | InstantiationException e) {
-                    throw new RuntimeException(e);
-                }
+                // <<
 
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
                 for (Entity ent : ents) {
@@ -70,17 +65,19 @@ public class App {
                 }
 
                 end = Timer.getTime();
-                dt = (end - start)/sec_per_frame;
+                dt = ((end - start)/sec_per_frame < 0) ? 0 : (end - start)/sec_per_frame;
+                try {
+                    scrReader.runUpdateInSCRs((float) dt);
+                } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException |
+                         IllegalAccessException | InstantiationException e) {
+                    throw new RuntimeException(e);
+                }
                 canRender=false;
             }
-            if (Timer.getTime() > start+sec_per_frame) {
+            if (Timer.getTime() >= start+sec_per_frame) {
                 canRender=true;
             }
         }
-    }
-
-    public static boolean isPressed(int key) {
-        return glfwGetKey(window, key) == GL_TRUE;
     }
 
     public static void main(String[] args) {

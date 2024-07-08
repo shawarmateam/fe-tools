@@ -46,9 +46,9 @@ public class Transform {
             boolean addX = true;
             for (RectCollider rect_col : rc) {
                 ColliderStructure check_collider = new ColliderStructure(rectCollider.TLdot, rectCollider.TRdot, rectCollider.DLdot, rectCollider.DRdot, rectCollider.Center);
-                check_collider.mvAllx(x);
+                check_collider.mvAllx(x/3);
 
-                if (rectCollider.isCollider && !rect_col.isCollider && ColliderScripts.isCollide(check_collider, rect_col.getColliderStruct())) {
+                if (!rectCollider.equals(rect_col) && rectCollider.isCollider && !rect_col.isCollider && ColliderScripts.isCollide(check_collider, rect_col.getColliderStruct())) {
                     switch (whatSideIsCollide(check_collider, rect_col.getColliderStruct())) {
                         case -1, 2, 3:
                             break;
@@ -63,7 +63,7 @@ public class Transform {
                             this.x -= (rectCollider.posX-rect_col.TRdot[0]);
                             break;
                     }
-                } else if (addX && rectCollider.isCollider && !rect_col.isCollider) {
+                } else if (!rectCollider.equals(rect_col) && addX/* && rectCollider.isCollider && !rect_col.isCollider*/) {
                     this.x += x;
                     addX=false;
                 }
@@ -77,9 +77,9 @@ public class Transform {
             boolean addY = true;
             for (RectCollider rect_col : rc) {
                 ColliderStructure check_collider = new ColliderStructure(rectCollider.TLdot, rectCollider.TRdot, rectCollider.DLdot, rectCollider.DRdot, rectCollider.Center);
-                check_collider.mvAlly(y);
+                check_collider.mvAlly(y/3);
 
-                if (rectCollider.isCollider && !rect_col.isCollider && ColliderScripts.isCollide(check_collider, rect_col.getColliderStruct())) {
+                if (!rectCollider.equals(rect_col) && rectCollider.isCollider && !rect_col.isCollider && ColliderScripts.isCollide(check_collider, rect_col.getColliderStruct())) {
                     switch (whatSideIsCollide(check_collider, rect_col.getColliderStruct())) {
                         case -1, 0, 1:
                             break;
@@ -94,7 +94,7 @@ public class Transform {
                             this.y += (rect_col.posY-rectCollider.DRdot[1]);
                             break;
                     }
-                } else if (addY && rectCollider.isCollider && !rect_col.isCollider) {
+                } else if (!rectCollider.equals(rect_col) && addY/* && rectCollider.isCollider && !rect_col.isCollider*/) {
                     this.y += y;
                     addY=false;
                 }
