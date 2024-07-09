@@ -6,6 +6,6 @@ class testkotlinscr : FilesScripts() {
     }
 
     override fun update(dt: Float) {
-        println("updating kotlin script")
+        //println("updating kotlin script")
     }
 }

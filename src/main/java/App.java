@@ -49,9 +49,15 @@ public class App {
             glfwPollEvents();
             if (canRender) {
                 start = end;
-                glfwSwapBuffers(window); // swap the color buffer
-                // <<
 
+                try {
+                    scrReader.runUpdateInSCRs((float) dt);
+                } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException |
+                         IllegalAccessException | InstantiationException e) {
+                    throw new RuntimeException(e);
+                }
+
+                glfwSwapBuffers(window); // swap the color buffer
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
                 for (Entity ent : ents) {
                     new PosTexture(ent.texture.getWidth(), ent.texture.getHeight()).renderTexture(ent.texture, ent.transform.getX(), ent.transform.getY(), shader, scale, cam);
@@ -66,15 +72,9 @@ public class App {
 
                 end = Timer.getTime();
                 dt = ((end - start)/sec_per_frame < 0) ? 0 : (end - start)/sec_per_frame;
-                try {
-                    scrReader.runUpdateInSCRs((float) dt);
-                } catch (ClassNotFoundException | NoSuchMethodException | InvocationTargetException |
-                         IllegalAccessException | InstantiationException e) {
-                    throw new RuntimeException(e);
-                }
                 canRender=false;
             }
-            if (Timer.getTime() >= start+sec_per_frame) {
+            if (Timer.getTime() >= end+sec_per_frame) {
                 canRender=true;
             }
         }
