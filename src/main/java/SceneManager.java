@@ -65,31 +65,20 @@ public class SceneManager {
         while (!glfwWindowShouldClose(window)) {
             glfwPollEvents();
             if (canRender) {
-                start = end;
-//                frameBuffer.bind();
+                end = Timer.getTime();
+                dt = ((end - start) < 0) ? 0 : (end - start);
+
                 glfwSwapBuffers(window); // swap the color buffer
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
                 glLoadIdentity();
                 frameBuffer.bind();
                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-//                if (ImGuiLayer.windowSize != null) {
-//                    int[] viewport_size = new int[4];
-//                    glGetIntegerv(GL_VIEWPORT, viewport_size);
-//                    if (viewport_size[2] != ImGuiLayer.realWindowSize.x || viewport_size[3] != ImGuiLayer.realWindowSize.y) {
-//                        glViewport(0, 0, (int) ImGuiLayer.realWindowSize.x, (int) ImGuiLayer.realWindowSize.y);
-//                    }
-//                }
-
                 for (Entity ent : ents) {
                     new PosTexture(ent.texture.getWidth(), ent.texture.getHeight()).renderTexture(ent.texture,
                             ent.transform.getX(), ent.transform.getY(),
                             shader, scale, cam);
                 }
-
-//                if (!isSceneStarted) {
-//                    new PosTexture(text.getWidth(), text.getHeight()).renderTexture(text, -3.4f, 1, shader, scale, cam);
-//                }
 
                 frameBuffer.unbind();
                 SceneManagersWindow.imGuiLayer.update((float) dt);
@@ -112,8 +101,7 @@ public class SceneManager {
                 }
                 // TODO: сделать так, чтобы все сущ. камеры были в ArrayList из камер
 
-                end = Timer.getTime();
-                dt = ((end - start)/sec_per_frame < 0) ? 0 : (end - start)/sec_per_frame;
+                start = Timer.getTime();
                 canRender=false;
             }
             if (Timer.getTime() >= end+sec_per_frame) {

@@ -499,7 +499,7 @@ public class ImGuiLayer {
     }
 
     public void update(float dt) {
-        startFrame(dt/50);
+        startFrame(dt);
 
         // Any Dear ImGui code SHOULD go between ImGui.newFrame()/ImGui.render() methods
         ImGui.newFrame();

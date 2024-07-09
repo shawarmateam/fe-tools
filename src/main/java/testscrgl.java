@@ -44,17 +44,15 @@ public class testscrgl extends FilesScripts {
     @Override
     public void update(float dt) {
         if (KeyListener.isKeyPressed(GLFW_KEY_F)) {
-            test_ent.transform.addX(-10f*dt);
+            test_ent.transform.addX(-5f*dt);
         } else if (KeyListener.isKeyPressed(GLFW_KEY_G)) {
-            test_ent.transform.addX(10f*dt);
+            test_ent.transform.addX(5f*dt);
         } else if (KeyListener.isKeyPressed(GLFW_KEY_T)) {
-            test_ent.transform.addY(10f*dt);
+            test_ent.transform.addY(5f*dt);
         } else if (KeyListener.isKeyPressed(GLFW_KEY_V)) {
-            test_ent.transform.addY(-10f*dt);
+            test_ent.transform.addY(-5f*dt);
         } else if (KeyListener.isKeyPressed(GLFW_KEY_K)) {
             System.out.println(test_ent.transform.getX() + " " + test_ent.transform.getY());
-        } else if (KeyListener.isKeyPressed(GLFW_KEY_Z)) {
-            test_ent.transform.addX(0);
         }
     }
 }

@@ -39,7 +39,7 @@ public class App {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         ScriptsReader scrReader = new ScriptsReader();
         double start = Timer.getTime();
-        double end = Timer.getTime();
+        double end;
         double dt = 0;
         WindowSizeListener.resizeCallbackApp(window, Window.getWidth(), Window.getHeight());
 
