@@ -1,5 +1,6 @@
 import org.bisqt.Biscuit;
 import org.bisqt.Variable;
+import physic.Timer;
 
 public class BiscuitKernel {
     public static void startBiscuit() {
@@ -17,7 +18,9 @@ public class BiscuitKernel {
     private static void varCallback(Variable var) {
         switch (var.name) {
             case "fps":
-
+                if (Biscuit.checkType(var.getVal().toString()) == 1) Timer.changeFps((int) var.getVal());
+                else System.out.println("WARNING: FPS CANNOT BE NOT INT");
+                break;
         }
     }
 }
