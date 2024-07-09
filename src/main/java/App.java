@@ -47,7 +47,10 @@ public class App {
             MouseListener.isChanged=false;
             glfwPollEvents();
             if (canRender) {
-                start = end;
+                end = Timer.getTime();
+//                dt = ((end - start)/Timer.frame_per_sec < 0) ? 0 : (end - start)/Timer.frame_per_sec;
+                dt = ((end - start) < 0) ? 0 : (end - start);
+                System.out.println(dt);
 
                 try {
                     scrReader.runUpdateInSCRs((float) dt);
@@ -69,11 +72,10 @@ public class App {
                     updateProjSize=false;
                 }
 
-                end = Timer.getTime();
-                dt = ((end - start)/Timer.frame_per_sec < 0) ? 0 : (end - start)/Timer.frame_per_sec;
+                start = Timer.getTime();
                 canRender=false;
             }
-            if (Timer.getTime() >= end+Timer.frame_per_sec) {
+            if (Timer.getTime() >= start+Timer.frame_per_sec) {
                 canRender=true;
             }
         }
