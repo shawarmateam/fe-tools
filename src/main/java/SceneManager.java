@@ -116,7 +116,7 @@ public class SceneManager {
                 dt = ((end - start)/sec_per_frame < 0) ? 0 : (end - start)/sec_per_frame;
                 canRender=false;
             }
-            if (Timer.getTime() >= start+sec_per_frame) {
+            if (Timer.getTime() >= end+sec_per_frame) {
                 canRender=true;
             }
         }

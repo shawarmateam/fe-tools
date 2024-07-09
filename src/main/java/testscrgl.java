@@ -42,7 +42,7 @@ public class testscrgl extends FilesScripts {
     }
 
     @Override
-    public void update(float dt) { // TODO: fix problem with dt
+    public void update(float dt) {
         if (KeyListener.isKeyPressed(GLFW_KEY_F)) {
             test_ent.transform.addX(-.100f*dt);
         } else if (KeyListener.isKeyPressed(GLFW_KEY_G)) {
