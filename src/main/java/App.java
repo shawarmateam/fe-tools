@@ -15,9 +15,8 @@ public class App {
     public static ArrayList<Entity> ents = new ArrayList<>();
     public static Camera cam;
     private static long window;
-    private static int FPS = 60;
+//    private static int FPS = 60;
     public static boolean canRender = true;
-    public double sec_per_frame = 1.0/FPS;
     public static boolean updateProjSize;
     public void run() {
         window = Window.getWindow();
@@ -71,10 +70,10 @@ public class App {
                 }
 
                 end = Timer.getTime();
-                dt = ((end - start)/sec_per_frame < 0) ? 0 : (end - start)/sec_per_frame;
+                dt = ((end - start)/Timer.frame_per_sec < 0) ? 0 : (end - start)/Timer.frame_per_sec;
                 canRender=false;
             }
-            if (Timer.getTime() >= end+sec_per_frame) {
+            if (Timer.getTime() >= end+Timer.frame_per_sec) {
                 canRender=true;
             }
         }
