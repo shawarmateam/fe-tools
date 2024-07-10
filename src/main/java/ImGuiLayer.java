@@ -32,6 +32,7 @@ public class ImGuiLayer {
     private boolean startFileSaver = false;
     private ImString file_name_to_save = new ImString();
     private ImString command = new ImString();
+    private boolean wantFocusInput = false;
     private StringBuilder console_buff = new StringBuilder();
     String pwd=(System.getenv("PWD")!=null)?System.getenv("PWD"):System.getenv("cd");
     ImString dir = new ImString(pwd);
@@ -326,19 +327,26 @@ public class ImGuiLayer {
         }
 
         if (ImGui.begin("Console")) {
-            ImGui.beginChild("TextInConsole", ImGui.getWindowSizeX()-(ImGui.getStyle().getWindowPaddingX()*2),
-                    ImGui.getWindowSizeY()-45-ImGui.getStyle().getWindowPaddingY());
+            ImGui.beginChild("TextInConsole", ImGui.getWindowSizeX()-(ImGui.getStyle().getWindowPaddingX()),
+                    ImGui.getWindowSizeY()-60-ImGui.getStyle().getWindowPaddingY());
             ImGui.text(console_buff.toString());
             ImGui.endChild();
             ImGui.setCursorPosY(ImGui.getWindowSize().y - ImGui.getFrameHeightWithSpacing()-10);
-            ImGui.setNextItemWidth(ImGui.getWindowSizeX()-70);
+            ImGui.setNextItemWidth(ImGui.getWindowSizeX()-60);
+
+            if (wantFocusInput && ImGui.isWindowFocused()) {
+                ImGui.setKeyboardFocusHere();
+                wantFocusInput=false;
+            }
+
             ImGui.inputTextWithHint("##input", "write command", command);
             ImGui.setScrollHereY();
             ImGui.sameLine();
-            ImGui.setNextItemWidth(50);
-            if (ImGui.button("Send") && !Objects.equals(command.get(), "")) {
+//            ImGui.setNextItemWidth(50);
+            if ((ImGui.isKeyPressed(GLFW_KEY_ENTER) || ImGui.button("Send")) && !Objects.equals(command.get(), "")) {
                 console_buff.append(command.get()).append("\n");
                 command.clear();
+                wantFocusInput=true;
             }
             ImGui.end();
         }
