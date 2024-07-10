@@ -12,6 +12,7 @@ import imgui.type.ImString;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 
 import static org.lwjgl.glfw.GLFW.*;
 
@@ -30,6 +31,8 @@ public class ImGuiLayer {
     private boolean startFileChooser = false;
     private boolean startFileSaver = false;
     private ImString file_name_to_save = new ImString();
+    private ImString command = new ImString();
+    private StringBuilder console_buff = new StringBuilder();
     String pwd=(System.getenv("PWD")!=null)?System.getenv("PWD"):System.getenv("cd");
     ImString dir = new ImString(pwd);
     private String path_to_lvl;
@@ -316,6 +319,21 @@ public class ImGuiLayer {
 
             ImGui.image(texID, windowSize.x, windowSize.y, 0, 1, 1, 0);
 
+            ImGui.end();
+        }
+
+        if (ImGui.begin("Console")) {
+            ImGui.text(console_buff.toString());
+            ImGui.setCursorPosY(ImGui.getWindowSize().y - ImGui.getFrameHeightWithSpacing()-10);
+            ImGui.setNextItemWidth(ImGui.getWindowSizeX()-70);
+            ImGui.inputTextWithHint("##input", "write command", command);
+            ImGui.setScrollHereY();
+            ImGui.sameLine();
+            ImGui.setNextItemWidth(50);
+            if (ImGui.button("Send") && !Objects.equals(command.get(), "")) {
+                console_buff.append(command.get()).append("\n");
+                command.clear();
+            }
             ImGui.end();
         }
 
