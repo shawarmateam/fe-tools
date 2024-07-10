@@ -73,6 +73,9 @@ public class ImGuiLayer {
         io.setBackendPlatformName("imgui_java_impl_glfw");
         connectCallbacks();
 
+        ImGui.getStyle().setWindowPadding(8, 3);
+        ImGui.getStyle().setScrollbarSize(10);
+
         // Fonts configuration
         // Read: https://raw.githubusercontent.com/ocornut/imgui/master/docs/FONTS.txt
 
@@ -323,7 +326,10 @@ public class ImGuiLayer {
         }
 
         if (ImGui.begin("Console")) {
+            ImGui.beginChild("TextInConsole", ImGui.getWindowSizeX()-(ImGui.getStyle().getWindowPaddingX()*2),
+                    ImGui.getWindowSizeY()-45-ImGui.getStyle().getWindowPaddingY());
             ImGui.text(console_buff.toString());
+            ImGui.endChild();
             ImGui.setCursorPosY(ImGui.getWindowSize().y - ImGui.getFrameHeightWithSpacing()-10);
             ImGui.setNextItemWidth(ImGui.getWindowSizeX()-70);
             ImGui.inputTextWithHint("##input", "write command", command);
