@@ -3,6 +3,9 @@ import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.lwjgl.opengl.*;
 import physic.Timer;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -23,6 +26,7 @@ public class SceneManager {
     public static int[] scaleOfCam = new int[] {80};
     public static boolean updateScaleOfCam = false;
     public static FrameBuffer frameBuffer = null;
+    public static ByteArrayOutputStream outputStream;
 
     public void run() {
         window = SceneManagersWindow.getWindow();
@@ -61,6 +65,10 @@ public class SceneManager {
         glfwSetScrollCallback(window, MouseListener::mouseScrollCallback);
         glfwSetMouseButtonCallback(window, MouseListener::mouseButtonCallback);
         glfwSetKeyCallback(window, KeyListener::keyCallback);
+
+        outputStream = new ByteArrayOutputStream();
+        PrintStream printStream = new PrintStream(outputStream);
+        System.setOut(printStream);
 
         while (!glfwWindowShouldClose(window)) {
             glfwPollEvents();

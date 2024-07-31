@@ -12,14 +12,6 @@ public class BiscuitKernel {
             return this;
         }
 
-        public void readLines(String lns) {
-            try {
-                conf.readLines(lns);
-            } catch (BiscuitEx e) {
-                System.out.println(e.getMessage());
-            }
-        }
-
         @Override
         public void run() {
             conf.setVarCallback(BiscuitKernel::varCallback);

@@ -8,6 +8,7 @@ import imgui.type.ImBoolean;
 import imgui.type.ImFloat;
 import imgui.type.ImInt;
 import imgui.type.ImString;
+import org.bisqt.BiscuitEx;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -343,9 +344,14 @@ public class ImGuiLayer {
             ImGui.setScrollHereY();
             ImGui.sameLine();
             if ((ImGui.isKeyPressed(GLFW_KEY_ENTER) || ImGui.button("Send")) && !Objects.equals(command.get(), "")) {
-                console_buff.append(command.get()).append("\n");
-                System.out.println(BiscuitKernel.conf.getVars());
-                BiscuitKernel.conf.readLines(command.get());
+//                console_buff.append(command.get()).append("\n");
+                console_buff.setLength(0);
+                console_buff.append(SceneManager.outputStream.toString());
+                try {
+                    BiscuitKernel.conf.readLines(command.get());
+                } catch (BiscuitEx e) {
+                    System.out.println(e.getMessage());
+                }
                 command.clear();
                 wantFocusInput=true;
             }
