@@ -18,7 +18,7 @@ import static org.lwjgl.glfw.GLFW.*;
 
 public class ImGuiLayer {
     public static boolean wantCaptureMouse = false;
-    private static boolean lastWantCaptureMouse = false;
+    private static boolean lastWantCaptureMouse = true;
     private long glfwWindow;
     public static int[] camSpeed = new int[] {1};
     public static boolean invertCamMovement = false;
@@ -342,9 +342,10 @@ public class ImGuiLayer {
             ImGui.inputTextWithHint("##input", "write command", command);
             ImGui.setScrollHereY();
             ImGui.sameLine();
-//            ImGui.setNextItemWidth(50);
             if ((ImGui.isKeyPressed(GLFW_KEY_ENTER) || ImGui.button("Send")) && !Objects.equals(command.get(), "")) {
                 console_buff.append(command.get()).append("\n");
+                System.out.println(BiscuitKernel.conf.getVars());
+                BiscuitKernel.conf.readLines(command.get());
                 command.clear();
                 wantFocusInput=true;
             }

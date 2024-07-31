@@ -1,17 +1,37 @@
 import org.bisqt.Biscuit;
+import org.bisqt.BiscuitEx;
 import org.bisqt.Variable;
 import physic.Timer;
 
 public class BiscuitKernel {
-    public static void startBiscuit() {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Biscuit conf = new Biscuit();
-                conf.setVarCallback(BiscuitKernel::varCallback);
-                conf.readScript("/home/adisteyf/IdeaProjects/fe-tools/src/main/_SET_VARS.bsqt");
+    public static Biscuit conf = new Biscuit();
+    public final static Thread thread = new Thread(new Runnable() {
+        Biscuit conf;
+        public Runnable getConf(Biscuit conf) {
+            this.conf = conf;
+            return this;
+        }
+
+        public void readLines(String lns) {
+            try {
+                conf.readLines(lns);
+            } catch (BiscuitEx e) {
+                System.out.println(e.getMessage());
             }
-        });
+        }
+
+        @Override
+        public void run() {
+            conf.setVarCallback(BiscuitKernel::varCallback);
+            try {
+                conf.readScript("/home/adisteyf/IdeaProjects/fe-tools/src/main/_SET_VARS.bsqt");
+            } catch (BiscuitEx e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }.getConf(conf));
+
+    public static void startBiscuit() {
         thread.start();
     }
 
