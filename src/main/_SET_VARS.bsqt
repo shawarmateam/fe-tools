@@ -1,2 +1,3 @@
 // setting vars for files engine here
+set $echo "_SET_VARS STARTED"
 set fps 60

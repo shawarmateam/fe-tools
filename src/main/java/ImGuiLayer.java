@@ -34,7 +34,7 @@ public class ImGuiLayer {
     private ImString file_name_to_save = new ImString();
     private ImString command = new ImString();
     private boolean wantFocusInput = false;
-    private StringBuilder console_buff = new StringBuilder();
+    private String console_buff = "";
     String pwd=(System.getenv("PWD")!=null)?System.getenv("PWD"):System.getenv("cd");
     ImString dir = new ImString(pwd);
     private String path_to_lvl;
@@ -330,7 +330,7 @@ public class ImGuiLayer {
         if (ImGui.begin("Console")) {
             ImGui.beginChild("TextInConsole", ImGui.getWindowSizeX()-(ImGui.getStyle().getWindowPaddingX()),
                     ImGui.getWindowSizeY()-60-ImGui.getStyle().getWindowPaddingY());
-            ImGui.text(console_buff.toString());
+            ImGui.text(console_buff);
             ImGui.endChild();
             ImGui.setCursorPosY(ImGui.getWindowSize().y - ImGui.getFrameHeightWithSpacing()-10);
             ImGui.setNextItemWidth(ImGui.getWindowSizeX()-60);
@@ -345,13 +345,13 @@ public class ImGuiLayer {
             ImGui.sameLine();
             if ((ImGui.isKeyPressed(GLFW_KEY_ENTER) || ImGui.button("Send")) && !Objects.equals(command.get(), "")) {
 //                console_buff.append(command.get()).append("\n");
-                console_buff.setLength(0);
-                console_buff.append(SceneManager.outputStream.toString());
                 try {
                     BiscuitKernel.conf.readLines(command.get());
                 } catch (BiscuitEx e) {
                     System.out.println(e.getMessage());
                 }
+
+                console_buff = SceneManager.outputStream.toString();
                 command.clear();
                 wantFocusInput=true;
             }
