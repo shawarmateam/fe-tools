@@ -49,20 +49,21 @@ public class Transform {
                 check_collider.mvAllx(x/3);
 
                 if (!rectCollider.equals(rect_col) && rectCollider.isCollider && !rect_col.isCollider && ColliderScripts.isCollide(check_collider, rect_col.getColliderStruct())) {
-                    switch (whatSideIsCollide(check_collider, rect_col.getColliderStruct())) {
-                        case -1, 2, 3:
-                            break;
-                        case 0:
-                            addX=false;
-                            rectCollider.update();
-                            this.x += (rect_col.posX-rectCollider.TRdot[0]);
-                            break;
-                        case 1:
-                            addX=false;
-                            rectCollider.update();
-                            this.x -= (rectCollider.posX-rect_col.TRdot[0]);
-                            break;
-                    }
+//                    switch (whatSideIsCollide(check_collider, rect_col.getColliderStruct())) {
+//                        case -1, 2, 3:
+//                            break;
+//                        case 0:
+//                            addX=false;
+//                            rectCollider.update();
+//                            this.x += (rect_col.posX-rectCollider.TRdot[0]);
+//                            break;
+//                        case 1:
+//                            addX=false;
+//                            rectCollider.update();
+//                            this.x -= (rectCollider.posX-rect_col.TRdot[0]);
+//                            break;
+//                    }
+                    addX=false;
                 } else if (!rectCollider.equals(rect_col) && addX/* && rectCollider.isCollider && !rect_col.isCollider*/) {
                     this.x += x;
                     addX=false;
@@ -80,20 +81,21 @@ public class Transform {
                 check_collider.mvAlly(y/3);
 
                 if (!rectCollider.equals(rect_col) && rectCollider.isCollider && !rect_col.isCollider && ColliderScripts.isCollide(check_collider, rect_col.getColliderStruct())) {
-                    switch (whatSideIsCollide(check_collider, rect_col.getColliderStruct())) {
-                        case -1, 0, 1:
-                            break;
-                        case 2:
-                            addY=false;
-                            rectCollider.update();
-                            this.y -= (rectCollider.posY-rect_col.DRdot[1]);
-                            break;
-                        case 3:
-                            addY=false;
-                            rectCollider.update();
-                            this.y += (rect_col.posY-rectCollider.DRdot[1]);
-                            break;
-                    }
+//                    switch (whatSideIsCollide(check_collider, rect_col.getColliderStruct())) {
+//                        case -1, 0, 1:
+//                            break;
+//                        case 2:
+//                            addY=false;
+//                            rectCollider.update();
+//                            this.y -= (rectCollider.posY-rect_col.DRdot[1]);
+//                            break;
+//                        case 3:
+//                            addY=false;
+//                            rectCollider.update();
+//                            this.y += (rect_col.posY-rectCollider.DRdot[1]);
+//                            break;
+//                    }
+                    addY=false;
                 } else if (!rectCollider.equals(rect_col) && addY/* && rectCollider.isCollider && !rect_col.isCollider*/) {
                     this.y += y;
                     addY=false;
