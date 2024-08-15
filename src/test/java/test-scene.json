@@ -1,0 +1,13 @@
+{
+  "limit": [500, 500],
+  "test": {
+    "pos": [0, 0],
+    "size": [20, 20],
+    "texture_path": "assets/textures/based_tex.png"
+  },
+  "wall_test": {
+    "pos": [1, 1],
+    "size": [20, 20],
+    "texture_path": "assets/textures/based_tex.png"
+  }
+}

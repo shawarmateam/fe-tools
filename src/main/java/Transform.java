@@ -145,4 +145,11 @@ public class Transform {
         }
         return -1;
     }
+
+    public float getXlimit() {
+        return x_limit;
+    }
+    public float getYlimit() {
+        return y_limit;
+    }
 }
